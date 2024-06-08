@@ -42,13 +42,13 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
   if (isOpen) {
     return ReactDOM.createPortal(
       <section
-        className={`fixed inset-0 flex flex-col items-center justify-center text-gray-200`}
+        className={`fixed inset-0 flex flex-col items-center justify-center`}
       >
         <AppLoader
           isLoading={loading || attachmentsLoading || removeFileLoading}
         />
-        <div className="w-8/12 bg-slate-600 flex flex-col h-5/6">
-          <header className="bg-slate-800 p-4 flex justify-between">
+        <div className="w-full lg:w-8/12 bg-primary text-onPrimary flex flex-col h-5/6 border border-borderColor">
+          <header className="bg-secondary text-onSecondary p-4 flex justify-between border-b border-borderColor">
             <div className="flex gap-4 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,12 +84,12 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
 
                   if (attachment.fileType === FileType.Document) {
                     return (
-                      <div className="relative border rounded border-gray-700 group">
+                      <div className="relative border rounded border-borderColor group">
                         <div className="w-28 flex items-center flex-col">
                           <YourSvg className="w-28 h-28" />
                           <p>{attachment?.fileName}</p>
                         </div>
-                        <div className="bg-gray-800 bg-opacity-50 group-hover:bg-gray-800 group-hover:bg-opacity-80 w-full h-full absolute left-0 right-0 top-0"></div>
+                        <div className="bg-gray-950 bg-opacity-50 group-hover:bg-gray-950 group-hover:bg-opacity-80 w-full h-full absolute left-0 right-0 top-0"></div>
                         <div className="absolute inset-0">
                           <div className="flex items-center justify-evenly gap-6 w-full h-full">
                             <button
@@ -148,13 +148,13 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                     );
                   } else {
                     return (
-                      <div className="relative border rounded border-gray-700 group">
+                      <div className="relative border rounded border-borderColor group">
                         <img
                           src={attachment?.attachmentUrl}
                           alt=""
                           className="h-32 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
                         />
-                        <div className="bg-gray-800 bg-opacity-50 group-hover:bg-gray-800 group-hover:bg-opacity-80 w-full h-full absolute left-0 right-0 top-0"></div>
+                        <div className="bg-gray-950 bg-opacity-50 group-hover:bg-gray-950 group-hover:bg-opacity-80 w-full h-full absolute left-0 right-0 top-0"></div>
                         <div className="absolute inset-0">
                           <div className="flex items-center justify-evenly gap-6 w-full h-full">
                             <button
@@ -229,13 +229,13 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
               )}
             </div>
           </div>
-          <div className="bg-gray-800 p-4 mt-auto">
+          <div className="bg-secondary border-t border-borderColor p-4 mt-auto">
             <div className="flex items-center gap-4">
               <div className="">Upload File</div>
               {fileType === FileType.Image && (
                 <input
                   id="attachments"
-                  className="file:bg-gray-800 file:text-stone-300 file:border-[1px] "
+                  className="file:bg-accent file:text-stone-300 file:border-[1px] "
                   type="file"
                   accept="image/png, image/gif, image/jpeg"
                   name="attachments"
@@ -257,7 +257,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
               {fileType === FileType.Document && (
                 <input
                   id="attachments"
-                  className="file:bg-gray-800 file:text-stone-300 file:border-[1px] "
+                  className="file:bg-accent file:text-stone-300 file:border-[1px] "
                   type="file"
                   accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                   text/plain, application/pdf"
@@ -280,7 +280,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
               {fileType === FileType.Audio && (
                 <input
                   id="attachments"
-                  className="file:bg-gray-800 file:text-stone-300 file:border-[1px] "
+                  className="file:bg-accent file:text-stone-300 file:border-[1px] "
                   type="file"
                   accept="audio/mp3,audio/*;capture=microphone"
                   name="attachments"

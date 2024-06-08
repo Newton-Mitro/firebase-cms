@@ -79,7 +79,7 @@ function Login() {
       <div className="login-container flex items-center justify-center h-full w-full">
         <form
           onSubmit={formik.handleSubmit}
-          className="login-form bg-zinc-900 px-10 pb-10 pt-6 w-full mx-6  lg:w-1/2 flex items-center justify-center flex-col border border-gray-700"
+          className="login-form bg-secondary px-10 pb-10 pt-6 w-full mx-6  lg:w-1/2 flex items-center justify-center flex-col border border-borderColor"
         >
           <div className="flex items-center flex-col mb-6 gap-2 ">
             <Link to="/">
@@ -102,7 +102,7 @@ function Login() {
                 name="email"
                 value={formik.values.email}
                 id="email"
-                className="mt-1 block w-full rounded-sm py-1 border-gray-700 bg-transparent shadow-sm focus:border-gray-800 focus:ring focus:ring-gray-800 focus:ring-opacity-50 text-gray-300"
+                className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                 onChange={formik.handleChange}
               />
               {formik.errors.email && (
@@ -120,7 +120,7 @@ function Login() {
                 name="password"
                 value={formik.values.password}
                 id="password"
-                className="mt-1 block w-full rounded-sm py-1 border-gray-700 bg-transparent shadow-sm focus:border-gray-800 focus:ring focus:ring-gray-800 focus:ring-opacity-50 text-gray-300"
+                className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                 onChange={formik.handleChange}
               />
               {formik.errors.password && (
@@ -132,7 +132,7 @@ function Login() {
 
             <button
               type="submit"
-              className="login-btn hover:font-bold hover:bg-gray-800 bg-zinc-800 border border-gray-700 hover:shadow-md transition-all duration-300 shadow-sm rounded py-2 mt-4 hover:cursor-pointer"
+              className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-2 mt-4 hover:cursor-pointer"
             >
               Log In
             </button>

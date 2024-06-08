@@ -32,7 +32,7 @@ function PaginateRow({
     <div className="mt-auto flex justify-between items-center">
       <div className="flex items-center gap-2">
         <select
-          className="py-0.5 bg-transparent border border-gray-800 shadow-sm focus:border-gray-700 focus:ring focus:ring-gray-700 focus:ring-opacity-50"
+          className="py-0.5 bg-transparent border border-borderColor shadow-sm focus:border-borderColor focus:ring focus:ring-gray-700 focus:ring-opacity-50"
           name="limit"
           id="limit"
           value={limit}
@@ -40,19 +40,19 @@ function PaginateRow({
             setLimit(parseInt(e.target.value));
           }}
         >
-          <option className="odd:bg-gray-800 even:bg-gray-900" value={10}>
+          <option className="odd:bg-accent even:bg-gray-900" value={10}>
             10
           </option>
-          <option className="odd:bg-gray-800 even:bg-gray-900" value={50}>
+          <option className="odd:bg-accent even:bg-gray-900" value={50}>
             50
           </option>
-          <option className="odd:bg-gray-800 even:bg-gray-900" value={100}>
+          <option className="odd:bg-accent even:bg-gray-900" value={100}>
             100
           </option>
-          <option className="odd:bg-gray-800 even:bg-gray-900" value={500}>
+          <option className="odd:bg-accent even:bg-gray-900" value={500}>
             500
           </option>
-          <option className="odd:bg-gray-800 even:bg-gray-900" value={1000}>
+          <option className="odd:bg-accent even:bg-gray-900" value={1000}>
             1000
           </option>
         </select>
@@ -69,7 +69,7 @@ function PaginateRow({
         <button
           type="button"
           className="flex w-8 h-8 mr-1 justify-center items-center 
-                disabled:bg-gray-600 rounded-full border border-gray-800 hover:border-gray-300"
+                disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           disabled={currentPageStartFrom === 0 ? true : false}
           title="First Page"
           onClick={() => {
@@ -95,7 +95,7 @@ function PaginateRow({
         <button
           type="button"
           className="flex w-8 h-8 mr-1 justify-center items-center 
-                disabled:bg-gray-600 rounded-full border border-gray-800 hover:border-gray-300"
+                disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           title="Previous Page"
           disabled={currentPageStartFrom > 1 ? false : true}
           onClick={() => {
@@ -121,7 +121,7 @@ function PaginateRow({
                       ${
                         activePage === page
                           ? "border-green-800"
-                          : "border-gray-800"
+                          : "border-borderColor"
                       } rounded-full border  hover:border-gray-300`}
                 type="button"
                 title={`page - ${page}`}
@@ -143,7 +143,7 @@ function PaginateRow({
 
         <button
           className="flex w-8 h-8 mr-1 justify-center items-center 
-                disabled:bg-gray-600 rounded-full border border-gray-800 hover:border-gray-300"
+                disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           type="button"
           title="Next Page"
           disabled={currentPageStartFrom < totalPages ? false : true}
@@ -164,7 +164,7 @@ function PaginateRow({
         <button
           type="button"
           className="flex w-8 h-8 mr-1 justify-center items-center 
-                disabled:bg-gray-600 rounded-full border border-gray-800 hover:border-gray-300"
+                disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           title="Last Page"
           disabled={currentPageStartFrom === 0 ? true : false}
           onClick={() => {

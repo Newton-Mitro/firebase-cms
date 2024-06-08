@@ -95,7 +95,7 @@ function ListPage() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Pages</h2>
-        <div className="h-[calc(100vh-122px)] border border-gray-800 bg-zinc-950 p-2 flex flex-col overflow-auto relative">
+        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
           <div className="flex-1">
             <div className="flex gap-2">
               <button
@@ -103,7 +103,7 @@ function ListPage() {
                 onClick={() => {
                   openPageCreateDialogue();
                 }}
-                className="bg-gray-800 hover:bg-gray-900 border border-gray-700 hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
+                className="bg-accent hover:bg-gray-900 border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
                 <span className="md:block hidden">Create Page</span>
                 <svg
@@ -124,7 +124,12 @@ function ListPage() {
 
               <div className="flex gap-2">
                 <CSVLink data={pages}>
-                  <button className="bg-gray-800 hover:bg-gray-900 border border-gray-700 hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer">
+                  <button
+                    className="bg-accent hover:bg-gray-900 border border-borderColor 
+                  hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 
+                  px-1.5 md:px-4 hover:cursor-pointer disabled:bg-disabledColor"
+                    disabled={pages?.length > 0 ? false : true}
+                  >
                     <span className="md:block hidden">Export CSV</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -150,12 +155,12 @@ function ListPage() {
                   <input
                     type="text"
                     disabled={true}
-                    className="w-full md:w-80 rounded-sm py-1 disabled:bg-gray-800 border-gray-700 bg-transparent shadow-sm focus:border-gray-800 focus:ring focus:ring-gray-800 focus:ring-opacity-50 text-gray-300"
+                    className="w-full md:w-80 rounded-sm py-1 disabled:bg-disabledColor border-borderColor bg-transparent shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                     onChange={(e) => {}}
                   />
                   <button
                     disabled={true}
-                    className="border disabled:bg-gray-800 border-slate-700 hover:bg-slate-800 rounded-r bg-slate-700 p-1"
+                    className="border disabled:bg-disabledColor border-slate-700 hover:bg-slate-800 rounded-r bg-slate-700 p-1"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -191,11 +196,11 @@ function ListPage() {
                 </div>
               </div>
             </div>
-            <div className="h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] overflow-auto border border-b border-gray-800">
+            <div className="h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b border-borderColor">
               <table className="whitespace-no-wrap relative w-full table-auto border-collapse border">
                 <thead className="w-full">
-                  <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-gray-800">
-                    <th className="cursor-pointer border border-gray-800 p-2 transition-colors hover:bg-blue-gray-50">
+                  <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-accent">
+                    <th className="cursor-pointer border border-borderColor p-2 transition-colors hover:bg-blue-gray-50">
                       <div
                         color="blue-gray"
                         className="flex items-center justify-between gap-2 font-normal leading-none"
@@ -203,7 +208,7 @@ function ListPage() {
                         Id
                       </div>
                     </th>
-                    <th className="cursor-pointer border border-gray-800 p-2 transition-colors hover:bg-blue-gray-50">
+                    <th className="cursor-pointer border border-borderColor p-2 transition-colors hover:bg-blue-gray-50">
                       <div
                         color="blue-gray"
                         className="flex items-center justify-between gap-2 font-normal leading-none"
@@ -211,7 +216,7 @@ function ListPage() {
                         Slug
                       </div>
                     </th>
-                    <th className="cursor-pointer border border-gray-800 p-2 transition-colors hover:bg-blue-gray-50">
+                    <th className="cursor-pointer border border-borderColor p-2 transition-colors hover:bg-blue-gray-50">
                       <div
                         color="blue-gray"
                         className="flex items-center justify-between gap-2 font-normal leading-none"
@@ -220,7 +225,7 @@ function ListPage() {
                       </div>
                     </th>
 
-                    <th className="cursor-pointer border border-gray-800 p-2 transition-colors hover:bg-blue-gray-50">
+                    <th className="cursor-pointer border border-borderColor p-2 transition-colors hover:bg-blue-gray-50">
                       <div
                         color="blue-gray"
                         className="flex items-center justify-between gap-2 font-normal leading-none"
@@ -228,7 +233,7 @@ function ListPage() {
                         Status
                       </div>
                     </th>
-                    <th className="cursor-pointer border border-gray-800 p-2 transition-colors hover:bg-blue-gray-50">
+                    <th className="cursor-pointer border border-borderColor p-2 transition-colors hover:bg-blue-gray-50">
                       <div
                         color="blue-gray"
                         className="flex items-center justify-between gap-2 font-normal leading-none"
@@ -244,28 +249,28 @@ function ListPage() {
                     return (
                       <tr
                         key={index}
-                        className="flex w-full flex-col flex-wrap border-b border-gray-800 last:border-b-0 even:bg-slate-800/50 md:table-row"
+                        className="flex w-full flex-col flex-wrap border-b border-borderColor last:border-b-0 even:bg-slate-800/50 md:table-row"
                       >
-                        <td className="border border-gray-800 px-2">
+                        <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
                             {page.id}
                           </p>
                         </td>
-                        <td className="border border-gray-800 px-2">
+                        <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
                             {page.slug}
                           </p>
                         </td>
-                        <td className="border border-gray-800 px-2">
+                        <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
                             {page.title}
                           </p>
                         </td>
 
-                        <td className="border border-gray-800 px-2">
+                        <td className="border border-borderColor px-2">
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
@@ -274,13 +279,13 @@ function ListPage() {
                                 Published
                               </span>
                             ) : (
-                              <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                              <span className="bg-gray-100 text-accent text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
                                 Draft
                               </span>
                             )}
                           </div>
                         </td>
-                        <td className="border border-gray-800 px-2">
+                        <td className="border border-borderColor px-2">
                           <label className="md:hidden">Actions</label>
                           <div className="flex gap-1">
                             <button
@@ -290,7 +295,7 @@ function ListPage() {
                                 openPageViewDialogue();
                               }}
                             >
-                              <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-gray-800 bg-neutral-700 text-orange-100">
+                              <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
                                 View
                               </span>
                               <svg
@@ -320,7 +325,7 @@ function ListPage() {
                                 openPageEditDialogue();
                               }}
                             >
-                              <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-gray-800 bg-neutral-700 text-orange-100">
+                              <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
                                 Edit
                               </span>
                               <svg
@@ -345,7 +350,7 @@ function ListPage() {
                                 getPages();
                               }}
                             >
-                              <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-gray-800 bg-neutral-700 text-orange-100">
+                              <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
                                 Delete
                               </span>
                               <svg
@@ -372,7 +377,7 @@ function ListPage() {
                                     getPages();
                                   }}
                                 >
-                                  <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-gray-800 bg-neutral-700 text-orange-100">
+                                  <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
                                     Draft
                                   </span>
                                   <svg
@@ -398,7 +403,7 @@ function ListPage() {
                                     getPages();
                                   }}
                                 >
-                                  <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-gray-800 bg-neutral-700 text-orange-100">
+                                  <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
                                     Publish
                                   </span>
                                   <svg

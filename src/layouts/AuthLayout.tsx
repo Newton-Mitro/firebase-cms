@@ -54,10 +54,10 @@ const AuthLayout = () => {
   };
 
   return (
-    <div className="flex h-screen bg-zinc-900 text-xs lg:text-sm text-gray-400 overflow-auto">
+    <div className="flex h-screen bg-secondary text-xs lg:text-sm text-onSecondary overflow-auto">
       {/* Left Sidebar */}
       <div
-        className={`bg-zinc-950  border-r border-gray-800  ${
+        className={`bg-secondary  border-r border-borderColor  ${
           isSidebarOpen ? "w-64" : "w-12"
         }`}
       >
@@ -65,7 +65,7 @@ const AuthLayout = () => {
           <div className="">
             <Link
               to={"/home"}
-              className="flex items-center gap-2 bg-neutral-900 border-b border-gray-800 h-16  px-2"
+              className="flex items-center gap-2 bg-secondary border-b border-borderColor h-16  px-2"
             >
               <img
                 className={` bg-white rounded-full ${
@@ -436,7 +436,7 @@ const AuthLayout = () => {
 
       {/* Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-neutral-900 h-16 flex items-center justify-between px-4 border-b border-gray-800">
+        <header className="bg-secondary h-16 flex items-center justify-between px-4 border-b border-borderColor">
           <button onClick={toggleSidebar} className="">
             {isSidebarOpen ? (
               <CgPlayListRemove size="32" />
@@ -474,7 +474,7 @@ const AuthLayout = () => {
 
               {/* Profile Dropdown */}
               {isNotificationDropdownOpen && (
-                <div className="absolute right-0 mt-1 w-72 bg-neutral-900 border border-gray-800 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-1 w-72 bg-primary border border-borderColor rounded-md shadow-lg z-50">
                   <div className="p-2">Voucher Pending For Approval</div>
                   <div className="p-2">
                     Leave Application Pending For Approval
@@ -513,7 +513,7 @@ const AuthLayout = () => {
 
               {/* Profile Dropdown */}
               {isProfileDropdownOpen && (
-                <div className="absolute right-0 mt-1 w-52 bg-neutral-900 border border-gray-800 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-1 w-52 bg-primary border border-borderColor rounded-md shadow-lg z-50">
                   {/* Add profile dropdown content */}
                   <Link to="#" className="block px-4 py-2">
                     Profile
@@ -522,7 +522,7 @@ const AuthLayout = () => {
                     Settings
                   </Link>
 
-                  <hr className="border-t border-gray-800 mx-2 my-1" />
+                  <hr className="border-t border-borderColor mx-2 my-1" />
 
                   <button
                     onClick={logOut}
@@ -536,7 +536,7 @@ const AuthLayout = () => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-2">
+        <main className="flex-1 overflow-auto p-2 bg-primary">
           <Outlet />
         </main>
       </div>

@@ -5,7 +5,7 @@ import { firebase_auth, googleProvider } from "../configs/firebase-config";
 function PublicLayout() {
   return (
     <div>
-      <main className="flex-1 overflow-x-hidden overflow-y-auto h-screen w-screen bg-zinc-950 text-gray-300">
+      <main className="flex-1 overflow-x-hidden overflow-y-auto h-screen w-screen bg-primary text-onPrimary">
         <span className="bg-transparent">
           <button
             className="bg-transparent text-transparent"

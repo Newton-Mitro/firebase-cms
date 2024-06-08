@@ -26,7 +26,7 @@ function ErrorPage() {
         </p>
         <p className="pb-2">The page you’re looking for doesn’t exist.</p>
         <Link to="/">
-          <button className="p-2 border border-gray-800 rounded-sm hover:bg-zinc-900 text-gray-600">
+          <button className="p-2 border border-borderColor rounded-sm hover:bg-zinc-900 text-gray-600">
             Go Home
           </button>
         </Link>

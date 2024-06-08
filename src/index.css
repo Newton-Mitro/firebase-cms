@@ -1,6 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap,family=Amita:wght@400;700&family=Andada+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Anton&family=Archivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Baloo+Da+2:wght@400;500;600;700;800&family=Cookie&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&family=Epilogue:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Galada&family=Hahmlet:wght@100;200;300;400;500;600;700;800;900&family=Hurricane&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mrs+Saint+Delafield&family=Ms+Madi&family=Noto+Serif+Bengali:wght@100;200;300;400;500;600;700;800;900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Oswald:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rock+Salt&family=Sacramento&family=Sora:wght@100;200;300;400;500;600;700;800&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Stalemate&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --theme-primary: #18181b;
+    --theme-on-primary: #e2e2e2;
+    --theme-secondary: #1b1f23;
+    --theme-on-secondary: #ebebeb;
+    --theme-error: #be2c00;
+    --theme-on-error: #ffffff;
+    --theme-success: #02692a;
+    --theme-on-success: #ffffff;
+    --theme-border-color: #313131;
+    --theme-accent: rgb(15, 41, 58);
+    --theme-disabled: #313131;
+    --theme-on-disabled: #ffffff;
+  }
+}
+
+.theme-dark {
+  --theme-primary: #18181b;
+  --theme-on-primary: #e2e2e2;
+  --theme-secondary: #1b1f23;
+  --theme-on-secondary: #474747;
+  --theme-error: #be2c00;
+  --theme-on-error: #ffffff;
+  --theme-success: #02692a;
+  --theme-on-success: #ffffff;
+  --theme-border-color: #313131;
+  --theme-accent: rgb(15, 41, 58);
+}
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -25,11 +58,11 @@
 }
 
 .ql-toolbar.ql-snow {
-  border-color: rgb(55 65 81 / var(--tw-border-opacity)) !important;
+  border-color: var(--theme-border-color) !important;
 }
 
 .ql-container.ql-snow {
-  border-color: rgb(55 65 81 / var(--tw-border-opacity)) !important;
+  border-color: var(--theme-border-color) !important;
   font-size: smaller !important;
   color: rgb(209 213 219 / var(--tw-text-opacity)) !important;
 }

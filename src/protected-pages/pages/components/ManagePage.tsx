@@ -138,9 +138,9 @@ function ManagePage({
         <div
           className={`absolute bottom-0 right-0 h-full ${
             windowState ? "lg:w-full " : "lg:w-7/12 lg:h-5/6"
-          } w-full bg-slate-900 flex flex-col shadow border border-gray-700 overflow-auto`}
+          } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
-          <header className="bg-slate-800 p-4 flex justify-between">
+          <header className="bg-primary border-b border-borderColor p-4 flex justify-between">
             <div className="flex gap-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -242,8 +242,8 @@ function ManagePage({
                   disabled={windowType === WindowType.View ? true : false}
                   type="text"
                   value={formik.values.title}
-                  className="mt-1 block w-full rounded-sm py-1 border-gray-700 bg-slate-950
-                disabled:bg-slate-800 shadow-sm focus:border-gray-800 focus:ring focus:ring-gray-800 focus:ring-opacity-50 text-gray-300"
+                  className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
+                disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={formik.handleChange}
                 />
                 {formik.errors.title && (
@@ -262,8 +262,8 @@ function ManagePage({
                   id="content"
                   className={`${
                     windowType === WindowType.View
-                      ? "bg-slate-800"
-                      : "bg-slate-950"
+                      ? "bg-disabledColor"
+                      : "bg-primary"
                   } text-white text-xl`}
                   readOnly={windowType === WindowType.View ? true : false}
                   value={formik.values.content}
@@ -289,8 +289,8 @@ function ManagePage({
                   rows={3}
                   disabled={windowType === WindowType.View ? true : false}
                   value={formik.values.contentSummery}
-                  className="mt-1 block w-full rounded-sm py-1 border-gray-700 bg-slate-950
-                disabled:bg-slate-800 shadow-sm focus:border-gray-800 focus:ring focus:ring-gray-800 focus:ring-opacity-50 text-gray-300"
+                  className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
+                disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={formik.handleChange}
                 />
               </div>
@@ -304,7 +304,7 @@ function ManagePage({
                     (image: string, index: number) => {
                       return (
                         <div
-                          className="relative border rounded border-gray-700 group"
+                          className="relative border rounded border-borderColor group"
                           key={index}
                         >
                           <img
@@ -312,7 +312,7 @@ function ManagePage({
                             alt=""
                             className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
                           />
-                          <div className="group-hover:bg-gray-800 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
+                          <div className="group-hover:bg-accent group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
                           {windowType !== WindowType.View ? (
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -338,10 +338,10 @@ function ManagePage({
                   )}
                 </div>
                 {windowType !== WindowType.View ? (
-                  <div className="flex items-center gap-4">
+                  <div className="">
                     <button
                       type="button"
-                      className="flex gap-2 hover:font-bold hover:bg-gray-800  border border-gray-700 hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 mt-4 hover:cursor-pointer"
+                      className="flex items-center justify-center gap-2 w-36 hover:font-bold hover:bg-accent  border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 mt-4 hover:cursor-pointer"
                       onClick={() => {
                         setOpenImageBrowser(true);
                       }}
@@ -368,13 +368,13 @@ function ManagePage({
             </div>
           </section>
           {windowType !== WindowType.View && (
-            <footer className="bg-slate-800 px-4 lg:px-10 py-2 mt-auto">
+            <footer className="bg-primary border-t border-borderColor px-4 lg:px-10 py-2 mt-auto">
               <div className="flex items-center justify-end">
                 {windowType === WindowType.Edit && (
                   <button
                     type="submit"
                     disabled={addPageLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-gray-800 bg-zinc-800 border border-gray-700 hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Update Page
                   </button>
@@ -384,7 +384,7 @@ function ManagePage({
                   <button
                     type="submit"
                     disabled={addPageLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-gray-800 bg-zinc-800 border border-gray-700 hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Create Page
                   </button>
