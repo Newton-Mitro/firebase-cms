@@ -312,25 +312,28 @@ function ManagePage({
                             alt=""
                             className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
                           />
-                          <div className="group-hover:bg-accent group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
+
                           {windowType !== WindowType.View ? (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                              onClick={() => {
-                                removeAttachment(index);
-                              }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18 18 6M6 6l12 12"
-                              />
-                            </svg>
+                            <div className="">
+                              <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
+                                onClick={() => {
+                                  removeAttachment(index);
+                                }}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M6 18 18 6M6 6l12 12"
+                                />
+                              </svg>
+                            </div>
                           ) : null}
                         </div>
                       );
