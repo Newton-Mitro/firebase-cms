@@ -1,5 +1,5 @@
 import { ReactComponent as YourSvg } from "assets/icon/pdf.svg";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import AppLoader from "../AppLoader";
 import { FileType } from "./file-type.enum";
@@ -21,6 +21,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
   fileType,
 }) => {
   const { fileUrl, uploadFile, loading, error } = useUploadFile();
+  const [windowState, setWindowState] = useState(false);
   const {
     attachments,
     listAttachments,
@@ -47,7 +48,14 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
         <AppLoader
           isLoading={loading || attachmentsLoading || removeFileLoading}
         />
-        <div className="w-full lg:w-8/12 bg-primary text-onPrimary flex flex-col h-5/6 border border-borderColor">
+        <div
+          className={`${
+            windowState
+              ? "h-[calc(100vh-60px)] w-[calc(100vw-80px)]"
+              : "w-8/12 h-5/6"
+          } bg-primary text-onPrimary 
+          flex flex-col border border-borderColor`}
+        >
           <header className="bg-secondary text-onSecondary p-4 flex justify-between border-b border-borderColor">
             <div className="flex gap-4 items-center">
               <svg
@@ -67,14 +75,76 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
 
               <span className="text-xl">File Browser</span>
             </div>
-            <button
-              className="hover:font-bold hover:text-yellow-100 hover:scale-105 transition-all"
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            >
-              Close
-            </button>
+            <div className="flex items-center gap-2">
+              {windowState ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWindowState(false);
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6 hover:font-bold hover:text-yellow-100 hover:scale-105 transition-all"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
+                    />
+                  </svg>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWindowState(true);
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6 hover:font-bold hover:text-yellow-100 hover:scale-105 transition-all"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+                    />
+                  </svg>
+                </button>
+              )}
+
+              <button
+                className=""
+                type="button"
+                onClick={() => {
+                  setIsOpen();
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-6 hover:font-bold hover:text-yellow-100 hover:scale-105 transition-all"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
           </header>
           <div className="p-4 overflow-auto h-1/2">
             <div className="flex gap-1 lg:gap-4 flex-wrap">
@@ -84,7 +154,10 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
 
                   if (attachment.fileType === FileType.Document) {
                     return (
-                      <div className="relative border rounded border-borderColor group">
+                      <div
+                        key={attachment?.id}
+                        className="relative border rounded border-borderColor group"
+                      >
                         <div className="w-28 flex items-center flex-col">
                           <YourSvg className="w-28 h-28" />
                           <p>{attachment?.fileName}</p>
@@ -148,7 +221,10 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                     );
                   } else {
                     return (
-                      <div className="relative border rounded border-borderColor group">
+                      <div
+                        key={attachment?.id}
+                        className="relative border rounded border-borderColor group"
+                      >
                         <img
                           src={attachment?.attachmentUrl}
                           alt=""
