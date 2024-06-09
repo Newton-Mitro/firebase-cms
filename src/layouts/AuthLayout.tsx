@@ -64,7 +64,7 @@ const AuthLayout = () => {
         <div className="">
           <div className="">
             <Link
-              to={"/home"}
+              to={"/panel/home"}
               className="flex items-center gap-2 bg-secondary border-b border-borderColor h-16  px-2"
             >
               <img
@@ -77,13 +77,15 @@ const AuthLayout = () => {
               <h1 className="font-bold text-xl">My CMS</h1>
             </Link>
           </div>
-          <div className="sidebar">
+          <div className="sidebar overflow-auto h-[calc(100vh-80px)]">
             {/* [ ]Sidebar Navigation Goes Here.. */}
             <ul
-              className={`flex flex-col ${isSidebarOpen ? "" : "items-center"}`}
+              className={`flex  flex-col ${
+                isSidebarOpen ? "" : "items-center"
+              }`}
             >
               <NavLink
-                to={"/dashboard/home"}
+                to={"/panel/home"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -112,7 +114,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/pages"}
+                to={"pages"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -142,7 +144,7 @@ const AuthLayout = () => {
               </NavLink>
 
               <NavLink
-                to={"/dashboard/posts"}
+                to={"posts"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -171,7 +173,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"galleries"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -200,7 +202,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"testimonials"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -229,7 +231,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/comments"}
+                to={"comments"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -258,7 +260,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"services"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -287,7 +289,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/products"}
+                to={"products"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -316,7 +318,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"notices"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -344,7 +346,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"events"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -373,7 +375,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"job-circulars"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -402,7 +404,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"staffs"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -431,7 +433,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/partners"}
+                to={"partners"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -460,7 +462,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"users"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
@@ -489,7 +491,7 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"/dashboard/notices"}
+                to={"settings"}
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""

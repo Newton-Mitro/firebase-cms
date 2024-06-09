@@ -32,14 +32,13 @@ function Login() {
   const navigate = useNavigate();
   onAuthStateChanged(firebase_auth, (user) => {
     if (user) {
-      const uid = user.uid;
-      navigate("/dashboard", { replace: true });
+      navigate("/panel/home", { replace: true });
     }
   });
 
   const auth = getAuth();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard/home";
+  const from = location.state?.from?.pathname || "/panel/home";
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({

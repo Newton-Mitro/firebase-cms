@@ -64,5 +64,19 @@
 .ql-container.ql-snow {
   border-color: var(--theme-border-color) !important;
   font-size: smaller !important;
-  color: rgb(209 213 219 / var(--tw-text-opacity)) !important;
+  color: #cecece !important;
+}
+
+.ql-toolbar .ql-stroke {
+  fill: none;
+  stroke: #cecece;
+}
+
+.ql-toolbar .ql-fill {
+  fill: #cecece;
+  stroke: none;
+}
+
+.ql-toolbar .ql-picker {
+  color: #cecece;
 }

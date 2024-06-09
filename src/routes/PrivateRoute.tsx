@@ -1,20 +1,21 @@
+import { onAuthStateChanged } from "firebase/auth";
 import { Navigate, useLocation } from "react-router-dom";
-import useLoggedInUser from "../hooks/useLoggedInUser";
+import { firebase_auth } from "../configs/firebase-config";
 
-function PrivateRoute({ children }: any) {
-  const [users, isLoading] = useLoggedInUser();
+interface props {
+  children: React.ReactNode;
+}
+
+const PrivateRoute = ({ children }: props) => {
   const location = useLocation();
 
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
-
-  // [ ] Need to remove null check
-  if (users === null) {
-    return children;
-  }
-
-  return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
-}
+  onAuthStateChanged(firebase_auth, (user) => {
+    if (!user) {
+      return children;
+    } else {
+      return <Navigate to="/" state={{ from: location }} replace></Navigate>;
+    }
+  });
+};
 
 export default PrivateRoute;

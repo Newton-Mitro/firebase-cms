@@ -6,7 +6,6 @@ import ListPage from "../protected-pages/pages/index-page/ListPage";
 import ListPost from "../protected-pages/posts/index-page/ListPost";
 import ErrorPage from "../public-pages/error-page/ErrorPage";
 import Login from "../public-pages/login/Login";
-import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -16,19 +15,22 @@ export const router = createBrowserRouter([
     children: [{ path: "/", element: <Login /> }],
   },
   {
-    path: "/dashboard",
-    element: (
-      <PrivateRoute>
-        <AuthLayout />
-      </PrivateRoute>
-    ),
+    path: "/panel",
+    element: <AuthLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/dashboard/home", element: <HomePage /> },
+      { path: "/panel/home", element: <HomePage /> },
       { path: "pages", element: <ListPage /> },
       { path: "posts", element: <ListPost /> },
-      { path: "notices", element: <div className="">Notices</div> },
-      { path: "events", element: <div className="">Events</div> },
+      { path: "partners", element: <div className="">partners</div> },
+      { path: "comments", element: <div className="">comments</div> },
+      { path: "users", element: <div className="">users</div> },
+      { path: "products", element: <div className="">products</div> },
+      { path: "testimonials", element: <div className="">testimonials</div> },
+      { path: "galleries", element: <div className="">galleries</div> },
+      { path: "services", element: <div className="">services</div> },
+      { path: "notices", element: <div className="">notices</div> },
+      { path: "events", element: <div className="">events</div> },
       { path: "job-circulars", element: <div className="">Job Circulars</div> },
       { path: "staffs", element: <div className="">Staffs</div> },
       { path: "settings", element: <div className="">Settings</div> },
