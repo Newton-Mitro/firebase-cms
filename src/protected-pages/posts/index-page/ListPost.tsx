@@ -1,111 +1,111 @@
 import { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import AppLoader from "../../../components/AppLoader";
+import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
-import ManagePage from "../components/ManagePage";
-import { PageModel } from "../models/page.model";
-import PaginateRow from "./PaginateRow";
-import useGetPages from "./useGetPages";
-import useRemovePage from "./useRemovePage";
-import useUpdatePageStatus from "./useUpdatePageStatus";
+import ManagePost from "../components/ManagePost";
+import { PostModel } from "../models/post.model";
+import useGetPosts from "./useGetPosts";
+import useRemovePost from "./useRemovePost";
+import useUpdatePostStatus from "./useUpdatePostStatus";
 
-function ListPage() {
-  const [isCreatePageOpen, setCreatePageOpen] = useState(false);
-  const [selectedPage, setSelectedPage] = useState<PageModel | null>(null);
+function ListPost() {
+  const [isAdvanceSearchOpen, setAdvanceSearchOpen] = useState(false);
+  const [isCreatePostOpen, setCreatePostOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<PostModel | null>(null);
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
-  const [currentPageStartFrom, setCurrentPageStartFrom] = useState<number>(1);
+  const [currentPostStartFrom, setCurrentPostStartFrom] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
-    pages,
-    getPages,
-    loading: getPagesLoading,
-    error: getPagesError,
-    activePage,
-    nextPage,
-    previousPage,
-    firstPage,
-    lastPage,
-    totalPages,
+    posts,
+    getPosts,
+    loading: getPostsLoading,
+    error: getPostsError,
+    activePost,
+    nextPost,
+    previousPost,
+    firstPost,
+    lastPost,
+    totalPosts,
     totalRecords,
-  } = useGetPages();
+  } = useGetPosts();
 
-  // const paginatePages = pagination(4)(activePage, totalPages);
-
-  const {
-    removePageId,
-    removePage,
-    loading: removePageLoading,
-    error: removePageError,
-  } = useRemovePage();
+  // const paginatePosts = pagination(4)(activePost, totalPosts);
 
   const {
-    updatedPageId,
-    updatePageStatus,
-    loading: updatePageStatusLoading,
-    error: updatePageStatusError,
-  } = useUpdatePageStatus();
+    removePostId,
+    removePost,
+    loading: removePostLoading,
+    error: removePostError,
+  } = useRemovePost();
 
-  function openPageCreateDialogue() {
+  const {
+    updatedPostId,
+    updatePostStatus,
+    loading: updatePostStatusLoading,
+    error: updatePostStatusError,
+  } = useUpdatePostStatus();
+
+  const toggleAdvanceSearchOption = () => {
+    setAdvanceSearchOpen(!isAdvanceSearchOpen);
+  };
+
+  function openPostCreateDialogue() {
     setWindowType(WindowType.Create);
-    setCreatePageOpen(true);
-    setSelectedPage({
+    setCreatePostOpen(true);
+    setSelectedPost({
       id: "",
       slug: "",
       title: "",
+      content: "",
       contentSummery: "",
-      sections: [
-        {
-          content: "",
-          attachment: "",
-          order: 0,
-        },
-      ],
+      attachments: [],
       status: false,
       createdAt: "",
       updatedAt: "",
     });
   }
 
-  function closePageDialogue() {
-    setSelectedPage(null);
-    setCreatePageOpen(false);
+  function closePostDialogue() {
+    setSelectedPost(null);
+    setCreatePostOpen(false);
   }
 
-  function openPageViewDialogue() {
+  function openPostViewDialogue() {
     setWindowType(WindowType.View);
-    setCreatePageOpen(true);
+    setCreatePostOpen(true);
   }
 
-  function openPageEditDialogue() {
+  function openPostEditDialogue() {
     setWindowType(WindowType.Edit);
-    setCreatePageOpen(true);
+    setCreatePostOpen(true);
   }
 
   useEffect(() => {
-    getPages(currentPageStartFrom, limit);
-  }, [removePageId, updatedPageId, limit, currentPageStartFrom]);
+    getPosts(currentPostStartFrom, limit);
+  }, [removePostId, updatedPostId, limit, currentPostStartFrom]);
 
   return (
     <>
       <AppLoader
         isLoading={
-          getPagesLoading || removePageLoading || updatePageStatusLoading
+          getPostsLoading || removePostLoading || updatePostStatusLoading
         }
       />
       <div className="w-full space-y-2">
-        <h2 className="text-xl">Pages</h2>
+        <h2 className="text-xl">Posts</h2>
         <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
           <div className="flex-1">
             <div className="flex gap-2">
               <button
-                disabled={selectedPage !== null ? true : false}
+                disabled={selectedPost !== null ? true : false}
                 onClick={() => {
-                  openPageCreateDialogue();
+                  openPostCreateDialogue();
                 }}
                 className="bg-accent hover:bg-gray-900 border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
-                <span className="md:block hidden">Create Page</span>
+                <span className="md:block hidden">Create Post</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -123,12 +123,12 @@ function ListPage() {
               </button>
 
               <div className="flex gap-2">
-                <CSVLink data={pages}>
+                <CSVLink data={posts}>
                   <button
                     className="bg-accent hover:bg-gray-900 border border-borderColor 
                   hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 
                   px-1.5 md:px-4 hover:cursor-pointer disabled:bg-disabledColor"
-                    disabled={pages?.length > 0 ? false : true}
+                    disabled={posts?.length > 0 ? false : true}
                   >
                     <span className="md:block hidden">Export CSV</span>
                     <svg
@@ -245,7 +245,7 @@ function ListPage() {
                 </thead>
 
                 <tbody className="flex-1 md:flex-none space-y-6">
-                  {pages?.map((page: any, index: number) => {
+                  {posts?.map((post: any, index: number) => {
                     return (
                       <tr
                         key={index}
@@ -254,19 +254,19 @@ function ListPage() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {page.id}
+                            {post.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {page.slug}
+                            {post.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {page.title}
+                            {post.title}
                           </p>
                         </td>
 
@@ -274,7 +274,7 @@ function ListPage() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {page.status ? (
+                            {post.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -291,8 +291,8 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPage(page);
-                                openPageViewDialogue();
+                                setSelectedPost(post);
+                                openPostViewDialogue();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -321,8 +321,8 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPage(page);
-                                openPageEditDialogue();
+                                setSelectedPost(post);
+                                openPostEditDialogue();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -346,8 +346,8 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removePage(page.id);
-                                getPages();
+                                removePost(post.id);
+                                getPosts();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -369,12 +369,12 @@ function ListPage() {
                               </svg>
                             </button>
                             <div className="">
-                              {page.status ? (
+                              {post.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePageStatus(page.id, false);
-                                    getPages();
+                                    updatePostStatus(post.id, false);
+                                    getPosts();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -399,8 +399,8 @@ function ListPage() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePageStatus(page.id, true);
-                                    getPages();
+                                    updatePostStatus(post.id, true);
+                                    getPosts();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -436,20 +436,20 @@ function ListPage() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentPageStartFrom={currentPageStartFrom}
-            setCurrentPageStartFrom={setCurrentPageStartFrom}
-            activePage={activePage}
-            firstPage={firstPage}
-            lastPage={lastPage}
-            previousPage={previousPage}
-            nextPage={nextPage}
-            totalPages={totalPages}
+            currentPostStartFrom={currentPostStartFrom}
+            setCurrentPostStartFrom={setCurrentPostStartFrom}
+            activePost={activePost}
+            firstPost={firstPost}
+            lastPost={lastPost}
+            previousPost={previousPost}
+            nextPost={nextPost}
+            totalPosts={totalPosts}
           />
-          {isCreatePageOpen && (
-            <ManagePage
-              closePageDialogue={closePageDialogue}
-              getPages={getPages}
-              selectedPage={selectedPage}
+          {isCreatePostOpen && (
+            <ManagePost
+              closePostDialogue={closePostDialogue}
+              getPosts={getPosts}
+              selectedPost={selectedPost}
               windowType={windowType}
             />
           )}
@@ -459,4 +459,4 @@ function ListPage() {
   );
 }
 
-export default ListPage;
+export default ListPost;

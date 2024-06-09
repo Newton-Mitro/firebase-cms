@@ -1,26 +1,27 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { firebase_db } from "../../../configs/firebase-config";
-import { PageModel } from "../models/page.model";
+import { PostModel } from "../models/post.model";
 
-function useGetPage() {
-  const [page, setPage] = useState<PageModel | null>(null);
+function useGetPost() {
+  const [post, setPost] = useState<PostModel | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function getPage(id: string) {
+  async function getPost(id: string) {
     try {
-      const docRef = doc(firebase_db, "pages", id);
+      const docRef = doc(firebase_db, "posts", id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setPage({
+        setPost({
           id: docSnap.id,
           slug: data.slug,
           title: data.title,
+          content: data.content,
           contentSummery: data.contentSummery,
-          sections: data.sections,
+          attachments: data.attachments,
           status: data.status,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
@@ -35,7 +36,7 @@ function useGetPage() {
     }
   }
 
-  return { page, getPage, loading, error };
+  return { post, getPost, loading, error };
 }
 
-export default useGetPage;
+export default useGetPost;

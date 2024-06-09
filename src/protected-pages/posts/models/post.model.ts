@@ -6,6 +6,8 @@ export class PostModel {
   contentSummery: string;
   attachments: string[];
   status: boolean;
+  createdAt: any;
+  updatedAt: any;
 
   constructor(
     id: string,
@@ -14,7 +16,9 @@ export class PostModel {
     content: string,
     contentSummery: string,
     attachments: string[],
-    status: boolean
+    status: boolean,
+    createdAt: any,
+    updatedAt: any
   ) {
     this.id = id;
     this.slug = slug;
@@ -23,5 +27,7 @@ export class PostModel {
     this.contentSummery = contentSummery;
     this.attachments = attachments;
     this.status = status;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 }

@@ -1,10 +1,14 @@
+export interface PageSection {
+  content: string;
+  attachment: string;
+  order: number;
+}
 export class PageModel {
   id: string;
   slug: string;
   title: string;
-  content: string;
   contentSummery: string;
-  attachments: string[];
+  sections: PageSection[];
   status: boolean;
   createdAt: any;
   updatedAt: any;
@@ -13,9 +17,8 @@ export class PageModel {
     id: string,
     slug: string,
     title: string,
-    content: string,
     contentSummery: string,
-    attachments: string[],
+    sections: PageSection[],
     status: boolean,
     createdAt: any,
     updatedAt: any
@@ -23,9 +26,8 @@ export class PageModel {
     this.id = id;
     this.slug = slug;
     this.title = title;
-    this.content = content;
     this.contentSummery = contentSummery;
-    this.attachments = attachments;
+    this.sections = sections;
     this.status = status;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
