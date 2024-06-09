@@ -145,7 +145,7 @@ function ManagePage({
               : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
-          <header className="bg-primary border-b border-borderColor p-4 flex justify-between">
+          <header className="bg-accent border-b border-borderColor p-4 flex justify-between">
             <div className="flex gap-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

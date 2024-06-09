@@ -60,13 +60,17 @@ export const data = {
 
 function HomePage() {
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex gap-10 w-6/12 h-[calc(85vh/2)]">
+    <div className="flex flex-wrap">
+      <div className="w-full lg:w-1/2 p-6">
         <Line options={options} data={data} />
+      </div>
+      <div className="w-full lg:w-1/2 p-6">
         <Doughnut data={data} />
       </div>
-      <div className="flex gap-10 w-6/12 h-[calc(85vh/2)]">
+      <div className="w-full lg:w-1/2 p-6">
         <PolarArea data={data} />
+      </div>
+      <div className="w-full lg:w-1/2 p-6">
         <Bar options={options} data={data} />
       </div>
     </div>

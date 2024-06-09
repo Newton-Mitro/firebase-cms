@@ -103,7 +103,7 @@ function ListPost() {
                 onClick={() => {
                   openPostCreateDialogue();
                 }}
-                className="bg-accent hover:bg-gray-900 border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
+                className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
                 <span className="md:block hidden">Create Post</span>
                 <svg

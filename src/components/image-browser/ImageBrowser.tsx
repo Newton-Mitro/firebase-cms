@@ -56,7 +56,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
           } bg-primary text-onPrimary 
           flex flex-col border border-borderColor`}
         >
-          <header className="bg-secondary text-onSecondary p-4 flex justify-between border-b border-borderColor">
+          <header className="bg-accent text-onSecondary p-4 flex justify-between border-b border-borderColor">
             <div className="flex gap-4 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
