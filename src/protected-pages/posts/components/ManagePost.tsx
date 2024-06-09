@@ -136,8 +136,10 @@ function ManagePost({
       <AppLoader isLoading={addPostLoading} />
       <form onSubmit={formik.handleSubmit}>
         <div
-          className={`absolute bottom-0 right-0 h-full ${
-            windowState ? "lg:w-full " : "lg:w-7/12"
+          className={`absolute  h-full shadow ${
+            windowState
+              ? "lg:w-full bottom-2 right-2 lg:inset-0"
+              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
           <header className="bg-primary border-b border-borderColor p-4 flex justify-between">

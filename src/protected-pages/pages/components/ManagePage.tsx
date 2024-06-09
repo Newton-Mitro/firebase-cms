@@ -139,8 +139,10 @@ function ManagePage({
       <AppLoader isLoading={addPageLoading} />
       <form onSubmit={onSubmitHandler}>
         <div
-          className={`absolute bottom-0 right-0 h-full ${
-            windowState ? "lg:w-full" : "lg:w-7/12 lg:h-full"
+          className={`absolute  h-full shadow ${
+            windowState
+              ? "lg:w-full bottom-2 right-2 lg:inset-0"
+              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
           <header className="bg-primary border-b border-borderColor p-4 flex justify-between">
@@ -413,18 +415,20 @@ function ManagePage({
                   );
                 }
               )}
-              <div className="">
-                <button
-                  type="button"
-                  className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor 
+              {windowType !== WindowType.View && (
+                <div className="">
+                  <button
+                    type="button"
+                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor 
                 hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
-                  onClick={() => {
-                    addPageSection();
-                  }}
-                >
-                  Add Section
-                </button>
-              </div>
+                    onClick={() => {
+                      addPageSection();
+                    }}
+                  >
+                    Add Section
+                  </button>
+                </div>
+              )}
             </div>
           </section>
           {windowType !== WindowType.View && (
