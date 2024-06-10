@@ -1,4 +1,5 @@
 export interface PageSection {
+  sectionTitle: string;
   content: string;
   attachment: string;
   order: number;
@@ -8,6 +9,7 @@ export class PageModel {
   slug: string;
   title: string;
   contentSummery: string;
+  featuredImage: string;
   sections: PageSection[];
   status: boolean;
   createdAt: any;
@@ -18,6 +20,7 @@ export class PageModel {
     slug: string,
     title: string,
     contentSummery: string,
+    featuredImage: string,
     sections: PageSection[],
     status: boolean,
     createdAt: any,
@@ -27,6 +30,7 @@ export class PageModel {
     this.slug = slug;
     this.title = title;
     this.contentSummery = contentSummery;
+    this.featuredImage = featuredImage;
     this.sections = sections;
     this.status = status;
     this.createdAt = createdAt;

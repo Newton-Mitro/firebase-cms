@@ -73,6 +73,7 @@ function useGetPages() {
           slug: data.slug,
           title: data.title,
           contentSummery: data.contentSummery,
+          featuredImage: data.featuredImage,
           sections: data.sections,
           status: data.status,
           createdAt: data.createdAt,

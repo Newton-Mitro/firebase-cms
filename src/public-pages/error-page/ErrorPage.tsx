@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function ErrorPage() {
   return (
-    <div className="flex items-center justify-center h-screen bg-zinc-950 text-gray-300">
+    <div className="flex items-center justify-center h-screen bg-secondary text-gray-300">
       <div className="text-center">
         <div className="flex justify-center my-4">
           <svg
@@ -26,7 +26,7 @@ function ErrorPage() {
         </p>
         <p className="pb-2">The page you’re looking for doesn’t exist.</p>
         <Link to="/">
-          <button className="p-2 border border-borderColor rounded-sm hover:bg-zinc-900 text-gray-600">
+          <button className="p-2 border bg-accent border-borderColor rounded-sm hover:bg-zinc-900 text-gray-300">
             Go Home
           </button>
         </Link>

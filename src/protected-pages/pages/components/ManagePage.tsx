@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
@@ -8,7 +9,9 @@ import ImageBrowser from "../../../components/image-browser/ImageBrowser";
 import { FileType } from "../../../components/image-browser/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
 import { PageSection } from "../models/page.model";
+import { managePageFormValidation } from "./managePageFormValidation";
 import useAddPage from "./useAddPage";
+import useManagePageFormState from "./useManagePageFormState";
 import useUpdatePage from "./useUpdatePage";
 
 function ManagePage({
@@ -19,60 +22,36 @@ function ManagePage({
 }: any) {
   const [windowState, setWindowState] = useState(false);
   const [openImageBrowser, setOpenImageBrowser] = useState(false);
-  const [pageState, setPageState] = useState({
-    title: selectedPage.title,
-    sections: selectedPage.sections,
-    contentSummery: selectedPage.contentSummery,
-    status: selectedPage.status,
-  });
+  const [openFeaturedImageBrowser, setOpenFeaturedImageBrowser] =
+    useState(false);
+  const {
+    pageState,
+    updatePageSection,
+    removePageSection,
+    addPageSection,
+    updatePageState,
+  } = useManagePageFormState(selectedPage);
 
-  const updatePageSection = (
-    fieldName: string,
-    fieldValue: any,
-    index: number
-  ) => {
-    pageState.sections[index] = {
-      ...pageState?.sections[index],
-      [fieldName]: fieldValue,
-    };
-    setPageState({ ...pageState });
-  };
+  console.log(pageState);
 
-  const removePageSection = (index: number) => {
-    if (index > 0) {
-      console.log();
-
-      pageState?.sections.splice(index, 1);
-      setPageState({
-        ...pageState,
-        sections: pageState?.sections,
-      });
+  const onSubmitHandler = (event: any) => {
+    event.preventDefault();
+    var errors = "";
+    errors = errors + managePageFormValidation("title", pageState.title);
+    pageState.sections.forEach((element: any, index: number) => {
+      let fieldName: keyof typeof element;
+      for (fieldName in element) {
+        updatePageSection(fieldName, element[fieldName], index);
+        errors =
+          errors + managePageFormValidation(fieldName, element[fieldName]);
+      }
+    });
+    updatePageState("title", pageState.title);
+    if (errors) {
+      toast.error("Please all the fields correctly!");
+      return;
     }
-  };
 
-  const addPageSection = () => {
-    const newSection = {
-      content: "",
-      attachment: "",
-      order: new Date().getMilliseconds(),
-    };
-    setPageState({
-      ...pageState,
-
-      sections: [...pageState.sections, newSection],
-    });
-  };
-
-  const updatePageState = (name: string, value: any) => {
-    setPageState((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
-
-  const onSubmitHandler = () => {
     const pageId = uuidv4();
     const slug = slugify(pageState.title, {
       replacement: "_", // replace spaces with replacement character, defaults to `-`
@@ -88,7 +67,8 @@ function ManagePage({
         slug: slug,
         title: pageState.title,
         contentSummery: pageState.contentSummery,
-        sections: [],
+        featuredImage: pageState.featuredImage,
+        sections: pageState.sections,
         status: false,
         createdAt: null,
         updatedAt: null,
@@ -99,7 +79,8 @@ function ManagePage({
         slug: slug,
         title: pageState.title,
         contentSummery: pageState.contentSummery,
-        sections: [],
+        featuredImage: pageState.featuredImage,
+        sections: pageState.sections,
         status: false,
         createdAt: null,
         updatedAt: null,
@@ -120,9 +101,6 @@ function ManagePage({
     loading: updatePageLoading,
     error: updatePageError,
   } = useUpdatePage();
-
-  console.log(addedPage);
-  console.log(updatedPage);
 
   if (addedPage !== null) {
     closePageDialogue();
@@ -253,11 +231,11 @@ function ManagePage({
                     updatePageState(event.target.name, event.target.value);
                   }}
                 />
-                {/* {formik.errors.title && (
+                {pageState.errors.title && (
                   <div className="text-xs text-red-400">
-                    {formik.errors.title.toString()}
+                    {pageState.errors.title}
                   </div>
-                )} */}
+                )}
               </div>
 
               <div className="flex flex-col">
@@ -278,143 +256,286 @@ function ManagePage({
                 />
               </div>
 
-              {pageState.sections?.map(
-                (section: PageSection, index: number) => {
-                  return (
-                    <div className="border rounded border-dashed border-borderColor p-2 relative bg-yellow-950/10">
-                      {index !== 0 && (
-                        <div
-                          className="absolute top-1 right-1  hover:cursor-pointer hover:text-error"
-                          onClick={() => {
-                            removePageSection(index);
-                          }}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            className="size-6"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                            />
-                          </svg>
-                        </div>
-                      )}
-
-                      <ImageBrowser
-                        isOpen={openImageBrowser}
-                        setIsOpen={setOpenImageBrowser}
-                        fileType={FileType.Image}
-                        selectImage={(src: string) => {
-                          if (src) {
-                            updatePageSection("attachment", src, index);
-                          }
-                        }}
-                      />
-                      <div className="flex flex-col">
-                        <label className="" htmlFor="username">
-                          Section Content
-                        </label>
-                        <ReactQuill
-                          theme="snow"
-                          id="content"
-                          className={`${
-                            windowType === WindowType.View
-                              ? "bg-disabledColor"
-                              : "bg-primary"
-                          } text-white text-xl`}
-                          readOnly={
-                            windowType === WindowType.View ? true : false
-                          }
-                          value={pageState?.sections[index]?.content}
-                          onChange={(value) => {
-                            updatePageSection("content", value, index);
-                          }}
+              <div className="">
+                <ImageBrowser
+                  isOpen={openFeaturedImageBrowser}
+                  setIsOpen={setOpenFeaturedImageBrowser}
+                  fileType={FileType.Image}
+                  selectImage={(src: string) => {
+                    if (src) {
+                      updatePageState("featuredImage", src);
+                    }
+                  }}
+                />
+                <div className="">Featured Image</div>
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-1 lg:gap-4 flex-wrap">
+                    {pageState?.featuredImage !== "" ? (
+                      <div className="relative border rounded border-borderColor group">
+                        <img
+                          src={pageState?.featuredImage}
+                          alt=""
+                          className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
                         />
 
-                        {/* {formik.errors.content && (
-                        <div className="text-xs text-red-400">
-                          {formik.errors.content.toString()}
-                        </div>
-                      )} */}
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        <div className="flex gap-1 lg:gap-4 flex-wrap mt-2">
-                          {pageState?.sections[index].attachment !== "" ? (
-                            <div className="relative border rounded border-borderColor group">
-                              <img
-                                src={pageState?.sections[index]?.attachment}
-                                alt=""
-                                className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
+                        {windowType !== WindowType.View ? (
+                          <div className="">
+                            <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
+                              onClick={() => {
+                                updatePageState("featuredImage", "");
+                              }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18 18 6M6 6l12 12"
                               />
+                            </svg>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
+                  {windowType !== WindowType.View ? (
+                    <div className="">
+                      <button
+                        type="button"
+                        className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                        onClick={() => {
+                          setOpenFeaturedImageBrowser(true);
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
+                          />
+                        </svg>
+                        Select Featured Image
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
 
-                              {windowType !== WindowType.View ? (
-                                <div className="">
-                                  <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
+              <div className="flex flex-col gap-2">
+                {pageState.sections?.map(
+                  (section: PageSection, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex flex-col gap-2 border rounded border-dashed border-borderColor p-2 relative bg-yellow-950/10"
+                      >
+                        {index !== 0 && windowType !== WindowType.View && (
+                          <div
+                            className="absolute top-1 right-1  hover:cursor-pointer hover:text-error"
+                            onClick={() => {
+                              removePageSection(index);
+                            }}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="size-6"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                              />
+                            </svg>
+                          </div>
+                        )}
+
+                        <div className="flex flex-col">
+                          <label className="" htmlFor="section_title">
+                            Section Title
+                          </label>
+                          <input
+                            id="sectionTitle"
+                            name="sectionTitle"
+                            disabled={
+                              windowType === WindowType.View ? true : false
+                            }
+                            type="text"
+                            value={pageState?.sections[index].sectionTitle}
+                            className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
+                disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
+                            onChange={(event) => {
+                              updatePageSection(
+                                "sectionTitle",
+                                event.target.value,
+                                index
+                              );
+                            }}
+                          />
+                          {pageState.sections[index].errors?.sectionTitle && (
+                            <div className="text-xs text-red-400">
+                              {pageState.sections[index].errors?.sectionTitle}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex flex-col">
+                          <label className="" htmlFor="section_title">
+                            Sort Order
+                          </label>
+                          <input
+                            id="order"
+                            name="order"
+                            disabled={
+                              windowType === WindowType.View ? true : false
+                            }
+                            type="number"
+                            value={pageState?.sections[index].order}
+                            className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
+                disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
+                            onChange={(event) => {
+                              updatePageSection(
+                                "order",
+                                event.target.value,
+                                index
+                              );
+                            }}
+                          />
+                          {pageState.sections[index].errors?.order && (
+                            <div className="text-xs text-red-400">
+                              {pageState.sections[index].errors?.order}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex flex-col">
+                          <label className="" htmlFor="username">
+                            Section Content
+                          </label>
+                          <ReactQuill
+                            theme="snow"
+                            id="content"
+                            className={`${
+                              windowType === WindowType.View
+                                ? "bg-disabledColor"
+                                : "bg-primary"
+                            } text-white text-xl`}
+                            readOnly={
+                              windowType === WindowType.View ? true : false
+                            }
+                            value={pageState?.sections[index]?.content}
+                            onChange={(value) => {
+                              updatePageSection("content", value, index);
+                            }}
+                          />
+
+                          {pageState.sections[index].errors?.content && (
+                            <div className="text-xs text-red-400">
+                              {pageState.sections[index].errors?.content}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="">
+                          <ImageBrowser
+                            isOpen={openImageBrowser}
+                            setIsOpen={setOpenImageBrowser}
+                            fileType={FileType.Image}
+                            selectImage={(src: string) => {
+                              if (src) {
+                                updatePageSection("attachment", src, index);
+                              }
+                            }}
+                          />
+                          <div className="">Attachments</div>
+                          <div className="flex flex-col gap-2">
+                            <div className="flex gap-1 lg:gap-4 flex-wrap">
+                              {pageState?.sections[index].attachment !== "" ? (
+                                <div className="relative border rounded border-borderColor group">
+                                  <img
+                                    src={pageState?.sections[index]?.attachment}
+                                    alt=""
+                                    className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
+                                  />
+
+                                  {windowType !== WindowType.View ? (
+                                    <div className="">
+                                      <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
+                                        onClick={() => {
+                                          updatePageSection(
+                                            "attachment",
+                                            "",
+                                            index
+                                          );
+                                        }}
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          d="M6 18 18 6M6 6l12 12"
+                                        />
+                                      </svg>
+                                    </div>
+                                  ) : null}
+                                </div>
+                              ) : null}
+                            </div>
+                            {windowType !== WindowType.View ? (
+                              <div className="">
+                                <button
+                                  type="button"
+                                  className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                                  onClick={() => {
+                                    setOpenImageBrowser(true);
+                                  }}
+                                >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     strokeWidth="1.5"
                                     stroke="currentColor"
-                                    className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                                    onClick={() => {
-                                      updatePageSection(
-                                        "attachment",
-                                        "",
-                                        index
-                                      );
-                                    }}
+                                    className="size-6"
                                   >
                                     <path
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
-                                      d="M6 18 18 6M6 6l12 12"
+                                      d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
                                     />
                                   </svg>
-                                </div>
-                              ) : null}
-                            </div>
-                          ) : null}
-                        </div>
-                        {windowType !== WindowType.View ? (
-                          <div className="">
-                            <button
-                              type="button"
-                              className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
-                              onClick={() => {
-                                setOpenImageBrowser(true);
-                              }}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="size-6"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
-                                />
-                              </svg>
-                              Select Attachment
-                            </button>
+                                  Select Attachment
+                                </button>
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
+                        </div>
                       </div>
-                    </div>
-                  );
-                }
-              )}
+                    );
+                  }
+                )}
+              </div>
               {windowType !== WindowType.View && (
                 <div className="">
                   <button

@@ -131,7 +131,7 @@ function Login() {
 
             <button
               type="submit"
-              className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-2 mt-4 hover:cursor-pointer"
+              className="login-btn hover:font-bold hover:bg-accent bg-success border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-2 mt-4 hover:cursor-pointer"
             >
               Log In
             </button>

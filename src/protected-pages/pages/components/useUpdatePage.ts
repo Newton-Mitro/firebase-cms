@@ -20,6 +20,7 @@ function useUpdatePage() {
           slug: page.slug,
           title: page.title,
           contentSummery: page.contentSummery,
+          featuredImage: page.featuredImage,
           sections: page.sections,
           status: page.status,
           createdAt: page.createdAt,

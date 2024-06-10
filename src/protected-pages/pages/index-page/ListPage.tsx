@@ -54,8 +54,10 @@ function ListPage() {
       slug: "",
       title: "",
       contentSummery: "",
+      featuredImage: "",
       sections: [
         {
+          sectionTitle: "",
           content: "",
           attachment: "",
           order: 0,
