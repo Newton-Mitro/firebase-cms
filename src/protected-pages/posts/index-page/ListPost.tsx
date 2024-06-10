@@ -60,6 +60,7 @@ function ListPost() {
       title: "",
       content: "",
       contentSummery: "",
+      featuredImage: "",
       attachments: [],
       status: false,
       createdAt: "",

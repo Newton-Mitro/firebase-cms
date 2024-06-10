@@ -67,6 +67,11 @@
   color: #cecece !important;
 }
 
+.ql-bubble {
+  height: 100px;
+  overflow: hidden;
+}
+
 .ql-toolbar .ql-stroke {
   fill: none;
   stroke: #cecece;

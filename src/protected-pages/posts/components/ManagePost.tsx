@@ -8,6 +8,7 @@ import AppLoader from "../../../components/AppLoader";
 import ImageBrowser from "../../../components/image-browser/ImageBrowser";
 import { FileType } from "../../../components/image-browser/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
+import { formats, modules } from "../../../utils/QuillSettings";
 import useAddPost from "./useAddPost";
 import useUpdatePost from "./useUpdatePost";
 
@@ -36,11 +37,14 @@ function ManagePost({
 }: any) {
   const [windowState, setWindowState] = useState(false);
   const [openImageBrowser, setOpenImageBrowser] = useState(false);
+  const [openFeaturedImageBrowser, setOpenFeaturedImageBrowser] =
+    useState(false);
   const formik = useFormik({
     initialValues: {
       title: selectedPost?.title,
       content: selectedPost?.content,
       contentSummery: selectedPost?.contentSummery,
+      featuredImage: selectedPost?.featuredImage,
       status: selectedPost?.status,
       attachments: selectedPost?.attachments,
     },
@@ -62,6 +66,7 @@ function ManagePost({
           title: values.title,
           content: values.content,
           contentSummery: values.contentSummery,
+          featuredImage: values.featuredImage,
           attachments: values.attachments,
           status: false,
           createdAt: null,
@@ -74,6 +79,7 @@ function ManagePost({
           title: values.title,
           content: values.content,
           contentSummery: values.contentSummery,
+          featuredImage: values.featuredImage,
           attachments: values.attachments,
           status: false,
           createdAt: null,
@@ -260,8 +266,13 @@ function ManagePost({
                   Content
                 </label>
                 <ReactQuill
+                  // theme={`${
+                  //   windowType === WindowType.View ? "bubble" : "snow"
+                  // }`}
                   theme="snow"
                   id="content"
+                  modules={modules}
+                  formats={formats}
                   className={`${
                     windowType === WindowType.View
                       ? "bg-disabledColor"
@@ -295,6 +306,83 @@ function ManagePost({
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={formik.handleChange}
                 />
+              </div>
+
+              <div className="">
+                <ImageBrowser
+                  isOpen={openFeaturedImageBrowser}
+                  setIsOpen={setOpenFeaturedImageBrowser}
+                  fileType={FileType.Image}
+                  selectImage={(src: string) => {
+                    if (src) {
+                      formik.setFieldValue("featuredImage", src);
+                    }
+                  }}
+                />
+                <div className="">Featured Image</div>
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-1 lg:gap-4 flex-wrap">
+                    {formik.values?.featuredImage !== "" ? (
+                      <div className="relative border rounded border-borderColor group">
+                        <img
+                          src={formik.values?.featuredImage}
+                          alt=""
+                          className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
+                        />
+
+                        {windowType !== WindowType.View ? (
+                          <div className="">
+                            <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
+                              onClick={() => {
+                                formik.setFieldValue("featuredImage", "");
+                              }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18 18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
+                  {windowType !== WindowType.View ? (
+                    <div className="">
+                      <button
+                        type="button"
+                        className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                        onClick={() => {
+                          setOpenFeaturedImageBrowser(true);
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
+                          />
+                        </svg>
+                        Select Featured Image
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
               </div>
 
               <div className="flex flex-col gap-2">

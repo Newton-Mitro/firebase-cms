@@ -8,6 +8,7 @@ import AppLoader from "../../../components/AppLoader";
 import ImageBrowser from "../../../components/image-browser/ImageBrowser";
 import { FileType } from "../../../components/image-browser/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
+import { formats, modules } from "../../../utils/QuillSettings";
 import { PageSection } from "../models/page.model";
 import { managePageFormValidation } from "./managePageFormValidation";
 import useAddPage from "./useAddPage";
@@ -428,8 +429,13 @@ function ManagePage({
                             Section Content
                           </label>
                           <ReactQuill
+                            // theme={`${
+                            //   windowType === WindowType.View ? "bubble" : "snow"
+                            // }`}
                             theme="snow"
                             id="content"
+                            modules={modules}
+                            formats={formats}
                             className={`${
                               windowType === WindowType.View
                                 ? "bg-disabledColor"

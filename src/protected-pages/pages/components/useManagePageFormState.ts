@@ -41,7 +41,7 @@ function useManagePageFormState(selectedPage: any) {
     const newSection = {
       content: "",
       attachment: "",
-      order: new Date().getMilliseconds(),
+      order: pageState.sections.length + 1,
     };
     setPageState({
       ...pageState,

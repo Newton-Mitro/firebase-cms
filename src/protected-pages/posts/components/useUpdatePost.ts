@@ -21,6 +21,7 @@ function useUpdatePost() {
           title: post.title,
           content: post.content,
           contentSummery: post.contentSummery,
+          featuredImage: post.featuredImage,
           attachments: post.attachments,
           status: post.status,
           createdAt: post.createdAt,

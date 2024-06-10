@@ -74,6 +74,7 @@ function useGetPosts() {
           title: data.title,
           content: data.content,
           contentSummery: data.contentSummery,
+          featuredImage: data.featuredImage,
           attachments: data.attachments,
           status: data.status,
           createdAt: data.createdAt,

@@ -4,6 +4,7 @@ export class PostModel {
   title: string;
   content: string;
   contentSummery: string;
+  featuredImage: string;
   attachments: string[];
   status: boolean;
   createdAt: any;
@@ -15,6 +16,7 @@ export class PostModel {
     title: string,
     content: string,
     contentSummery: string,
+    featuredImage: string,
     attachments: string[],
     status: boolean,
     createdAt: any,
@@ -25,6 +27,7 @@ export class PostModel {
     this.title = title;
     this.content = content;
     this.contentSummery = contentSummery;
+    this.featuredImage = featuredImage;
     this.attachments = attachments;
     this.status = status;
     this.createdAt = createdAt;
