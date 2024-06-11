@@ -3,25 +3,28 @@ import { CSVLink } from "react-csv";
 import AppLoader from "../../../components/AppLoader";
 import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
-import ManagePost from "../components/ManagePost";
-import { PostModel } from "../models/post.model";
-import useGetPosts from "./useGetPosts";
-import useRemovePost from "./useRemovePost";
-import useUpdatePostStatus from "./useUpdatePostStatus";
+import ManageService from "../components/ManageService";
+import { ServiceModel } from "../models/service.model";
+import useGetServices from "./useGetServices";
+import useRemoveService from "./useRemoveService";
+import useUpdateServiceStatus from "./useUpdateServiceStatus";
 
-function ListPost() {
+function ListService() {
   const [isAdvanceSearchOpen, setAdvanceSearchOpen] = useState(false);
-  const [isCreatePostOpen, setCreatePostOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<PostModel | null>(null);
+  const [isCreateServiceOpen, setCreateServiceOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<ServiceModel | null>(
+    null
+  );
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
-  const [currentPostStartFrom, setCurrentPostStartFrom] = useState<number>(1);
+  const [currentServiceStartFrom, setCurrentServiceStartFrom] =
+    useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
-    posts,
-    getPosts,
-    loading: getPostsLoading,
-    error: getPostsError,
+    services,
+    getServices,
+    loading: getServicesLoading,
+    error: getServicesError,
     activeView,
     nextView,
     previousView,
@@ -29,32 +32,32 @@ function ListPost() {
     lastView,
     totalViews,
     totalRecords,
-  } = useGetPosts();
+  } = useGetServices();
 
-  // const paginatePosts = pagination(4)(activeView, totalViews);
-
-  const {
-    removePostId,
-    removePost,
-    loading: removePostLoading,
-    error: removePostError,
-  } = useRemovePost();
+  // const paginateServices = pagination(4)(activeView, totalViews);
 
   const {
-    updatedPostId,
-    updatePostStatus,
-    loading: updatePostStatusLoading,
-    error: updatePostStatusError,
-  } = useUpdatePostStatus();
+    removeServiceId,
+    removeService,
+    loading: removeServiceLoading,
+    error: removeServiceError,
+  } = useRemoveService();
+
+  const {
+    updatedServiceId,
+    updateServiceStatus,
+    loading: updateServiceStatusLoading,
+    error: updateServiceStatusError,
+  } = useUpdateServiceStatus();
 
   const toggleAdvanceSearchOption = () => {
     setAdvanceSearchOpen(!isAdvanceSearchOpen);
   };
 
-  function openPostCreateDialogue() {
+  function openServiceCreateDialogue() {
     setWindowType(WindowType.Create);
-    setCreatePostOpen(true);
-    setSelectedPost({
+    setCreateServiceOpen(true);
+    setSelectedService({
       id: "",
       slug: "",
       title: "",
@@ -68,45 +71,47 @@ function ListPost() {
     });
   }
 
-  function closePostDialogue() {
-    setSelectedPost(null);
-    setCreatePostOpen(false);
+  function closeServiceDialogue() {
+    setSelectedService(null);
+    setCreateServiceOpen(false);
   }
 
-  function openPostViewDialogue() {
+  function openServiceViewDialogue() {
     setWindowType(WindowType.View);
-    setCreatePostOpen(true);
+    setCreateServiceOpen(true);
   }
 
-  function openPostEditDialogue() {
+  function openServiceEditDialogue() {
     setWindowType(WindowType.Edit);
-    setCreatePostOpen(true);
+    setCreateServiceOpen(true);
   }
 
   useEffect(() => {
-    getPosts(currentPostStartFrom, limit);
-  }, [removePostId, updatedPostId, limit, currentPostStartFrom]);
+    getServices(currentServiceStartFrom, limit);
+  }, [removeServiceId, updatedServiceId, limit, currentServiceStartFrom]);
 
   return (
     <>
       <AppLoader
         isLoading={
-          getPostsLoading || removePostLoading || updatePostStatusLoading
+          getServicesLoading ||
+          removeServiceLoading ||
+          updateServiceStatusLoading
         }
       />
       <div className="w-full space-y-2">
-        <h2 className="text-xl">Posts</h2>
+        <h2 className="text-xl">Services</h2>
         <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
           <div className="flex-1">
             <div className="flex gap-2">
               <button
-                disabled={selectedPost !== null ? true : false}
+                disabled={selectedService !== null ? true : false}
                 onClick={() => {
-                  openPostCreateDialogue();
+                  openServiceCreateDialogue();
                 }}
                 className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
-                <span className="md:block hidden">Create Post</span>
+                <span className="md:block hidden">Create Service</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -124,12 +129,12 @@ function ListPost() {
               </button>
 
               <div className="flex gap-2">
-                <CSVLink data={posts}>
+                <CSVLink data={services}>
                   <button
                     className="bg-accent hover:bg-gray-900 border border-borderColor 
                   hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 
                   px-1.5 md:px-4 hover:cursor-pointer disabled:bg-disabledColor"
-                    disabled={posts?.length > 0 ? false : true}
+                    disabled={services?.length > 0 ? false : true}
                   >
                     <span className="md:block hidden">Export CSV</span>
                     <svg
@@ -246,7 +251,7 @@ function ListPost() {
                 </thead>
 
                 <tbody className="flex-1 md:flex-none space-y-6">
-                  {posts?.map((post: any, index: number) => {
+                  {services?.map((service: any, index: number) => {
                     return (
                       <tr
                         key={index}
@@ -255,19 +260,19 @@ function ListPost() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {post.id}
+                            {service.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {post.slug}
+                            {service.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {post.title}
+                            {service.title}
                           </p>
                         </td>
 
@@ -275,7 +280,7 @@ function ListPost() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {post.status ? (
+                            {service.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -292,8 +297,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPost(post);
-                                openPostViewDialogue();
+                                setSelectedService(service);
+                                openServiceViewDialogue();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -322,8 +327,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPost(post);
-                                openPostEditDialogue();
+                                setSelectedService(service);
+                                openServiceEditDialogue();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -347,8 +352,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removePost(post.id);
-                                getPosts();
+                                removeService(service.id);
+                                getServices();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -370,12 +375,12 @@ function ListPost() {
                               </svg>
                             </button>
                             <div className="">
-                              {post.status ? (
+                              {service.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePostStatus(post.id, false);
-                                    getPosts();
+                                    updateServiceStatus(service.id, false);
+                                    getServices();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -400,8 +405,8 @@ function ListPost() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePostStatus(post.id, true);
-                                    getPosts();
+                                    updateServiceStatus(service.id, true);
+                                    getServices();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -437,8 +442,8 @@ function ListPost() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentViewStartFrom={currentPostStartFrom}
-            setCurrentViewStartFrom={setCurrentPostStartFrom}
+            currentViewStartFrom={currentServiceStartFrom}
+            setCurrentViewStartFrom={setCurrentServiceStartFrom}
             activeView={activeView}
             firstView={firstView}
             lastView={lastView}
@@ -446,11 +451,11 @@ function ListPost() {
             nextView={nextView}
             totalView={totalViews}
           />
-          {isCreatePostOpen && (
-            <ManagePost
-              closePostDialogue={closePostDialogue}
-              getPosts={getPosts}
-              selectedPost={selectedPost}
+          {isCreateServiceOpen && (
+            <ManageService
+              closeServiceDialogue={closeServiceDialogue}
+              getServices={getServices}
+              selectedService={selectedService}
               windowType={windowType}
             />
           )}
@@ -460,4 +465,4 @@ function ListPost() {
   );
 }
 
-export default ListPost;
+export default ListService;

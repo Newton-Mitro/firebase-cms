@@ -22,7 +22,7 @@ export const modules = {
 
 export const formats = [
   "header",
-  "font",
+  // "font",
   "size",
   "bold",
   "italic",
@@ -36,4 +36,7 @@ export const formats = [
   "image",
   "color",
   "code-block",
+  "video",
+  "sub",
+  "super",
 ];

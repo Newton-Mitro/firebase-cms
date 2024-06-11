@@ -3,25 +3,27 @@ import { CSVLink } from "react-csv";
 import AppLoader from "../../../components/AppLoader";
 import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
-import ManagePost from "../components/ManagePost";
-import { PostModel } from "../models/post.model";
-import useGetPosts from "./useGetPosts";
-import useRemovePost from "./useRemovePost";
-import useUpdatePostStatus from "./useUpdatePostStatus";
+import ManageGallery from "../components/ManageGallery";
+import { GalleryModel } from "../models/gallery.model";
+import useGetGalleries from "./useGetGalleries";
+import useRemoveGallery from "./useRemoveGallery";
+import useUpdateGalleryStatus from "./useUpdateGalleryStatus";
 
-function ListPost() {
-  const [isAdvanceSearchOpen, setAdvanceSearchOpen] = useState(false);
-  const [isCreatePostOpen, setCreatePostOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<PostModel | null>(null);
+function ListGallery() {
+  const [isCreateGalleryOpen, setCreateGalleryOpen] = useState(false);
+  const [selectedGallery, setSelectedGallery] = useState<GalleryModel | null>(
+    null
+  );
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
-  const [currentPostStartFrom, setCurrentPostStartFrom] = useState<number>(1);
+  const [currentGalleryStartFrom, setCurrentGalleryStartFrom] =
+    useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
-    posts,
-    getPosts,
-    loading: getPostsLoading,
-    error: getPostsError,
+    galleries,
+    getGalleries,
+    loading: getGalleriesLoading,
+    error: getGalleriesError,
     activeView,
     nextView,
     previousView,
@@ -29,84 +31,88 @@ function ListPost() {
     lastView,
     totalViews,
     totalRecords,
-  } = useGetPosts();
+  } = useGetGalleries();
 
-  // const paginatePosts = pagination(4)(activeView, totalViews);
-
-  const {
-    removePostId,
-    removePost,
-    loading: removePostLoading,
-    error: removePostError,
-  } = useRemovePost();
+  // const paginateGalleries = pagination(4)(activeView, totalViews);
 
   const {
-    updatedPostId,
-    updatePostStatus,
-    loading: updatePostStatusLoading,
-    error: updatePostStatusError,
-  } = useUpdatePostStatus();
+    removeGalleryId,
+    removeGallery,
+    loading: removeGalleryLoading,
+    error: removeGalleryError,
+  } = useRemoveGallery();
 
-  const toggleAdvanceSearchOption = () => {
-    setAdvanceSearchOpen(!isAdvanceSearchOpen);
-  };
+  const {
+    updatedGalleryId,
+    updateGalleryStatus,
+    loading: updateGalleryStatusLoading,
+    error: updateGalleryStatusError,
+  } = useUpdateGalleryStatus();
 
-  function openPostCreateDialogue() {
+  function openGalleryCreateDialogue() {
     setWindowType(WindowType.Create);
-    setCreatePostOpen(true);
-    setSelectedPost({
+    setCreateGalleryOpen(true);
+    setSelectedGallery({
       id: "",
       slug: "",
       title: "",
-      content: "",
       contentSummery: "",
       featuredImage: "",
-      attachments: [],
+      sections: [
+        {
+          sectionTitle: "",
+          content: "",
+          attachment: "",
+          order: 0,
+        },
+      ],
       status: false,
       createdAt: "",
       updatedAt: "",
     });
   }
 
-  function closePostDialogue() {
-    setSelectedPost(null);
-    setCreatePostOpen(false);
+  function closeGalleryDialogue() {
+    setSelectedGallery(null);
+    setCreateGalleryOpen(false);
   }
 
-  function openPostViewDialogue() {
+  function openGalleryViewDialogue() {
     setWindowType(WindowType.View);
-    setCreatePostOpen(true);
+    setCreateGalleryOpen(true);
   }
 
-  function openPostEditDialogue() {
+  function openGalleryEditDialogue() {
     setWindowType(WindowType.Edit);
-    setCreatePostOpen(true);
+    setCreateGalleryOpen(true);
   }
 
   useEffect(() => {
-    getPosts(currentPostStartFrom, limit);
-  }, [removePostId, updatedPostId, limit, currentPostStartFrom]);
+    getGalleries(currentGalleryStartFrom, limit);
+  }, [removeGalleryId, updatedGalleryId, limit, currentGalleryStartFrom]);
 
   return (
     <>
       <AppLoader
         isLoading={
-          getPostsLoading || removePostLoading || updatePostStatusLoading
+          getGalleriesLoading ||
+          removeGalleryLoading ||
+          updateGalleryStatusLoading
         }
       />
       <div className="w-full space-y-2">
-        <h2 className="text-xl">Posts</h2>
+        <h2 className="text-xl">Galleries</h2>
         <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
           <div className="flex-1">
             <div className="flex gap-2">
               <button
-                disabled={selectedPost !== null ? true : false}
+                disabled={selectedGallery !== null ? true : false}
                 onClick={() => {
-                  openPostCreateDialogue();
+                  openGalleryCreateDialogue();
                 }}
                 className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
-                <span className="md:block hidden">Create Post</span>
+                <span className="md:block hidden">Create Gallery</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -124,12 +130,12 @@ function ListPost() {
               </button>
 
               <div className="flex gap-2">
-                <CSVLink data={posts}>
+                <CSVLink data={galleries}>
                   <button
                     className="bg-accent hover:bg-gray-900 border border-borderColor 
                   hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 
                   px-1.5 md:px-4 hover:cursor-pointer disabled:bg-disabledColor"
-                    disabled={posts?.length > 0 ? false : true}
+                    disabled={galleries?.length > 0 ? false : true}
                   >
                     <span className="md:block hidden">Export CSV</span>
                     <svg
@@ -246,7 +252,7 @@ function ListPost() {
                 </thead>
 
                 <tbody className="flex-1 md:flex-none space-y-6">
-                  {posts?.map((post: any, index: number) => {
+                  {galleries?.map((gallery: any, index: number) => {
                     return (
                       <tr
                         key={index}
@@ -255,19 +261,19 @@ function ListPost() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {post.id}
+                            {gallery.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {post.slug}
+                            {gallery.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {post.title}
+                            {gallery.title}
                           </p>
                         </td>
 
@@ -275,7 +281,7 @@ function ListPost() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {post.status ? (
+                            {gallery.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -292,8 +298,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPost(post);
-                                openPostViewDialogue();
+                                setSelectedGallery(gallery);
+                                openGalleryViewDialogue();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -322,8 +328,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPost(post);
-                                openPostEditDialogue();
+                                setSelectedGallery(gallery);
+                                openGalleryEditDialogue();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -347,8 +353,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removePost(post.id);
-                                getPosts();
+                                removeGallery(gallery.id);
+                                getGalleries();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -370,12 +376,12 @@ function ListPost() {
                               </svg>
                             </button>
                             <div className="">
-                              {post.status ? (
+                              {gallery.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePostStatus(post.id, false);
-                                    getPosts();
+                                    updateGalleryStatus(gallery.id, false);
+                                    getGalleries();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -400,8 +406,8 @@ function ListPost() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePostStatus(post.id, true);
-                                    getPosts();
+                                    updateGalleryStatus(gallery.id, true);
+                                    getGalleries();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -437,8 +443,8 @@ function ListPost() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentViewStartFrom={currentPostStartFrom}
-            setCurrentViewStartFrom={setCurrentPostStartFrom}
+            currentViewStartFrom={currentGalleryStartFrom}
+            setCurrentViewStartFrom={setCurrentGalleryStartFrom}
             activeView={activeView}
             firstView={firstView}
             lastView={lastView}
@@ -446,11 +452,11 @@ function ListPost() {
             nextView={nextView}
             totalView={totalViews}
           />
-          {isCreatePostOpen && (
-            <ManagePost
-              closePostDialogue={closePostDialogue}
-              getPosts={getPosts}
-              selectedPost={selectedPost}
+          {isCreateGalleryOpen && (
+            <ManageGallery
+              closeGalleryDialogue={closeGalleryDialogue}
+              getGalleries={getGalleries}
+              selectedGallery={selectedGallery}
               windowType={windowType}
             />
           )}
@@ -460,4 +466,4 @@ function ListPost() {
   );
 }
 
-export default ListPost;
+export default ListGallery;

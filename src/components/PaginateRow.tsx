@@ -27,26 +27,13 @@ function PaginateRow({
   nextView,
   totalView,
 }: any) {
-  const paginatePages = pagination(4)(activeView, totalView);
-  console.log(paginatePages);
-
-  console.log(
-    "totalRecords " + totalRecords,
-    "limit " + limit,
-    "currentViewStartFrom " + currentViewStartFrom,
-    "activeView " + activeView,
-    "firstView " + firstView,
-    "lastView " + lastView,
-    "previousView " + previousView,
-    "nextView " + nextView,
-    "totalView " + totalView
-  );
+  const paginatePages = pagination(6)(activeView, totalView);
 
   return (
     <div className="mt-auto flex justify-between items-center">
       <div className="flex items-center gap-2">
         <select
-          className="py-0.5 bg-transparent border border-borderColor shadow-sm focus:border-borderColor focus:ring focus:ring-gray-700 focus:ring-opacity-50"
+          className="py-0.5 w-20 bg-primary border border-borderColor shadow-sm focus:border-borderColor focus:ring focus:ring-gray-700 focus:ring-opacity-50"
           name="limit"
           id="limit"
           value={limit}
@@ -72,12 +59,16 @@ function PaginateRow({
         </select>
         <div className="">
           {`showing ${
-            currentViewStartFrom === 1 ? currentViewStartFrom : limit + 1
+            currentViewStartFrom === 1
+              ? currentViewStartFrom
+              : limit * currentViewStartFrom - limit + 1 > totalRecords
+              ? totalRecords
+              : limit * currentViewStartFrom - limit + 1
           } to ${
             currentViewStartFrom * limit > totalRecords
               ? totalRecords
               : currentViewStartFrom * limit
-          } out of ${totalRecords}`}
+          } out of ${totalRecords} records`}
         </div>
       </div>
       <nav
@@ -184,7 +175,7 @@ function PaginateRow({
           className="flex w-8 h-8 mr-1 justify-center items-center 
                 disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           title="Last Page"
-          disabled={currentViewStartFrom === 1 ? true : false}
+          disabled={currentViewStartFrom === lastView ? true : false}
           onClick={() => {
             setCurrentViewStartFrom(lastView);
           }}

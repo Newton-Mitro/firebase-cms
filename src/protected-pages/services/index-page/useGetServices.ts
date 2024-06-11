@@ -8,10 +8,10 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { firebase_db } from "../../../configs/firebase-config";
-import { PageModel } from "../models/page.model";
+import { ServiceModel } from "../models/service.model";
 
-function useGetPages() {
-  const [pages, setPages] = useState<PageModel[]>([]);
+function useGetServices() {
+  const [services, setServices] = useState<ServiceModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<number>(0);
@@ -23,43 +23,44 @@ function useGetPages() {
   const [totalRecords, setTotalRecords] = useState<number>(0);
 
   useEffect(() => {
-    getPages();
+    getServices();
   }, []);
 
-  async function getPages(
-    _currentPageStartAt: number = 1,
+  async function getServices(
+    _currentServiceStartAt: number = 1,
     _limit: number = 10
   ) {
     try {
       setLoading(true);
-      const allPagesQuery = query(
-        collection(firebase_db, "pages"),
+      const allServicesQuery = query(
+        collection(firebase_db, "services"),
         orderBy("updatedAt")
       );
 
-      const documentSnapshots = await getDocs(allPagesQuery);
+      const documentSnapshots = await getDocs(allServicesQuery);
       setTotalRecords(documentSnapshots.size);
-
       setTotalViews(Math.ceil(documentSnapshots.size / _limit));
       setTotalRecords(documentSnapshots.size);
-      setActiveView(_currentPageStartAt);
+      setActiveView(_currentServiceStartAt);
       setNextView(
         Math.round(documentSnapshots.size % _limit) !== 0
-          ? _currentPageStartAt + 1
-          : _currentPageStartAt
+          ? _currentServiceStartAt + 1
+          : _currentServiceStartAt
       );
-      setPreviousView(_currentPageStartAt < 2 ? 1 : _currentPageStartAt - 1);
+      setPreviousView(
+        _currentServiceStartAt < 2 ? 1 : _currentServiceStartAt - 1
+      );
       setFirstView(documentSnapshots.size % _limit === 0 ? 0 : 1);
       setLastView(Math.ceil(documentSnapshots.size / _limit));
 
-      const temp = _currentPageStartAt - 1;
-      const currentPageStartAfter = temp * _limit;
+      const temp = _currentServiceStartAt - 1;
+      const currentServiceStartAfter = temp * _limit;
       const nextViewRecordStartAfter =
-        documentSnapshots.docs[currentPageStartAfter];
+        documentSnapshots.docs[currentServiceStartAfter];
       // Construct a new query starting at this document,
       // get the next 25 cities.
       const next = query(
-        collection(firebase_db, "pages"),
+        collection(firebase_db, "services"),
         orderBy("updatedAt"),
         startAt(nextViewRecordStartAfter),
         limit(_limit)
@@ -67,21 +68,22 @@ function useGetPages() {
 
       const currentDocumentSnapshots = await getDocs(next);
 
-      const pageList = currentDocumentSnapshots.docs.map((doc) => {
+      const serviceList = currentDocumentSnapshots.docs.map((doc) => {
         const data = doc.data();
         return {
           id: doc.id,
           slug: data.slug,
           title: data.title,
+          content: data.content,
           contentSummery: data.contentSummery,
           featuredImage: data.featuredImage,
-          sections: data.sections,
+          attachments: data.attachments,
           status: data.status,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
         };
       });
-      setPages(pageList);
+      setServices(serviceList);
     } catch (error: any) {
       setError(error);
     } finally {
@@ -90,8 +92,8 @@ function useGetPages() {
   }
 
   return {
-    pages,
-    getPages,
+    services,
+    getServices,
     loading,
     error,
     activeView,
@@ -104,4 +106,4 @@ function useGetPages() {
   };
 }
 
-export default useGetPages;
+export default useGetServices;

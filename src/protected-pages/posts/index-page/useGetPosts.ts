@@ -14,12 +14,12 @@ function useGetPosts() {
   const [posts, setPosts] = useState<PostModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [activePost, setActivePost] = useState<number>(0);
-  const [nextPost, setNextPost] = useState<number>(0);
-  const [previousPost, setPreviousPost] = useState<number>(0);
-  const [firstPost, setFirstPost] = useState<number>(0);
-  const [lastPost, setLastPost] = useState<number>(0);
-  const [totalPosts, setTotalPosts] = useState<number>(0);
+  const [activeView, setActiveView] = useState<number>(0);
+  const [nextView, setNextView] = useState<number>(0);
+  const [previousView, setPreviousView] = useState<number>(0);
+  const [firstView, setFirstView] = useState<number>(1);
+  const [lastView, setLastView] = useState<number>(0);
+  const [totalViews, setTotalViews] = useState<number>(0);
   const [totalRecords, setTotalRecords] = useState<number>(0);
 
   useEffect(() => {
@@ -39,32 +39,28 @@ function useGetPosts() {
 
       const documentSnapshots = await getDocs(allPostsQuery);
       setTotalRecords(documentSnapshots.size);
-      setTotalPosts(
-        Math.round(documentSnapshots.size % _limit) !== 0
-          ? Math.round(documentSnapshots.size / _limit) + 1
-          : Math.round(documentSnapshots.size / _limit)
-      );
+      setTotalViews(Math.ceil(documentSnapshots.size / _limit));
       setTotalRecords(documentSnapshots.size);
-      setActivePost(_currentPostStartAt);
-      setNextPost(
+      setActiveView(_currentPostStartAt);
+      setNextView(
         Math.round(documentSnapshots.size % _limit) !== 0
           ? _currentPostStartAt + 1
           : _currentPostStartAt
       );
-      setPreviousPost(_currentPostStartAt < 2 ? 1 : _currentPostStartAt - 1);
-      setFirstPost(Math.round(documentSnapshots.size / _limit) > 1 ? 1 : 0);
-      setLastPost(Math.round(documentSnapshots.size / _limit));
+      setPreviousView(_currentPostStartAt < 2 ? 1 : _currentPostStartAt - 1);
+      setFirstView(documentSnapshots.size % _limit === 0 ? 0 : 1);
+      setLastView(Math.ceil(documentSnapshots.size / _limit));
 
       const temp = _currentPostStartAt - 1;
       const currentPostStartAfter = temp * _limit;
-      const nextPostRecordStartAfter =
+      const nextViewRecordStartAfter =
         documentSnapshots.docs[currentPostStartAfter];
       // Construct a new query starting at this document,
       // get the next 25 cities.
       const next = query(
         collection(firebase_db, "posts"),
         orderBy("updatedAt"),
-        startAt(nextPostRecordStartAfter),
+        startAt(nextViewRecordStartAfter),
         limit(_limit)
       );
 
@@ -98,12 +94,12 @@ function useGetPosts() {
     getPosts,
     loading,
     error,
-    activePost,
-    nextPost,
-    previousPost,
-    firstPost,
-    lastPost,
-    totalPosts,
+    activeView,
+    nextView,
+    previousView,
+    firstView,
+    lastView,
+    totalViews,
     totalRecords,
   };
 }

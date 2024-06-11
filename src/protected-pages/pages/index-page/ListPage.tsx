@@ -21,16 +21,16 @@ function ListPage() {
     getPages,
     loading: getPagesLoading,
     error: getPagesError,
-    activePage,
-    nextPage,
-    previousPage,
-    firstPage,
-    lastPage,
-    totalPages,
+    activeView,
+    nextView,
+    previousView,
+    firstView,
+    lastView,
+    totalViews,
     totalRecords,
   } = useGetPages();
 
-  // const paginatePages = pagination(4)(activePage, totalPages);
+  // const paginatePages = pagination(4)(activeView, totalViews);
 
   const {
     removePageId,
@@ -440,12 +440,12 @@ function ListPage() {
             setLimit={setLimit}
             currentViewStartFrom={currentPageStartFrom}
             setCurrentViewStartFrom={setCurrentPageStartFrom}
-            activeView={activePage}
-            firstView={firstPage}
-            lastView={lastPage}
-            previousView={previousPage}
-            nextView={nextPage}
-            totalView={totalPages}
+            activeView={activeView}
+            firstView={firstView}
+            lastView={lastView}
+            previousView={previousView}
+            nextView={nextView}
+            totalView={totalViews}
           />
           {isCreatePageOpen && (
             <ManagePage
