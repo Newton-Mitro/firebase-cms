@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { firebase_db } from "../../configs/firebase-config";
 import { FileType } from "./file-type.enum";
 
-function useGetAttachments(fileType: FileType) {
+function useGetAttachments() {
   const [attachments, setAttachments] = useState<any[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +19,7 @@ function useGetAttachments(fileType: FileType) {
     listAttachments();
   }, []);
 
-  async function listAttachments() {
+  async function listAttachments(fileType: string = FileType.Image) {
     try {
       setLoading(true);
       const q = query(
