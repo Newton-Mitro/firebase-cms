@@ -8,7 +8,6 @@ function useLoggedInUser() {
 
   // get user
   useEffect(() => {
-    console.log(token);
     if (token) {
       fetch(`${process.env.VITE_API_KEY_URL}/api/user/me`, {
         method: "GET",

@@ -10,8 +10,6 @@ function useAddPage() {
   const [error, setError] = useState<any>(null);
 
   async function addPage(page: PageModel) {
-    console.log("page", page);
-
     try {
       page = {
         id: page.id,

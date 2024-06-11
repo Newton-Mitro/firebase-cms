@@ -33,8 +33,6 @@ function ManagePage({
     updatePageState,
   } = useManagePageFormState(selectedPage);
 
-  console.log(pageState);
-
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
     var errors = "";

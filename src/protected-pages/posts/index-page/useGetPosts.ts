@@ -39,11 +39,15 @@ function useGetPosts() {
 
       const documentSnapshots = await getDocs(allPostsQuery);
       setTotalRecords(documentSnapshots.size);
-      setTotalPosts(Math.round(documentSnapshots.size / _limit));
+      setTotalPosts(
+        Math.round(documentSnapshots.size % _limit) !== 0
+          ? Math.round(documentSnapshots.size / _limit) + 1
+          : Math.round(documentSnapshots.size / _limit)
+      );
       setTotalRecords(documentSnapshots.size);
       setActivePost(_currentPostStartAt);
       setNextPost(
-        _currentPostStartAt < Math.round(documentSnapshots.size / _limit)
+        Math.round(documentSnapshots.size % _limit) !== 0
           ? _currentPostStartAt + 1
           : _currentPostStartAt
       );

@@ -437,14 +437,14 @@ function ListPost() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentPostStartFrom={currentPostStartFrom}
-            setCurrentPostStartFrom={setCurrentPostStartFrom}
-            activePost={activePost}
-            firstPost={firstPost}
-            lastPost={lastPost}
-            previousPost={previousPost}
-            nextPost={nextPost}
-            totalPosts={totalPosts}
+            currentViewStartFrom={currentPostStartFrom}
+            setCurrentViewStartFrom={setCurrentPostStartFrom}
+            activeView={activePost}
+            firstView={firstPost}
+            lastView={lastPost}
+            previousView={previousPost}
+            nextView={nextPost}
+            totalView={totalPosts}
           />
           {isCreatePostOpen && (
             <ManagePost

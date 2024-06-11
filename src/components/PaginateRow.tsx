@@ -18,16 +18,30 @@ function PaginateRow({
   totalRecords,
   limit,
   setLimit,
-  currentPageStartFrom,
-  setCurrentPageStartFrom,
-  activePage,
-  firstPage,
-  lastPage,
-  previousPage,
-  nextPage,
-  totalPages,
+  currentViewStartFrom,
+  setCurrentViewStartFrom,
+  activeView,
+  firstView,
+  lastView,
+  previousView,
+  nextView,
+  totalView,
 }: any) {
-  const paginatePages = pagination(4)(activePage, totalPages);
+  const paginatePages = pagination(4)(activeView, totalView);
+  console.log(paginatePages);
+
+  console.log(
+    "totalRecords " + totalRecords,
+    "limit " + limit,
+    "currentViewStartFrom " + currentViewStartFrom,
+    "activeView " + activeView,
+    "firstView " + firstView,
+    "lastView " + lastView,
+    "previousView " + previousView,
+    "nextView " + nextView,
+    "totalView " + totalView
+  );
+
   return (
     <div className="mt-auto flex justify-between items-center">
       <div className="flex items-center gap-2">
@@ -57,8 +71,12 @@ function PaginateRow({
           </option>
         </select>
         <div className="">
-          {`showing ${(currentPageStartFrom - 1) * limit + 1} to ${
-            currentPageStartFrom + limit
+          {`showing ${
+            currentViewStartFrom === 1 ? currentViewStartFrom : limit + 1
+          } to ${
+            currentViewStartFrom * limit > totalRecords
+              ? totalRecords
+              : currentViewStartFrom * limit
           } out of ${totalRecords}`}
         </div>
       </div>
@@ -70,10 +88,10 @@ function PaginateRow({
           type="button"
           className="flex w-8 h-8 mr-1 justify-center items-center 
                 disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
-          disabled={currentPageStartFrom === 0 ? true : false}
+          disabled={currentViewStartFrom === 1 ? true : false}
           title="First Page"
           onClick={() => {
-            setCurrentPageStartFrom(firstPage);
+            setCurrentViewStartFrom(firstView);
           }}
         >
           <span className="sr-only">First Page</span>
@@ -97,9 +115,9 @@ function PaginateRow({
           className="flex w-8 h-8 mr-1 justify-center items-center 
                 disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           title="Previous Page"
-          disabled={currentPageStartFrom > 1 ? false : true}
+          disabled={currentViewStartFrom > 1 ? false : true}
           onClick={() => {
-            setCurrentPageStartFrom(previousPage);
+            setCurrentViewStartFrom(previousView);
           }}
         >
           <span className="sr-only">Previous Page</span>
@@ -119,14 +137,14 @@ function PaginateRow({
                 key={page}
                 className={`hidden md:flex w-8 h-8 mx-1 justify-center items-center 
                       ${
-                        activePage === page
+                        activeView === page
                           ? "border-green-800"
                           : "border-borderColor"
                       } rounded-full border  hover:border-gray-300`}
                 type="button"
                 title={`page - ${page}`}
                 onClick={() => {
-                  setCurrentPageStartFrom(page);
+                  setCurrentViewStartFrom(page);
                 }}
               >
                 {page}
@@ -146,9 +164,9 @@ function PaginateRow({
                 disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           type="button"
           title="Next Page"
-          disabled={currentPageStartFrom < totalPages ? false : true}
+          disabled={currentViewStartFrom < totalView ? false : true}
           onClick={() => {
-            setCurrentPageStartFrom(nextPage);
+            setCurrentViewStartFrom(nextView);
           }}
         >
           <span className="sr-only">Next Page</span>
@@ -166,9 +184,9 @@ function PaginateRow({
           className="flex w-8 h-8 mr-1 justify-center items-center 
                 disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           title="Last Page"
-          disabled={currentPageStartFrom === 0 ? true : false}
+          disabled={currentViewStartFrom === 1 ? true : false}
           onClick={() => {
-            setCurrentPageStartFrom(lastPage);
+            setCurrentViewStartFrom(lastView);
           }}
         >
           <span className="sr-only">Last Page</span>

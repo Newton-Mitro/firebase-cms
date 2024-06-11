@@ -59,8 +59,6 @@ function Login() {
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
             toast.error(errorMessage);
           });
       } catch (error: any) {

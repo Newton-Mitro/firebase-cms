@@ -13,8 +13,6 @@ function useRemoveFile() {
     try {
       setLoading(true);
 
-      console.log(file);
-
       const docRef = doc(firebase_db, "attachments", file.id);
       await deleteDoc(docRef);
       setRemovedFileId(file.id);

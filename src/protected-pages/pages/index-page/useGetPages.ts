@@ -17,7 +17,7 @@ function useGetPages() {
   const [activePage, setActivePage] = useState<number>(0);
   const [nextPage, setNextPage] = useState<number>(0);
   const [previousPage, setPreviousPage] = useState<number>(0);
-  const [firstPage, setFirstPage] = useState<number>(0);
+  const [firstPage, setFirstPage] = useState<number>(1);
   const [lastPage, setLastPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalRecords, setTotalRecords] = useState<number>(0);
@@ -39,16 +39,20 @@ function useGetPages() {
 
       const documentSnapshots = await getDocs(allPagesQuery);
       setTotalRecords(documentSnapshots.size);
-      setTotalPages(Math.round(documentSnapshots.size / _limit));
+      setTotalPages(
+        Math.round(documentSnapshots.size % _limit) !== 0
+          ? Math.round(documentSnapshots.size / _limit) + 1
+          : Math.round(documentSnapshots.size / _limit)
+      );
       setTotalRecords(documentSnapshots.size);
       setActivePage(_currentPageStartAt);
       setNextPage(
-        _currentPageStartAt < Math.round(documentSnapshots.size / _limit)
+        Math.round(documentSnapshots.size % _limit) !== 0
           ? _currentPageStartAt + 1
           : _currentPageStartAt
       );
       setPreviousPage(_currentPageStartAt < 2 ? 1 : _currentPageStartAt - 1);
-      setFirstPage(Math.round(documentSnapshots.size / _limit) > 1 ? 1 : 0);
+      setFirstPage(Math.round(documentSnapshots.size / _limit) > 0 ? 1 : 0);
       setLastPage(Math.round(documentSnapshots.size / _limit));
 
       const temp = _currentPageStartAt - 1;

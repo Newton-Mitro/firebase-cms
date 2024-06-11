@@ -111,9 +111,6 @@ function ManagePost({
     error: updatePostError,
   } = useUpdatePost();
 
-  console.log(addedPost);
-  console.log(updatedPost);
-
   if (addedPost !== null) {
     closePostDialogue();
     getPosts();

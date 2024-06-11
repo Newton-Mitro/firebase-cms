@@ -150,8 +150,6 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
             <div className="flex gap-1 lg:gap-4 flex-wrap">
               {attachments && attachments.length > 0 ? (
                 attachments.map((attachment) => {
-                  console.log(attachment);
-
                   if (attachment.fileType === FileType.Document) {
                     return (
                       <div

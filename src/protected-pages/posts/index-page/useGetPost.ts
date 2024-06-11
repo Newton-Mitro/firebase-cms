@@ -27,7 +27,6 @@ function useGetPost() {
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
         });
-        console.log("Document data:", docSnap.data());
       }
     } catch (e: any) {
       setError(e);

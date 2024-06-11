@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import AppLoader from "../../../components/AppLoader";
+import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
 import ManagePage from "../components/ManagePage";
 import { PageModel } from "../models/page.model";
-import PaginateRow from "./PaginateRow";
 import useGetPages from "./useGetPages";
 import useRemovePage from "./useRemovePage";
 import useUpdatePageStatus from "./useUpdatePageStatus";
@@ -438,14 +438,14 @@ function ListPage() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentPageStartFrom={currentPageStartFrom}
-            setCurrentPageStartFrom={setCurrentPageStartFrom}
-            activePage={activePage}
-            firstPage={firstPage}
-            lastPage={lastPage}
-            previousPage={previousPage}
-            nextPage={nextPage}
-            totalPages={totalPages}
+            currentViewStartFrom={currentPageStartFrom}
+            setCurrentViewStartFrom={setCurrentPageStartFrom}
+            activeView={activePage}
+            firstView={firstPage}
+            lastView={lastPage}
+            previousView={previousPage}
+            nextView={nextPage}
+            totalView={totalPages}
           />
           {isCreatePageOpen && (
             <ManagePage
