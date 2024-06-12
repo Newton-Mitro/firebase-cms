@@ -21,6 +21,8 @@ function ManagePage({
   getPages,
   windowType,
 }: any) {
+  console.log(selectedPage);
+
   const [windowState, setWindowState] = useState(false);
   const [openImageBrowser, setOpenImageBrowser] = useState(false);
   const [openFeaturedImageBrowser, setOpenFeaturedImageBrowser] =
@@ -60,6 +62,17 @@ function ManagePage({
       locale: "vi", // language code of the locale to use
       trim: true, // trim leading and trailing replacement chars, defaults to `true`
     });
+    const newSections: PageSection[] = pageState.sections.map(
+      (section: PageSection) => {
+        return {
+          sectionTitle: section.sectionTitle,
+          content: section.content,
+          attachment: section.attachment,
+          order: section.order,
+        };
+      }
+    );
+
     if (windowType === WindowType.Create) {
       addPage({
         id: pageId,
@@ -67,10 +80,10 @@ function ManagePage({
         title: pageState.title,
         contentSummery: pageState.contentSummery,
         featuredImage: pageState.featuredImage,
-        sections: pageState.sections,
+        sections: newSections,
         status: false,
-        createdAt: null,
-        updatedAt: null,
+        createdAt: "",
+        updatedAt: "",
       });
     } else {
       updatePage(selectedPage?.id, {
@@ -79,10 +92,10 @@ function ManagePage({
         title: pageState.title,
         contentSummery: pageState.contentSummery,
         featuredImage: pageState.featuredImage,
-        sections: pageState.sections,
+        sections: newSections,
         status: false,
-        createdAt: null,
-        updatedAt: null,
+        createdAt: "",
+        updatedAt: "",
       });
     }
   };

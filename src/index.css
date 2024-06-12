@@ -85,3 +85,13 @@
 .ql-toolbar .ql-picker {
   color: #cecece;
 }
+
+audio::-webkit-media-controls-enclosure {
+  border-radius: 5px;
+
+  background-color: transparent;
+}
+
+/* audio::-webkit-media-controls-play-button {
+  background-color: wheat;
+} */

@@ -27,7 +27,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
     listAttachments,
     loading: attachmentsLoading,
     error: attachmentsError,
-  } = useGetAttachments(FileType.Image);
+  } = useGetAttachments(fileType);
 
   const {
     removedFileId,
@@ -154,17 +154,21 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                     return (
                       <div
                         key={attachment?.id}
-                        className="relative border rounded border-borderColor group"
+                        className="relative border p-4 rounded border-borderColor group flex flex-col items-center"
                       >
-                        <div className="w-28 flex items-center flex-col">
-                          <YourSvg className="w-28 h-28" />
+                        <div className="flex flex-col items-center">
+                          <YourSvg className="w-16 h-16" />
                           <p>{attachment?.fileName}</p>
                         </div>
-                        <div className="bg-gray-950 bg-opacity-50 group-hover:bg-gray-950 group-hover:bg-opacity-80 w-full h-full absolute left-0 right-0 top-0"></div>
+                        <div
+                          className="bg-gray-950 bg-opacity-30 group-hover:bg-gray-950 
+                        group-hover:bg-opacity-50 w-full h-full absolute inset-0"
+                        ></div>
                         <div className="absolute inset-0">
                           <div className="flex items-center justify-evenly gap-6 w-full h-full">
                             <button
-                              className="w-16 rounded-full ring-1 hover:cursor-pointer ring-green-500 ring-opacity-30 h-16 flex items-center justify-center hover:bg-green-950 hover:bg-opacity-65"
+                              className="w-10 rounded-full ring-1 hover:cursor-pointer 
+                              ring-green-500 ring-opacity-30 h-10 flex items-center justify-center hover:bg-green-950 hover:bg-opacity-65"
                               onClick={() => {
                                 selectImage(attachment?.attachmentUrl);
                                 setIsOpen(false);
@@ -186,8 +190,8 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                               </svg>
                             </button>
                             <button
-                              className="w-16 rounded-full hover:cursor-pointer ring-1 ring-red-500 
-                            ring-opacity-30 h-16 flex items-center justify-center hover:bg-red-950 hover:bg-opacity-65"
+                              className="w-10 rounded-full hover:cursor-pointer ring-1 ring-red-500 
+                            ring-opacity-30 h-10 flex items-center justify-center hover:bg-red-950 hover:bg-opacity-65"
                               onClick={() => {
                                 if (
                                   window.confirm(
@@ -221,18 +225,21 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                     return (
                       <div
                         key={attachment?.id}
-                        className="relative border rounded border-borderColor group"
+                        className="relative border rounded border-borderColor group  w-36 h-24"
                       >
                         <img
                           src={attachment?.attachmentUrl}
                           alt=""
-                          className="h-32 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
+                          className="object-cover w-full h-full rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
                         />
-                        <div className="bg-gray-950 bg-opacity-50 group-hover:bg-gray-950 group-hover:bg-opacity-80 w-full h-full absolute left-0 right-0 top-0"></div>
+                        <div
+                          className="bg-gray-950 bg-opacity-20 group-hover:bg-gray-950 
+                        group-hover:bg-opacity-50 w-full h-full absolute inset-0"
+                        ></div>
                         <div className="absolute inset-0">
                           <div className="flex items-center justify-evenly gap-6 w-full h-full">
                             <button
-                              className="w-16 rounded-full ring-1 hover:cursor-pointer ring-green-500 ring-opacity-30 h-16 flex items-center justify-center hover:bg-green-950 hover:bg-opacity-65"
+                              className="w-8 rounded-full ring-1 hover:cursor-pointer ring-green-500 ring-opacity-30 h-8 flex items-center justify-center hover:bg-green-950 hover:bg-opacity-65"
                               onClick={() => {
                                 selectImage(attachment?.attachmentUrl);
                                 setIsOpen(false);
@@ -254,8 +261,8 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                               </svg>
                             </button>
                             <button
-                              className="w-16 rounded-full hover:cursor-pointer ring-1 ring-red-500 
-                            ring-opacity-30 h-16 flex items-center justify-center hover:bg-red-950 hover:bg-opacity-65"
+                              className="w-8 rounded-full hover:cursor-pointer ring-1 ring-red-500 
+                            ring-opacity-30 h-8 flex items-center justify-center hover:bg-red-950 hover:bg-opacity-65"
                               onClick={() => {
                                 if (
                                   window.confirm(

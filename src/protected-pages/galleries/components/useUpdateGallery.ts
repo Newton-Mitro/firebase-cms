@@ -23,12 +23,15 @@ function useUpdateGallery() {
           featuredImage: gallery.featuredImage,
           sections: gallery.sections,
           status: gallery.status,
-          createdAt: gallery.createdAt,
           updatedAt: serverTimestamp(),
         };
 
         await updateDoc(docRef, updatedGallery);
-        setGallery({ ...updatedGallery, id: gallery.id });
+        setGallery({
+          ...updatedGallery,
+          createdAt: gallery.createdAt,
+          id: gallery.id,
+        });
         toast.success("Gallery updated!");
       }
     } catch (e: any) {

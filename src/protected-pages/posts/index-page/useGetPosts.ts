@@ -34,7 +34,7 @@ function useGetPosts() {
       setLoading(true);
       const allPostsQuery = query(
         collection(firebase_db, "posts"),
-        orderBy("updatedAt")
+        orderBy("updatedAt", "desc")
       );
 
       const documentSnapshots = await getDocs(allPostsQuery);
@@ -59,7 +59,7 @@ function useGetPosts() {
       // get the next 25 cities.
       const next = query(
         collection(firebase_db, "posts"),
-        orderBy("updatedAt"),
+        orderBy("updatedAt", "desc"),
         startAt(nextViewRecordStartAfter),
         limit(_limit)
       );

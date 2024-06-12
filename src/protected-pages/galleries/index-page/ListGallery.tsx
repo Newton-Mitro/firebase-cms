@@ -33,8 +33,6 @@ function ListGallery() {
     totalRecords,
   } = useGetGalleries();
 
-  // const paginateGalleries = pagination(4)(activeView, totalViews);
-
   const {
     removeGalleryId,
     removeGallery,
@@ -354,7 +352,6 @@ function ListGallery() {
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
                                 removeGallery(gallery.id);
-                                getGalleries();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -381,7 +378,6 @@ function ListGallery() {
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
                                     updateGalleryStatus(gallery.id, false);
-                                    getGalleries();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -407,7 +403,6 @@ function ListGallery() {
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
                                     updateGalleryStatus(gallery.id, true);
-                                    getGalleries();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">

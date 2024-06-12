@@ -59,6 +59,7 @@ function ManageService({
         locale: "vi", // language code of the locale to use
         trim: true, // trim leading and trailing replacement chars, defaults to `true`
       });
+
       if (windowType === WindowType.Create) {
         addService({
           id: serviceId,
@@ -69,8 +70,8 @@ function ManageService({
           featuredImage: values.featuredImage,
           attachments: values.attachments,
           status: false,
-          createdAt: null,
-          updatedAt: null,
+          createdAt: "",
+          updatedAt: "",
         });
       } else {
         updateService(selectedService?.id, {
@@ -82,8 +83,8 @@ function ManageService({
           featuredImage: values.featuredImage,
           attachments: values.attachments,
           status: false,
-          createdAt: null,
-          updatedAt: null,
+          createdAt: "",
+          updatedAt: "",
         });
       }
     },

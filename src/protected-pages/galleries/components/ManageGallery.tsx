@@ -8,6 +8,7 @@ import ImageBrowser from "../../../components/image-browser/ImageBrowser";
 import { FileType } from "../../../components/image-browser/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
 import { formats, modules } from "../../../utils/QuillSettings";
+import { PageSection } from "../../pages/models/page.model";
 import { GallerySection } from "../models/gallery.model";
 import { manageGalleryFormValidation } from "./manageGalleryFormValidation";
 import useAddGallery from "./useAddGallery";
@@ -59,6 +60,16 @@ function ManageGallery({
       locale: "vi", // language code of the locale to use
       trim: true, // trim leading and trailing replacement chars, defaults to `true`
     });
+    const newSections: PageSection[] = galleryState.sections.map(
+      (section: PageSection) => {
+        return {
+          sectionTitle: section.sectionTitle,
+          content: section.content,
+          attachment: section.attachment,
+          order: section.order,
+        };
+      }
+    );
     if (windowType === WindowType.Create) {
       addGallery({
         id: galleryId,
@@ -66,10 +77,10 @@ function ManageGallery({
         title: galleryState.title,
         contentSummery: galleryState.contentSummery,
         featuredImage: galleryState.featuredImage,
-        sections: galleryState.sections,
+        sections: newSections,
         status: false,
-        createdAt: null,
-        updatedAt: null,
+        createdAt: "",
+        updatedAt: "",
       });
     } else {
       updateGallery(selectedGallery?.id, {
@@ -78,10 +89,10 @@ function ManageGallery({
         title: galleryState.title,
         contentSummery: galleryState.contentSummery,
         featuredImage: galleryState.featuredImage,
-        sections: galleryState.sections,
+        sections: newSections,
         status: false,
-        createdAt: null,
-        updatedAt: null,
+        createdAt: "",
+        updatedAt: "",
       });
     }
   };

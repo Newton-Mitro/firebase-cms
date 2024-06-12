@@ -59,6 +59,7 @@ function ManagePost({
         locale: "vi", // language code of the locale to use
         trim: true, // trim leading and trailing replacement chars, defaults to `true`
       });
+
       if (windowType === WindowType.Create) {
         addPost({
           id: postId,
@@ -69,8 +70,8 @@ function ManagePost({
           featuredImage: values.featuredImage,
           attachments: values.attachments,
           status: false,
-          createdAt: null,
-          updatedAt: null,
+          createdAt: "",
+          updatedAt: "",
         });
       } else {
         updatePost(selectedPost?.id, {
@@ -82,8 +83,8 @@ function ManagePost({
           featuredImage: values.featuredImage,
           attachments: values.attachments,
           status: false,
-          createdAt: null,
-          updatedAt: null,
+          createdAt: "",
+          updatedAt: "",
         });
       }
     },

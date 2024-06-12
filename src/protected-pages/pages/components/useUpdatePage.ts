@@ -23,12 +23,11 @@ function useUpdatePage() {
           featuredImage: page.featuredImage,
           sections: page.sections,
           status: page.status,
-          createdAt: page.createdAt,
           updatedAt: serverTimestamp(),
         };
 
         await updateDoc(docRef, updatedPage);
-        setPage({ ...updatedPage, id: page.id });
+        setPage({ ...updatedPage, createdAt: page.createdAt, id: page.id });
         toast.success("Page updated!");
       }
     } catch (e: any) {

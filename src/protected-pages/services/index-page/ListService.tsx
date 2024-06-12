@@ -10,7 +10,6 @@ import useRemoveService from "./useRemoveService";
 import useUpdateServiceStatus from "./useUpdateServiceStatus";
 
 function ListService() {
-  const [isAdvanceSearchOpen, setAdvanceSearchOpen] = useState(false);
   const [isCreateServiceOpen, setCreateServiceOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceModel | null>(
     null
@@ -34,8 +33,6 @@ function ListService() {
     totalRecords,
   } = useGetServices();
 
-  // const paginateServices = pagination(4)(activeView, totalViews);
-
   const {
     removeServiceId,
     removeService,
@@ -49,10 +46,6 @@ function ListService() {
     loading: updateServiceStatusLoading,
     error: updateServiceStatusError,
   } = useUpdateServiceStatus();
-
-  const toggleAdvanceSearchOption = () => {
-    setAdvanceSearchOpen(!isAdvanceSearchOpen);
-  };
 
   function openServiceCreateDialogue() {
     setWindowType(WindowType.Create);

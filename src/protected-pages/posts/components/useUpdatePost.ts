@@ -24,12 +24,11 @@ function useUpdatePost() {
           featuredImage: post.featuredImage,
           attachments: post.attachments,
           status: post.status,
-          createdAt: post.createdAt,
           updatedAt: serverTimestamp(),
         };
 
         await updateDoc(docRef, updatedPost);
-        setPost({ ...updatedPost, id: post.id });
+        setPost({ ...updatedPost, createdAt: post.createdAt, id: post.id });
         toast.success("Post updated!");
       }
     } catch (e: any) {

@@ -34,7 +34,7 @@ function useGetGalleries() {
       setLoading(true);
       const allGalleriesQuery = query(
         collection(firebase_db, "galleries"),
-        orderBy("updatedAt")
+        orderBy("updatedAt", "desc")
       );
 
       const documentSnapshots = await getDocs(allGalleriesQuery);
@@ -62,7 +62,7 @@ function useGetGalleries() {
       // get the next 25 cities.
       const next = query(
         collection(firebase_db, "galleries"),
-        orderBy("updatedAt"),
+        orderBy("updatedAt", "desc"),
         startAt(nextViewRecordStartAfter),
         limit(_limit)
       );

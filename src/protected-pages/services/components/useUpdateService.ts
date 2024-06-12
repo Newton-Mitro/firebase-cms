@@ -24,12 +24,18 @@ function useUpdateService() {
           featuredImage: service.featuredImage,
           attachments: service.attachments,
           status: service.status,
-          createdAt: service.createdAt,
           updatedAt: serverTimestamp(),
         };
 
         await updateDoc(docRef, updatedService);
-        setService({ ...updatedService, id: service.id });
+        try {
+          setService({
+            ...updatedService,
+            createdAt: service.createdAt,
+            id: service.id,
+          });
+        } catch (error) {}
+
         toast.success("Service updated!");
       }
     } catch (e: any) {

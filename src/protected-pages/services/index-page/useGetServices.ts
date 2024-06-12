@@ -34,7 +34,7 @@ function useGetServices() {
       setLoading(true);
       const allServicesQuery = query(
         collection(firebase_db, "services"),
-        orderBy("updatedAt")
+        orderBy("updatedAt", "desc")
       );
 
       const documentSnapshots = await getDocs(allServicesQuery);
@@ -57,11 +57,10 @@ function useGetServices() {
       const currentServiceStartAfter = temp * _limit;
       const nextViewRecordStartAfter =
         documentSnapshots.docs[currentServiceStartAfter];
-      // Construct a new query starting at this document,
-      // get the next 25 cities.
+
       const next = query(
         collection(firebase_db, "services"),
-        orderBy("updatedAt"),
+        orderBy("updatedAt", "desc"),
         startAt(nextViewRecordStartAfter),
         limit(_limit)
       );
