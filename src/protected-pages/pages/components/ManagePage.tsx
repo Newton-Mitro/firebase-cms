@@ -5,11 +5,12 @@ import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
-import ImageBrowser from "../../../components/image-browser/ImageBrowser";
-import { FileType } from "../../../components/image-browser/file-type.enum";
+import FileBrowser from "../../../components/image-browser/FileBrowser";
+import { FileType } from "../../../enums/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
+import { Attachment } from "../../../interfaces/attachment";
+import { PageSection } from "../../../interfaces/page-section";
 import { formats, modules } from "../../../utils/QuillSettings";
-import { PageSection } from "../models/page.model";
 import { managePageFormValidation } from "./managePageFormValidation";
 import useAddPage from "./useAddPage";
 import useManagePageFormState from "./useManagePageFormState";
@@ -21,9 +22,8 @@ function ManagePage({
   getPages,
   windowType,
 }: any) {
-  console.log(selectedPage);
-
   const [windowState, setWindowState] = useState(false);
+
   const [openImageBrowser, setOpenImageBrowser] = useState(false);
   const [openFeaturedImageBrowser, setOpenFeaturedImageBrowser] =
     useState(false);
@@ -34,6 +34,8 @@ function ManagePage({
     addPageSection,
     updatePageState,
   } = useManagePageFormState(selectedPage);
+
+  console.log(pageState);
 
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
@@ -269,13 +271,12 @@ function ManagePage({
               </div>
 
               <div className="">
-                <ImageBrowser
+                <FileBrowser
                   isOpen={openFeaturedImageBrowser}
                   setIsOpen={setOpenFeaturedImageBrowser}
-                  fileType={FileType.Image}
-                  selectImage={(src: string) => {
-                    if (src) {
-                      updatePageState("featuredImage", src);
+                  selectedFile={(file: Attachment) => {
+                    if (file) {
+                      updatePageState("featuredImage", file.attachmentUrl);
                     }
                   }}
                 />
@@ -440,9 +441,6 @@ function ManagePage({
                             Section Content
                           </label>
                           <ReactQuill
-                            // theme={`${
-                            //   windowType === WindowType.View ? "bubble" : "snow"
-                            // }`}
                             theme="snow"
                             id="content"
                             modules={modules}
@@ -469,23 +467,27 @@ function ManagePage({
                         </div>
 
                         <div className="">
-                          <ImageBrowser
+                          <FileBrowser
                             isOpen={openImageBrowser}
                             setIsOpen={setOpenImageBrowser}
-                            fileType={FileType.Image}
-                            selectImage={(src: string) => {
-                              if (src) {
-                                updatePageSection("attachment", src, index);
+                            selectedFile={(file: Attachment) => {
+                              if (file) {
+                                updatePageSection("attachment", file, index);
                               }
                             }}
                           />
                           <div className="">Attachments</div>
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
-                              {pageState?.sections[index].attachment !== "" ? (
+                              {pageState?.sections[index].attachment !== null &&
+                              pageState?.sections[index].attachment.fileType ===
+                                FileType.Image ? (
                                 <div className="relative border rounded border-borderColor group">
                                   <img
-                                    src={pageState?.sections[index]?.attachment}
+                                    src={
+                                      pageState?.sections[index]?.attachment
+                                        .attachmentUrl
+                                    }
                                     alt=""
                                     className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
                                   />
@@ -503,7 +505,7 @@ function ManagePage({
                                         onClick={() => {
                                           updatePageSection(
                                             "attachment",
-                                            "",
+                                            null,
                                             index
                                           );
                                         }}

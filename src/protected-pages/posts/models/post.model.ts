@@ -1,3 +1,5 @@
+import { Attachment } from "../../../interfaces/attachment";
+
 export class PostModel {
   id: string;
   slug: string;
@@ -5,7 +7,7 @@ export class PostModel {
   content: string;
   contentSummery: string;
   featuredImage: string;
-  attachments: string[];
+  attachments: Attachment[];
   status: boolean;
   createdAt: any;
   updatedAt: any;
@@ -17,7 +19,7 @@ export class PostModel {
     content: string,
     contentSummery: string,
     featuredImage: string,
-    attachments: string[],
+    attachments: Attachment[],
     status: boolean,
     createdAt: any,
     updatedAt: any

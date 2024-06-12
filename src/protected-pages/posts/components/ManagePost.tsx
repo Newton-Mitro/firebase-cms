@@ -5,9 +5,9 @@ import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
-import ImageBrowser from "../../../components/image-browser/ImageBrowser";
-import { FileType } from "../../../components/image-browser/file-type.enum";
+import FileBrowser from "../../../components/image-browser/FileBrowser";
 import { WindowType } from "../../../enums/window-type.enum";
+import { Attachment } from "../../../interfaces/attachment";
 import { formats, modules } from "../../../utils/QuillSettings";
 import useAddPost from "./useAddPost";
 import useUpdatePost from "./useUpdatePost";
@@ -124,15 +124,14 @@ function ManagePost({
 
   return (
     <>
-      <ImageBrowser
+      <FileBrowser
         isOpen={openImageBrowser}
         setIsOpen={setOpenImageBrowser}
-        fileType={FileType.Image}
-        selectImage={(src: string) => {
-          if (src) {
+        selectedFile={(file: Attachment) => {
+          if (file) {
             formik.setFieldValue("attachments", [
               ...formik.values.attachments,
-              src,
+              file,
             ]);
           }
         }}
@@ -264,9 +263,6 @@ function ManagePost({
                   Content
                 </label>
                 <ReactQuill
-                  // theme={`${
-                  //   windowType === WindowType.View ? "bubble" : "snow"
-                  // }`}
                   theme="snow"
                   id="content"
                   modules={modules}
@@ -307,13 +303,12 @@ function ManagePost({
               </div>
 
               <div className="">
-                <ImageBrowser
+                <FileBrowser
                   isOpen={openFeaturedImageBrowser}
                   setIsOpen={setOpenFeaturedImageBrowser}
-                  fileType={FileType.Image}
-                  selectImage={(src: string) => {
-                    if (src) {
-                      formik.setFieldValue("featuredImage", src);
+                  selectedFile={(file: Attachment) => {
+                    if (file) {
+                      formik.setFieldValue("featuredImage", file.attachmentUrl);
                     }
                   }}
                 />
@@ -389,14 +384,14 @@ function ManagePost({
                 </label>
                 <div className="flex gap-1 lg:gap-4 flex-wrap">
                   {formik.values.attachments?.map(
-                    (image: string, index: number) => {
+                    (image: Attachment, index: number) => {
                       return (
                         <div
                           className="relative border rounded border-borderColor group"
                           key={index}
                         >
                           <img
-                            src={image}
+                            src={image.attachmentUrl}
                             alt=""
                             className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
                           />

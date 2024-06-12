@@ -4,12 +4,11 @@ import ReactQuill from "react-quill";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
-import ImageBrowser from "../../../components/image-browser/ImageBrowser";
-import { FileType } from "../../../components/image-browser/file-type.enum";
+import FileBrowser from "../../../components/image-browser/FileBrowser";
 import { WindowType } from "../../../enums/window-type.enum";
+import { Attachment } from "../../../interfaces/attachment";
+import { PageSection } from "../../../interfaces/page-section";
 import { formats, modules } from "../../../utils/QuillSettings";
-import { PageSection } from "../../pages/models/page.model";
-import { GallerySection } from "../models/gallery.model";
 import { manageGalleryFormValidation } from "./manageGalleryFormValidation";
 import useAddGallery from "./useAddGallery";
 import useManageGalleryFormState from "./useManageGalleryFormState";
@@ -266,13 +265,12 @@ function ManageGallery({
               </div>
 
               <div className="">
-                <ImageBrowser
+                <FileBrowser
                   isOpen={openFeaturedImageBrowser}
                   setIsOpen={setOpenFeaturedImageBrowser}
-                  fileType={FileType.Image}
-                  selectImage={(src: string) => {
-                    if (src) {
-                      updateGalleryState("featuredImage", src);
+                  selectedFile={(file: Attachment) => {
+                    if (file) {
+                      updateGalleryState("featuredImage", file.attachmentUrl);
                     }
                   }}
                 />
@@ -344,7 +342,7 @@ function ManageGallery({
 
               <div className="flex flex-col gap-2">
                 {galleryState.sections?.map(
-                  (section: GallerySection, index: number) => {
+                  (section: PageSection, index: number) => {
                     return (
                       <div
                         key={index}
@@ -441,9 +439,6 @@ function ManageGallery({
                             Section Content
                           </label>
                           <ReactQuill
-                            // theme={`${
-                            //   windowType === WindowType.View ? "bubble" : "snow"
-                            // }`}
                             theme="snow"
                             id="content"
                             modules={modules}
@@ -470,13 +465,12 @@ function ManageGallery({
                         </div>
 
                         <div className="">
-                          <ImageBrowser
+                          <FileBrowser
                             isOpen={openImageBrowser}
                             setIsOpen={setOpenImageBrowser}
-                            fileType={FileType.Image}
-                            selectImage={(src: string) => {
-                              if (src) {
-                                updateGallerySection("attachment", src, index);
+                            selectedFile={(file: Attachment) => {
+                              if (file) {
+                                updateGallerySection("attachment", file, index);
                               }
                             }}
                           />

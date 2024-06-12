@@ -5,9 +5,9 @@ import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
-import ImageBrowser from "../../../components/image-browser/ImageBrowser";
-import { FileType } from "../../../components/image-browser/file-type.enum";
+import FileBrowser from "../../../components/image-browser/FileBrowser";
 import { WindowType } from "../../../enums/window-type.enum";
+import { Attachment } from "../../../interfaces/attachment";
 import { formats, modules } from "../../../utils/QuillSettings";
 import useAddService from "./useAddService";
 import useUpdateService from "./useUpdateService";
@@ -124,15 +124,14 @@ function ManageService({
 
   return (
     <>
-      <ImageBrowser
+      <FileBrowser
         isOpen={openImageBrowser}
         setIsOpen={setOpenImageBrowser}
-        fileType={FileType.Image}
-        selectImage={(src: string) => {
-          if (src) {
+        selectedFile={(file: Attachment) => {
+          if (file) {
             formik.setFieldValue("attachments", [
               ...formik.values.attachments,
-              src,
+              file,
             ]);
           }
         }}
@@ -307,13 +306,12 @@ function ManageService({
               </div>
 
               <div className="">
-                <ImageBrowser
+                <FileBrowser
                   isOpen={openFeaturedImageBrowser}
                   setIsOpen={setOpenFeaturedImageBrowser}
-                  fileType={FileType.Image}
-                  selectImage={(src: string) => {
-                    if (src) {
-                      formik.setFieldValue("featuredImage", src);
+                  selectedFile={(file: Attachment) => {
+                    if (file) {
+                      formik.setFieldValue("featuredImage", file.attachmentUrl);
                     }
                   }}
                 />

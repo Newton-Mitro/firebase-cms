@@ -7,27 +7,28 @@ import useGetAttachments from "./useGetAttachments";
 import useRemoveFile from "./useRemoveFile";
 import useUploadFile from "./useUploadFile";
 
-interface ImageBrowserProps {
+interface FileBrowserProps {
   isOpen: boolean;
   setIsOpen: any;
-  selectImage: any;
-  fileType: FileType;
+  selectedFile: any;
 }
 
-const ImageBrowser: React.FC<ImageBrowserProps> = ({
+const FileBrowser: React.FC<FileBrowserProps> = ({
   isOpen,
   setIsOpen,
-  selectImage,
-  fileType,
+  selectedFile,
 }) => {
-  const { fileUrl, uploadFile, loading, error } = useUploadFile();
+  const [fileType, setFileType] = useState<string>(FileType.Image);
   const [windowState, setWindowState] = useState(false);
+
+  const { fileUrl, uploadFile, loading, error } = useUploadFile();
+
   const {
     attachments,
     listAttachments,
     loading: attachmentsLoading,
     error: attachmentsError,
-  } = useGetAttachments(fileType);
+  } = useGetAttachments();
 
   const {
     removedFileId,
@@ -37,8 +38,8 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
   } = useRemoveFile();
 
   useEffect(() => {
-    listAttachments();
-  }, [fileUrl, removedFileId]);
+    listAttachments(fileType);
+  }, [fileUrl, removedFileId, fileType]);
 
   if (isOpen) {
     return ReactDOM.createPortal(
@@ -170,7 +171,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                               className="w-10 rounded-full ring-1 hover:cursor-pointer 
                               ring-green-500 ring-opacity-30 h-10 flex items-center justify-center hover:bg-green-950 hover:bg-opacity-65"
                               onClick={() => {
-                                selectImage(attachment?.attachmentUrl);
+                                selectedFile(attachment);
                                 setIsOpen(false);
                               }}
                             >
@@ -241,7 +242,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                             <button
                               className="w-8 rounded-full ring-1 hover:cursor-pointer ring-green-500 ring-opacity-30 h-8 flex items-center justify-center hover:bg-green-950 hover:bg-opacity-65"
                               onClick={() => {
-                                selectImage(attachment?.attachmentUrl);
+                                selectedFile(attachment);
                                 setIsOpen(false);
                               }}
                             >
@@ -310,7 +311,7 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
               )}
             </div>
           </div>
-          <div className="bg-secondary border-t border-borderColor p-4 mt-auto">
+          <div className="bg-secondary border-t border-borderColor p-4 mt-auto flex justify-between">
             <div className="flex items-center gap-4">
               <div className="">Upload File</div>
               {fileType === FileType.Image && (
@@ -381,6 +382,19 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
                 />
               )}
             </div>
+            <select
+              className="py-0.5 bg-primary border border-borderColor shadow-sm 
+                focus:border-borderColor focus:ring focus:ring-gray-700 focus:ring-opacity-50"
+              onChange={(event) => {
+                setFileType(event.target.value);
+              }}
+            >
+              <option selected value="Image">
+                Image
+              </option>
+              <option value="Audio">Audio</option>
+              <option value="Document">Document</option>
+            </select>
           </div>
         </div>
       </section>,
@@ -390,4 +404,4 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
     return null;
   }
 };
-export default ImageBrowser;
+export default FileBrowser;

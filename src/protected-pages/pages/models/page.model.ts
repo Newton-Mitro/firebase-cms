@@ -1,9 +1,5 @@
-export interface PageSection {
-  sectionTitle: string;
-  content: string;
-  attachment: string;
-  order: number;
-}
+import { PageSection } from "../../../interfaces/page-section";
+
 export class PageModel {
   id: string;
   slug: string;

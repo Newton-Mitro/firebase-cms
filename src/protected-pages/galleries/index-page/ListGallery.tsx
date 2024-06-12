@@ -60,7 +60,7 @@ function ListGallery() {
         {
           sectionTitle: "",
           content: "",
-          attachment: "",
+          attachment: null,
           order: 0,
         },
       ],

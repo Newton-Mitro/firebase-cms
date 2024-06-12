@@ -1,16 +1,12 @@
-export interface GallerySection {
-  sectionTitle: string;
-  content: string;
-  attachment: string;
-  order: number;
-}
+import { PageSection } from "../../../interfaces/page-section";
+
 export class GalleryModel {
   id: string;
   slug: string;
   title: string;
   contentSummery: string;
   featuredImage: string;
-  sections: GallerySection[];
+  sections: PageSection[];
   status: boolean;
   createdAt: any;
   updatedAt: any;
@@ -21,7 +17,7 @@ export class GalleryModel {
     title: string,
     contentSummery: string,
     featuredImage: string,
-    sections: GallerySection[],
+    sections: PageSection[],
     status: boolean,
     createdAt: any,
     updatedAt: any

@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { firebase_db } from "../../configs/firebase-config";
-import { FileType } from "./file-type.enum";
+import { FileType } from "../../enums/file-type.enum";
 
 function useGetAttachments() {
   const [attachments, setAttachments] = useState<any[] | null>(null);

@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import AppLoader from "../../components/AppLoader";
 import PaginateRow from "../../components/PaginateRow";
-import { FileType } from "./file-type.enum";
+import { FileType } from "../../enums/file-type.enum";
 import useGetAttachments from "./useGetAttachments";
 import useRemoveFile from "./useRemoveFile";
 import useUploadFile from "./useUploadFile";

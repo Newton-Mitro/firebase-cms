@@ -4,7 +4,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { firebase_db, firebase_storage } from "../../configs/firebase-config";
-import { FileType } from "./file-type.enum";
+import { FileType } from "../../enums/file-type.enum";
 
 function useUploadFile() {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
