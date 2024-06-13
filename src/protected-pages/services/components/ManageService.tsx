@@ -5,10 +5,12 @@ import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
+import { FileType } from "../../../enums/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
 import { Attachment } from "../../../interfaces/attachment";
 import { formats, modules } from "../../../utils/QuillSettings";
 import FileBrowser from "../../file-manager/components/FileBrowser";
+import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
 import useAddService from "./useAddService";
 import useUpdateService from "./useUpdateService";
 
@@ -263,9 +265,6 @@ function ManageService({
                   Content
                 </label>
                 <ReactQuill
-                  // theme={`${
-                  //   windowType === WindowType.View ? "bubble" : "snow"
-                  // }`}
                   theme="snow"
                   id="content"
                   modules={modules}
@@ -307,6 +306,7 @@ function ManageService({
 
               <div className="">
                 <FileBrowser
+                  fileTypeSelectionDisabled={true}
                   isOpen={openFeaturedImageBrowser}
                   setIsOpen={setOpenFeaturedImageBrowser}
                   selectedFile={(file: Attachment) => {
@@ -318,38 +318,20 @@ function ManageService({
                 <div className="">Featured Image</div>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
-                    {formik.values?.featuredImage !== "" ? (
-                      <div className="relative border rounded border-borderColor group">
-                        <img
-                          src={formik.values?.featuredImage}
-                          alt=""
-                          className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
-                        />
-
-                        {windowType !== WindowType.View ? (
-                          <div className="">
-                            <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                              onClick={() => {
-                                formik.setFieldValue("featuredImage", "");
-                              }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18 18 6M6 6l12 12"
-                              />
-                            </svg>
-                          </div>
-                        ) : null}
-                      </div>
-                    ) : null}
+                    {formik.values?.featuredImage !== "" && (
+                      <ThumbnailPreview
+                        fileType={FileType.Image}
+                        fileName={"Featured Image"}
+                        fileUrl={formik.values?.featuredImage}
+                        handleRemove={() => {
+                          formik.setFieldValue("featuredImage", "");
+                        }}
+                        showMaximizeButton={true}
+                        showRemoveButton={
+                          windowType === WindowType.View ? false : true
+                        }
+                      />
+                    )}
                   </div>
                   {windowType !== WindowType.View ? (
                     <div className="">
@@ -387,41 +369,20 @@ function ManageService({
                 </label>
                 <div className="flex gap-1 lg:gap-4 flex-wrap">
                   {formik.values.attachments?.map(
-                    (image: string, index: number) => {
+                    (image: Attachment, index: number) => {
                       return (
-                        <div
-                          className="relative border rounded border-borderColor group"
-                          key={index}
-                        >
-                          <img
-                            src={image}
-                            alt=""
-                            className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
-                          />
-
-                          {windowType !== WindowType.View ? (
-                            <div className="">
-                              <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                                onClick={() => {
-                                  removeAttachment(index);
-                                }}
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M6 18 18 6M6 6l12 12"
-                                />
-                              </svg>
-                            </div>
-                          ) : null}
-                        </div>
+                        <ThumbnailPreview
+                          fileType={image.fileType}
+                          fileName={image.fileName}
+                          fileUrl={image.attachmentUrl}
+                          handleRemove={() => {
+                            removeAttachment(index);
+                          }}
+                          showMaximizeButton={true}
+                          showRemoveButton={
+                            windowType === WindowType.View ? false : true
+                          }
+                        />
                       );
                     }
                   )}

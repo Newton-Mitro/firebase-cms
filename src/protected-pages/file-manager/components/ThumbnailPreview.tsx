@@ -107,14 +107,8 @@ const ThumbnailPreview: React.FC<ThumbnailPreviewProps> = ({
         <div className="bg-gray-500 flex items-center rounded pr-2">
           <div className="">
             <audio controls>
-              <source
-                src="https://firebasestorage.googleapis.com/v0/b/christosangeet-afa3a.appspot.com/o/Audio%2Ffile_example_MP3_700KB.mp3?alt=media&token=6a290db3-fc7e-4da0-93ec-b4d84990e131"
-                type="audio/ogg"
-              />
-              <source
-                src="https://firebasestorage.googleapis.com/v0/b/christosangeet-afa3a.appspot.com/o/Audio%2Ffile_example_MP3_700KB.mp3?alt=media&token=6a290db3-fc7e-4da0-93ec-b4d84990e131"
-                type="audio/mpeg"
-              />
+              <source src={fileUrl} type="audio/ogg" />
+              <source src={fileUrl} type="audio/mpeg" />
               Your browser does not support the audio element.
             </audio>
           </div>

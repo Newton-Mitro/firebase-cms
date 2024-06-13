@@ -10,6 +10,7 @@ import FilePreview from "./FilePreview";
 
 interface FileBrowserProps {
   isOpen: boolean;
+  fileTypeSelectionDisabled?: boolean;
   setIsOpen: any;
   selectedFile: any;
 }
@@ -18,6 +19,7 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
   isOpen,
   setIsOpen,
   selectedFile,
+  fileTypeSelectionDisabled = false,
 }) => {
   const [fileType, setFileType] = useState<string>(FileType.Image);
   const [windowState, setWindowState] = useState(false);
@@ -191,15 +193,15 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
               listAttachments={listAttachments}
             />
             <select
-              className="py-0.5 bg-primary border border-borderColor shadow-sm 
+              disabled={fileTypeSelectionDisabled}
+              value={fileType}
+              className="py-0.5 bg-primary border border-borderColor shadow-sm disabled:bg-disabledColor
                 focus:border-borderColor focus:ring focus:ring-gray-700 focus:ring-opacity-50"
               onChange={(event) => {
                 setFileType(event.target.value);
               }}
             >
-              <option selected value="Image">
-                Image
-              </option>
+              <option value="Image">Image</option>
               <option value="Audio">Audio</option>
               <option value="Document">Document</option>
             </select>

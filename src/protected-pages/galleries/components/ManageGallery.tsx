@@ -4,11 +4,13 @@ import ReactQuill from "react-quill";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
+import { FileType } from "../../../enums/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
 import { Attachment } from "../../../interfaces/attachment";
 import { PageSection } from "../../../interfaces/page-section";
 import { formats, modules } from "../../../utils/QuillSettings";
 import FileBrowser from "../../file-manager/components/FileBrowser";
+import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
 import { manageGalleryFormValidation } from "./manageGalleryFormValidation";
 import useAddGallery from "./useAddGallery";
 import useManageGalleryFormState from "./useManageGalleryFormState";
@@ -278,36 +280,18 @@ function ManageGallery({
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
                     {galleryState?.featuredImage !== "" ? (
-                      <div className="relative border rounded border-borderColor group">
-                        <img
-                          src={galleryState?.featuredImage}
-                          alt=""
-                          className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
-                        />
-
-                        {windowType !== WindowType.View ? (
-                          <div className="">
-                            <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                              onClick={() => {
-                                updateGalleryState("featuredImage", "");
-                              }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18 18 6M6 6l12 12"
-                              />
-                            </svg>
-                          </div>
-                        ) : null}
-                      </div>
+                      <ThumbnailPreview
+                        fileType={FileType.Image}
+                        fileName={"Featured Image"}
+                        fileUrl={galleryState?.featuredImage}
+                        handleRemove={() => {
+                          updateGalleryState("featuredImage", "");
+                        }}
+                        showMaximizeButton={true}
+                        showRemoveButton={
+                          windowType === WindowType.View ? false : true
+                        }
+                      />
                     ) : null}
                   </div>
                   {windowType !== WindowType.View ? (
@@ -478,44 +462,35 @@ function ManageGallery({
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
                               {galleryState?.sections[index].attachment !==
-                              "" ? (
-                                <div className="relative border rounded border-borderColor group">
-                                  <img
-                                    src={
-                                      galleryState?.sections[index]?.attachment
-                                    }
-                                    alt=""
-                                    className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
-                                  />
-
-                                  {windowType !== WindowType.View ? (
-                                    <div className="">
-                                      <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                                        onClick={() => {
-                                          updateGallerySection(
-                                            "attachment",
-                                            "",
-                                            index
-                                          );
-                                        }}
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M6 18 18 6M6 6l12 12"
-                                        />
-                                      </svg>
-                                    </div>
-                                  ) : null}
-                                </div>
-                              ) : null}
+                                null && (
+                                <ThumbnailPreview
+                                  fileType={
+                                    galleryState?.sections[index].attachment
+                                      .fileType
+                                  }
+                                  fileName={
+                                    galleryState?.sections[index].attachment
+                                      .fileName
+                                  }
+                                  fileUrl={
+                                    galleryState?.sections[index].attachment
+                                      .attachmentUrl
+                                  }
+                                  handleRemove={() => {
+                                    updateGallerySection(
+                                      "attachment",
+                                      null,
+                                      index
+                                    );
+                                  }}
+                                  showMaximizeButton={true}
+                                  showRemoveButton={
+                                    windowType === WindowType.View
+                                      ? false
+                                      : true
+                                  }
+                                />
+                              )}
                             </div>
                             {windowType !== WindowType.View ? (
                               <div className="">

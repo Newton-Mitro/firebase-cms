@@ -59,6 +59,7 @@ const FileManager = () => {
                 <select
                   className="py-0.5 bg-primary border border-borderColor shadow-sm 
                 focus:border-borderColor focus:ring focus:ring-gray-700 focus:ring-opacity-50"
+                  value={fileType}
                   onChange={(event) => {
                     setFileType(event.target.value);
                   }}

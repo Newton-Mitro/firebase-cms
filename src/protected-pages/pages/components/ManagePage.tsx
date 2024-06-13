@@ -36,6 +36,8 @@ function ManagePage({
     updatePageState,
   } = useManagePageFormState(selectedPage);
 
+  console.log(pageState);
+
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
     var errors = "";
@@ -272,6 +274,7 @@ function ManagePage({
               <div className="">
                 <FileBrowser
                   isOpen={openFeaturedImageBrowser}
+                  fileTypeSelectionDisabled={true}
                   setIsOpen={setOpenFeaturedImageBrowser}
                   selectedFile={(file: Attachment) => {
                     if (file) {
@@ -457,7 +460,7 @@ function ManagePage({
                               }
                             }}
                           />
-                          <div className="">Attachments</div>
+                          <div className="">Attachment</div>
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
                               {pageState?.sections[index].attachment !==
