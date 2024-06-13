@@ -2,7 +2,10 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { firebase_db, firebase_storage } from "../../configs/firebase-config";
+import {
+  firebase_db,
+  firebase_storage,
+} from "../../../configs/firebase-config";
 
 function useRemoveFile() {
   const [removedFileId, setRemovedFileId] = useState<string | null>(null);

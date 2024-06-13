@@ -1,7 +1,7 @@
 import AuthLayout from "layouts/AuthLayout";
 import PublicLayout from "layouts/PublicLayout";
 import { createBrowserRouter } from "react-router-dom";
-import FileManager from "../protected-pages/file-manager/FileManager";
+import FileManager from "../protected-pages/file-manager/components/FileManager";
 import ListGallery from "../protected-pages/galleries/index-page/ListGallery";
 import HomePage from "../protected-pages/home/HomePage";
 import ListPage from "../protected-pages/pages/index-page/ListPage";

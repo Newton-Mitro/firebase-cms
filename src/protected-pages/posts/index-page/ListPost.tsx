@@ -76,11 +76,7 @@ function ListPost() {
     setCreatePostOpen(true);
   }
 
-  console.log(posts);
-
   useEffect(() => {
-    console.log(removePostId);
-
     getPosts(currentPostStartFrom, limit);
   }, [removePostId, updatedPostId, limit, currentPostStartFrom]);
 

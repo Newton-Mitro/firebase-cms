@@ -5,12 +5,13 @@ import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
-import FileBrowser from "../../../components/image-browser/FileBrowser";
 import { FileType } from "../../../enums/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
 import { Attachment } from "../../../interfaces/attachment";
 import { PageSection } from "../../../interfaces/page-section";
 import { formats, modules } from "../../../utils/QuillSettings";
+import FileBrowser from "../../file-manager/components/FileBrowser";
+import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
 import { managePageFormValidation } from "./managePageFormValidation";
 import useAddPage from "./useAddPage";
 import useManagePageFormState from "./useManagePageFormState";
@@ -34,8 +35,6 @@ function ManagePage({
     addPageSection,
     updatePageState,
   } = useManagePageFormState(selectedPage);
-
-  console.log(pageState);
 
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
@@ -284,36 +283,18 @@ function ManagePage({
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
                     {pageState?.featuredImage !== "" ? (
-                      <div className="relative border rounded border-borderColor group">
-                        <img
-                          src={pageState?.featuredImage}
-                          alt=""
-                          className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
-                        />
-
-                        {windowType !== WindowType.View ? (
-                          <div className="">
-                            <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                              onClick={() => {
-                                updatePageState("featuredImage", "");
-                              }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18 18 6M6 6l12 12"
-                              />
-                            </svg>
-                          </div>
-                        ) : null}
-                      </div>
+                      <ThumbnailPreview
+                        fileType={FileType.Image}
+                        fileName={"Featured Image"}
+                        fileUrl={pageState?.featuredImage}
+                        handleRemove={() => {
+                          updatePageState("featuredImage", "");
+                        }}
+                        showMaximizeButton={true}
+                        showRemoveButton={
+                          windowType === WindowType.View ? false : true
+                        }
+                      />
                     ) : null}
                   </div>
                   {windowType !== WindowType.View ? (
@@ -479,47 +460,36 @@ function ManagePage({
                           <div className="">Attachments</div>
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
-                              {pageState?.sections[index].attachment !== null &&
-                              pageState?.sections[index].attachment.fileType ===
-                                FileType.Image ? (
-                                <div className="relative border rounded border-borderColor group">
-                                  <img
-                                    src={
-                                      pageState?.sections[index]?.attachment
-                                        .attachmentUrl
-                                    }
-                                    alt=""
-                                    className="h-20 object-cover rounded group-hover:bg-blend-darken group-hover:cursor-pointer"
-                                  />
-
-                                  {windowType !== WindowType.View ? (
-                                    <div className="">
-                                      <div className="group-hover:bg-gray-950 group-hover:bg-opacity-70 w-full h-full absolute left-0 right-0 top-0"></div>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        className="h-6 w-6 absolute right-0 top-0 group-hover:cursor-pointer group-hover:text-white group-hover:scale-110 transition-all"
-                                        onClick={() => {
-                                          updatePageSection(
-                                            "attachment",
-                                            null,
-                                            index
-                                          );
-                                        }}
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M6 18 18 6M6 6l12 12"
-                                        />
-                                      </svg>
-                                    </div>
-                                  ) : null}
-                                </div>
-                              ) : null}
+                              {pageState?.sections[index].attachment !==
+                                null && (
+                                <ThumbnailPreview
+                                  fileType={
+                                    pageState?.sections[index].attachment
+                                      .fileType
+                                  }
+                                  fileName={
+                                    pageState?.sections[index].attachment
+                                      .fileName
+                                  }
+                                  fileUrl={
+                                    pageState?.sections[index].attachment
+                                      .attachmentUrl
+                                  }
+                                  handleRemove={() => {
+                                    updatePageSection(
+                                      "attachment",
+                                      null,
+                                      index
+                                    );
+                                  }}
+                                  showMaximizeButton={true}
+                                  showRemoveButton={
+                                    windowType === WindowType.View
+                                      ? false
+                                      : true
+                                  }
+                                />
+                              )}
                             </div>
                             {windowType !== WindowType.View ? (
                               <div className="">

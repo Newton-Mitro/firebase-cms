@@ -5,10 +5,10 @@ import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import AppLoader from "../../../components/AppLoader";
-import FileBrowser from "../../../components/image-browser/FileBrowser";
 import { WindowType } from "../../../enums/window-type.enum";
 import { Attachment } from "../../../interfaces/attachment";
 import { formats, modules } from "../../../utils/QuillSettings";
+import FileBrowser from "../../file-manager/components/FileBrowser";
 import useAddService from "./useAddService";
 import useUpdateService from "./useUpdateService";
 
