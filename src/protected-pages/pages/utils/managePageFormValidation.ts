@@ -7,8 +7,8 @@ export const managePageFormValidation = (
       if (fieldValue.trim().length === 0) {
         return "Page title can't be empty";
       }
-      if (fieldValue.length < 10) {
-        return "Minimum 10 character needed for page title.";
+      if (fieldValue.length < 2) {
+        return "Minimum 2 character needed for page title.";
       }
       return "";
 
@@ -16,8 +16,8 @@ export const managePageFormValidation = (
       if (fieldValue.trim().length === 0) {
         return "Section title can't be empty";
       }
-      if (fieldValue.length < 10) {
-        return "Minimum 10 character needed for section title.";
+      if (fieldValue.length < 2) {
+        return "Minimum 2 character needed for section title.";
       }
       return "";
 

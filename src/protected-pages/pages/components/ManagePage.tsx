@@ -12,10 +12,10 @@ import { PageSection } from "../../../interfaces/page-section";
 import { formats, modules } from "../../../utils/QuillSettings";
 import FileBrowser from "../../file-manager/components/FileBrowser";
 import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
-import { managePageFormValidation } from "./managePageFormValidation";
-import useAddPage from "./useAddPage";
-import useManagePageFormState from "./useManagePageFormState";
-import useUpdatePage from "./useUpdatePage";
+import useAddPage from "../hooks/useAddPage";
+import useManagePageFormState from "../hooks/useManagePageFormState";
+import useUpdatePage from "../hooks/useUpdatePage";
+import { managePageFormValidation } from "../utils/managePageFormValidation";
 
 function ManagePage({
   closePageDialogue,

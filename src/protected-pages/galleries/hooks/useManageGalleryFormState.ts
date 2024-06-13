@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { manageGalleryFormValidation } from "./manageGalleryFormValidation";
+import { manageGalleryFormValidation } from "../utils/manageGalleryFormValidation";
 
 function useManageGalleryFormState(selectedGallery: any) {
   const [galleryState, setGalleryState] = useState({

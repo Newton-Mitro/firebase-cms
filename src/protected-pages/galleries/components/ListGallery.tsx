@@ -4,10 +4,10 @@ import AppLoader from "../../../components/AppLoader";
 import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
 import ManageGallery from "../components/ManageGallery";
+import useGetGalleries from "../hooks/useGetGalleries";
+import useRemoveGallery from "../hooks/useRemoveGallery";
+import useUpdateGalleryStatus from "../hooks/useUpdateGalleryStatus";
 import { GalleryModel } from "../models/gallery.model";
-import useGetGalleries from "./useGetGalleries";
-import useRemoveGallery from "./useRemoveGallery";
-import useUpdateGalleryStatus from "./useUpdateGalleryStatus";
 
 function ListGallery() {
   const [isCreateGalleryOpen, setCreateGalleryOpen] = useState(false);

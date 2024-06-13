@@ -2,11 +2,11 @@ import AuthLayout from "layouts/AuthLayout";
 import PublicLayout from "layouts/PublicLayout";
 import { createBrowserRouter } from "react-router-dom";
 import FileManager from "../protected-pages/file-manager/components/FileManager";
-import ListGallery from "../protected-pages/galleries/index-page/ListGallery";
+import ListGallery from "../protected-pages/galleries/components/ListGallery";
 import HomePage from "../protected-pages/home/HomePage";
-import ListPage from "../protected-pages/pages/index-page/ListPage";
-import ListPost from "../protected-pages/posts/index-page/ListPost";
-import ListService from "../protected-pages/services/index-page/ListService";
+import ListPage from "../protected-pages/pages/components/ListPage";
+import ListPost from "../protected-pages/posts/components/ListPost";
+import ListService from "../protected-pages/services/components/ListService";
 import ErrorPage from "../public-pages/error-page/ErrorPage";
 import Login from "../public-pages/login/Login";
 

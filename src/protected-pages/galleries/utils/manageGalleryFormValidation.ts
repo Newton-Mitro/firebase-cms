@@ -7,8 +7,8 @@ export const manageGalleryFormValidation = (
       if (fieldValue.trim().length === 0) {
         return "Gallery title can't be empty";
       }
-      if (fieldValue.length < 10) {
-        return "Minimum 10 character needed for gallery title.";
+      if (fieldValue.length < 2) {
+        return "Minimum 2 character needed for gallery title.";
       }
       return "";
 
@@ -16,8 +16,8 @@ export const manageGalleryFormValidation = (
       if (fieldValue.trim().length === 0) {
         return "Section title can't be empty";
       }
-      if (fieldValue.length < 10) {
-        return "Minimum 10 character needed for section title.";
+      if (fieldValue.length < 2) {
+        return "Minimum 2 character needed for section title.";
       }
       return "";
 

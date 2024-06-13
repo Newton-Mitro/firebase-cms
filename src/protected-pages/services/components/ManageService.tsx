@@ -11,8 +11,8 @@ import { Attachment } from "../../../interfaces/attachment";
 import { formats, modules } from "../../../utils/QuillSettings";
 import FileBrowser from "../../file-manager/components/FileBrowser";
 import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
-import useAddService from "./useAddService";
-import useUpdateService from "./useUpdateService";
+import useAddService from "../hooks/useAddService";
+import useUpdateService from "../hooks/useUpdateService";
 
 const validate = (values: any) => {
   let errors: any = {};

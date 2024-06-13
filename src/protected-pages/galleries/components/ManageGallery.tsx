@@ -11,10 +11,10 @@ import { PageSection } from "../../../interfaces/page-section";
 import { formats, modules } from "../../../utils/QuillSettings";
 import FileBrowser from "../../file-manager/components/FileBrowser";
 import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
-import { manageGalleryFormValidation } from "./manageGalleryFormValidation";
-import useAddGallery from "./useAddGallery";
-import useManageGalleryFormState from "./useManageGalleryFormState";
-import useUpdateGallery from "./useUpdateGallery";
+import useAddGallery from "../hooks/useAddGallery";
+import useManageGalleryFormState from "../hooks/useManageGalleryFormState";
+import useUpdateGallery from "../hooks/useUpdateGallery";
+import { manageGalleryFormValidation } from "../utils/manageGalleryFormValidation";
 
 function ManageGallery({
   closeGalleryDialogue,

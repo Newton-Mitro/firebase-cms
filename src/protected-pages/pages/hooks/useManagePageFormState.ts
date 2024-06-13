@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { managePageFormValidation } from "./managePageFormValidation";
+import { managePageFormValidation } from "../utils/managePageFormValidation";
 
 function useManagePageFormState(selectedPage: any) {
   const [pageState, setPageState] = useState({

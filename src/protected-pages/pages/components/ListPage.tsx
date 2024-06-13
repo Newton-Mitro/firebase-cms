@@ -4,10 +4,10 @@ import AppLoader from "../../../components/AppLoader";
 import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
 import ManagePage from "../components/ManagePage";
+import useGetPages from "../hooks/useGetPages";
+import useRemovePage from "../hooks/useRemovePage";
+import useUpdatePageStatus from "../hooks/useUpdatePageStatus";
 import { PageModel } from "../models/page.model";
-import useGetPages from "./useGetPages";
-import useRemovePage from "./useRemovePage";
-import useUpdatePageStatus from "./useUpdatePageStatus";
 
 function ListPage() {
   const [isCreatePageOpen, setCreatePageOpen] = useState(false);

@@ -3,11 +3,11 @@ import { CSVLink } from "react-csv";
 import AppLoader from "../../../components/AppLoader";
 import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
-import ManageService from "../components/ManageService";
+import useGetServices from "../hooks/useGetServices";
+import useRemoveService from "../hooks/useRemoveService";
+import useUpdateServiceStatus from "../hooks/useUpdateServiceStatus";
 import { ServiceModel } from "../models/service.model";
-import useGetServices from "./useGetServices";
-import useRemoveService from "./useRemoveService";
-import useUpdateServiceStatus from "./useUpdateServiceStatus";
+import ManageService from "./ManageService";
 
 function ListService() {
   const [isCreateServiceOpen, setCreateServiceOpen] = useState(false);

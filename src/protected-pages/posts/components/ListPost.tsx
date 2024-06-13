@@ -4,10 +4,10 @@ import AppLoader from "../../../components/AppLoader";
 import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
 import ManagePost from "../components/ManagePost";
+import useGetPosts from "../hooks/useGetPosts";
+import useRemovePost from "../hooks/useRemovePost";
+import useUpdatePostStatus from "../hooks/useUpdatePostStatus";
 import { PostModel } from "../models/post.model";
-import useGetPosts from "./useGetPosts";
-import useRemovePost from "./useRemovePost";
-import useUpdatePostStatus from "./useUpdatePostStatus";
 
 function ListPost() {
   const [isCreatePostOpen, setCreatePostOpen] = useState(false);

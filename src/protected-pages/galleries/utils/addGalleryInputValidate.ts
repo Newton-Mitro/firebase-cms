@@ -2,8 +2,8 @@ const validate = (values: any) => {
   let errors: any = {};
   if (!values.title) {
     errors.title = "Required";
-  } else if (values.title.length < 5) {
-    errors.title = "Minimum 5 character needed.";
+  } else if (values.title.length < 2) {
+    errors.title = "Minimum 2 character needed.";
   }
 
   if (!values.content) {
