@@ -48,7 +48,7 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
     return ReactDOM.createPortal(
       <section
         className={`fixed inset-0 flex flex-col items-center 
-          justify-center backdrop-blur `}
+          justify-center backdrop-blur-sm bg-slate-950/60`}
       >
         <AppLoader
           isLoading={loading || attachmentsLoading || removeFileLoading}

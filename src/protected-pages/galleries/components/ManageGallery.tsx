@@ -129,8 +129,8 @@ function ManageGallery({
         <div
           className={`absolute  h-full shadow ${
             windowState
-              ? "lg:w-full bottom-2 right-2 lg:inset-0"
-              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
+              ? "lg:w-full bottom-0 right-0 lg:inset-0"
+              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-0 right-0"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
           <header className="bg-accent border-b border-borderColor p-4 flex justify-between">

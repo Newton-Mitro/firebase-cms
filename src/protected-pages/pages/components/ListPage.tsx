@@ -97,7 +97,11 @@ function ListPage() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Pages</h2>
-        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
+        <div
+          className={`h-[calc(100vh-122px)] border ${
+            isCreatePageOpen ? "border-primary" : "border-borderColor"
+          }  bg-secondary p-2 flex flex-col overflow-auto relative`}
+        >
           <div className="flex-1">
             <div className="flex gap-2">
               <button
@@ -198,7 +202,9 @@ function ListPage() {
                 </div>
               </div>
             </div>
-            <div className="h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b border-borderColor">
+            <div
+              className={`h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b border-borderColor`}
+            >
               <table className="whitespace-no-wrap relative w-full table-auto border-collapse border">
                 <thead className="w-full">
                   <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-accent">
@@ -447,6 +453,10 @@ function ListPage() {
             nextView={nextView}
             totalView={totalViews}
           />
+          {isCreatePageOpen && (
+            <div className="absolute inset-0 bg-primary opacity-70"></div>
+          )}
+
           {isCreatePageOpen && (
             <ManagePage
               closePageDialogue={closePageDialogue}

@@ -89,7 +89,11 @@ function ListPost() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Posts</h2>
-        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
+        <div
+          className={`h-[calc(100vh-122px)] border ${
+            isCreatePostOpen ? "border-primary" : "border-borderColor"
+          }  bg-secondary p-2 flex flex-col overflow-auto relative`}
+        >
           <div className="flex-1">
             <div className="flex gap-2">
               <button
@@ -438,6 +442,9 @@ function ListPost() {
             nextView={nextView}
             totalView={totalViews}
           />
+          {isCreatePostOpen && (
+            <div className="absolute inset-0 bg-primary opacity-70"></div>
+          )}
           {isCreatePostOpen && (
             <ManagePost
               closePostDialogue={closePostDialogue}

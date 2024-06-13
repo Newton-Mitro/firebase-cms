@@ -94,7 +94,11 @@ function ListService() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Services</h2>
-        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
+        <div
+          className={`h-[calc(100vh-122px)] border ${
+            isCreateServiceOpen ? "border-primary" : "border-borderColor"
+          }  bg-secondary p-2 flex flex-col overflow-auto relative`}
+        >
           <div className="flex-1">
             <div className="flex gap-2">
               <button
@@ -444,6 +448,9 @@ function ListService() {
             nextView={nextView}
             totalView={totalViews}
           />
+          {isCreateServiceOpen && (
+            <div className="absolute inset-0 bg-primary opacity-70"></div>
+          )}
           {isCreateServiceOpen && (
             <ManageService
               closeServiceDialogue={closeServiceDialogue}
