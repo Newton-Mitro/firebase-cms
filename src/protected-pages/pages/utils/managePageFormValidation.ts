@@ -4,8 +4,8 @@ export const managePageFormValidation = (
 ) => {
   switch (fieldName) {
     case "title":
-      if (fieldValue.trim().length === 0) {
-        return "Page title can't be empty";
+      if (fieldValue?.trim().length === 0) {
+        return "Page title is required";
       }
       if (fieldValue.length < 2) {
         return "Minimum 2 character needed for page title.";
@@ -13,8 +13,8 @@ export const managePageFormValidation = (
       return "";
 
     case "sectionTitle":
-      if (fieldValue.trim().length === 0) {
-        return "Section title can't be empty";
+      if (fieldValue?.trim().length === 0) {
+        return "Section title is required";
       }
       if (fieldValue.length < 2) {
         return "Minimum 2 character needed for section title.";
@@ -22,15 +22,15 @@ export const managePageFormValidation = (
       return "";
 
     case "order":
-      if (fieldValue.toString().trim().length === 0) {
+      if (fieldValue?.toString()?.trim().length === 0) {
         return "Invalid sort order";
       }
 
       return "";
 
     case "content":
-      if (fieldValue.trim().length === 0) {
-        return "Section content can't be empty";
+      if (fieldValue?.trim().length === 0) {
+        return "Section content is required";
       }
       if (fieldValue.length < 15) {
         return "Minimum 15 character needed for section content.";

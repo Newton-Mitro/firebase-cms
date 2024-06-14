@@ -102,9 +102,9 @@ function Login() {
                 className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                 onChange={formik.handleChange}
               />
-              {formik.errors.email && (
+              {formik.errors?.email && (
                 <div className="text-xs text-red-400">
-                  {formik.errors.email.toString()}
+                  {formik.errors?.email.toString()}
                 </div>
               )}
             </div>
@@ -120,9 +120,9 @@ function Login() {
                 className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                 onChange={formik.handleChange}
               />
-              {formik.errors.password && (
+              {formik.errors?.password && (
                 <div className="text-xs text-red-400">
-                  {formik.errors.password.toString()}
+                  {formik.errors?.password.toString()}
                 </div>
               )}
             </div>

@@ -20,7 +20,7 @@ function useManagePageFormState(selectedPage: any) {
       ...pageState?.sections[index],
       [fieldName]: fieldValue,
       errors: {
-        ...pageState.sections[index].errors,
+        ...pageState.sections[index]?.errors,
         [fieldName]: managePageFormValidation(fieldName, fieldValue),
       },
     };

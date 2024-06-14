@@ -138,6 +138,16 @@ function ManagePost({
           }
         }}
       />
+      <FileBrowser
+        fileTypeSelectionDisabled={true}
+        isOpen={openFeaturedImageBrowser}
+        setIsOpen={setOpenFeaturedImageBrowser}
+        selectedFile={(file: Attachment) => {
+          if (file) {
+            formik.setFieldValue("featuredImage", file.attachmentUrl);
+          }
+        }}
+      />
       <AppLoader isLoading={addPostLoading} />
       <form onSubmit={formik.handleSubmit}>
         <div
@@ -253,9 +263,9 @@ function ManagePost({
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={formik.handleChange}
                 />
-                {formik.errors.title && (
+                {formik.errors?.title && (
                   <div className="text-xs text-red-400">
-                    {formik.errors.title.toString()}
+                    {formik.errors?.title.toString()}
                   </div>
                 )}
               </div>
@@ -281,9 +291,9 @@ function ManagePost({
                   }}
                 />
 
-                {formik.errors.content && (
+                {formik.errors?.content && (
                   <div className="text-xs text-red-400">
-                    {formik.errors.content.toString()}
+                    {formik.errors?.content.toString()}
                   </div>
                 )}
               </div>
@@ -305,16 +315,6 @@ function ManagePost({
               </div>
 
               <div className="">
-                <FileBrowser
-                  fileTypeSelectionDisabled={true}
-                  isOpen={openFeaturedImageBrowser}
-                  setIsOpen={setOpenFeaturedImageBrowser}
-                  selectedFile={(file: Attachment) => {
-                    if (file) {
-                      formik.setFieldValue("featuredImage", file.attachmentUrl);
-                    }
-                  }}
-                />
                 <div className="">Featured Image</div>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
@@ -424,7 +424,7 @@ function ManagePost({
                   <button
                     type="submit"
                     disabled={addPostLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Update Post
                   </button>
@@ -434,7 +434,7 @@ function ManagePost({
                   <button
                     type="submit"
                     disabled={addPostLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Create Post
                   </button>
