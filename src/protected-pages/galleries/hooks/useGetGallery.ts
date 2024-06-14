@@ -1,5 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { firebase_db } from "../../../configs/firebase-config";
 import { GalleryModel } from "../models/gallery.model";
 
@@ -17,19 +18,19 @@ function useGetGallery() {
         const data = docSnap.data();
         setGallery({
           id: docSnap.id,
-          slug: data.slug,
-          title: data.title,
-          contentSummery: data.contentSummery,
-          featuredImage: data.featuredImage,
-          sections: data.sections,
-          status: data.status,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
+          slug: data?.slug,
+          title: data?.title,
+          contentSummery: data?.contentSummery,
+          featuredImage: data?.featuredImage,
+          sections: data?.sections,
+          status: data?.status,
+          createdAt: data?.createdAt,
+          updatedAt: data?.updatedAt,
         });
       }
     } catch (e: any) {
       setError(e);
-      console.error("Error adding document: ", e);
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

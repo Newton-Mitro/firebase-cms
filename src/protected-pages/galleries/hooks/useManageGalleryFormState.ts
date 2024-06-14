@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { manageGalleryFormValidation } from "../utils/manageGalleryFormValidation";
 
-function useManageGalleryFormState(selectedGallery: any) {
+function useManageGalleryFormState(selectedView: any) {
   const [galleryState, setGalleryState] = useState({
-    title: selectedGallery.title,
-    sections: selectedGallery.sections,
-    contentSummery: selectedGallery.contentSummery,
-    featuredImage: selectedGallery.featuredImage,
-    status: selectedGallery.status,
+    title: selectedView.title,
+    sections: selectedView.sections,
+    contentSummery: selectedView.contentSummery,
+    featuredImage: selectedView.featuredImage,
+    status: selectedView.status,
     errors: { title: "", featuredImage: "", contentSummery: "" },
   });
 

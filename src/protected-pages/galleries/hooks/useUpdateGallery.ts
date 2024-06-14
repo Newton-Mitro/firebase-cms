@@ -17,27 +17,26 @@ function useUpdateGallery() {
 
       if (docSnap.exists()) {
         const updatedGallery = {
-          slug: gallery.slug,
-          title: gallery.title,
-          contentSummery: gallery.contentSummery,
-          featuredImage: gallery.featuredImage,
-          sections: gallery.sections,
-          status: gallery.status,
+          slug: gallery?.slug,
+          title: gallery?.title,
+          contentSummery: gallery?.contentSummery,
+          featuredImage: gallery?.featuredImage,
+          sections: gallery?.sections,
+          status: gallery?.status,
           updatedAt: serverTimestamp(),
         };
 
         await updateDoc(docRef, updatedGallery);
         setGallery({
           ...updatedGallery,
-          createdAt: gallery.createdAt,
-          id: gallery.id,
+          createdAt: gallery?.createdAt,
+          id: gallery?.id,
         });
         toast.success("Gallery updated!");
       }
     } catch (e: any) {
       setError(e);
-      console.error("Error adding document: ", e);
-      toast.error("Error occurred during updating gallery.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

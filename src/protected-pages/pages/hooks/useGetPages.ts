@@ -7,6 +7,7 @@ import {
   startAt,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { firebase_db } from "../../../configs/firebase-config";
 import { PageModel } from "../models/page.model";
 
@@ -58,32 +59,37 @@ function useGetPages() {
         documentSnapshots.docs[currentPageStartAfter];
       // Construct a new query starting at this document,
       // get the next 25 cities.
-      const next = query(
-        collection(firebase_db, "pages"),
-        orderBy("updatedAt", "desc"),
-        startAt(nextViewRecordStartAfter),
-        limit(_limit)
-      );
+      if (documentSnapshots.size > 0) {
+        const next = query(
+          collection(firebase_db, "pages"),
+          orderBy("updatedAt", "desc"),
+          startAt(nextViewRecordStartAfter),
+          limit(_limit)
+        );
 
-      const currentDocumentSnapshots = await getDocs(next);
+        const currentDocumentSnapshots = await getDocs(next);
 
-      const pageList = currentDocumentSnapshots.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          slug: data.slug,
-          title: data.title,
-          contentSummery: data.contentSummery,
-          featuredImage: data.featuredImage,
-          sections: data.sections,
-          status: data.status,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-        };
-      });
-      setPages(pageList);
+        const pageList = currentDocumentSnapshots.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            slug: data?.slug,
+            title: data?.title,
+            contentSummery: data?.contentSummery,
+            featuredImage: data?.featuredImage,
+            sections: data?.sections,
+            status: data?.status,
+            createdAt: data?.createdAt,
+            updatedAt: data?.updatedAt,
+          };
+        });
+        setPages(pageList);
+      } else {
+        setPages([]);
+      }
     } catch (error: any) {
       setError(error);
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

@@ -12,23 +12,23 @@ function useAddPost() {
   async function addPost(post: PostModel) {
     try {
       post = {
-        id: post.id,
-        slug: post.slug,
-        title: post.title,
-        content: post.content,
-        contentSummery: post.contentSummery,
-        featuredImage: post.featuredImage,
-        attachments: post.attachments,
-        status: post.status,
+        id: post?.id,
+        slug: post?.slug,
+        title: post?.title,
+        content: post?.content,
+        contentSummery: post?.contentSummery,
+        featuredImage: post?.featuredImage,
+        attachments: post?.attachments,
+        status: post?.status,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
-      await setDoc(doc(firebase_db, "posts", post.id), post);
+      await setDoc(doc(firebase_db, "posts", post?.id), post);
       setPost(post);
       toast.success("Post added!");
     } catch (error) {
       setError(error);
-      toast.error("Error occurred while adding post.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

@@ -12,13 +12,13 @@ function useAddGallery() {
   async function addGallery(gallery: GalleryModel) {
     try {
       gallery = {
-        id: gallery.id,
-        slug: gallery.slug,
-        title: gallery.title,
-        contentSummery: gallery.contentSummery,
-        featuredImage: gallery.featuredImage,
-        sections: gallery.sections,
-        status: gallery.status,
+        id: gallery?.id,
+        slug: gallery?.slug,
+        title: gallery?.title,
+        contentSummery: gallery?.contentSummery,
+        featuredImage: gallery?.featuredImage,
+        sections: gallery?.sections,
+        status: gallery?.status,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
@@ -27,7 +27,7 @@ function useAddGallery() {
       toast.success("Gallery added!");
     } catch (error) {
       setError(error);
-      toast.error("Error occurred while adding gallery.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { managePageFormValidation } from "../utils/managePageFormValidation";
 
-function useManagePageFormState(selectedPage: any) {
+function useManagePageFormState(selectedView: any) {
   const [pageState, setPageState] = useState({
-    title: selectedPage.title,
-    sections: selectedPage.sections,
-    contentSummery: selectedPage.contentSummery,
-    featuredImage: selectedPage.featuredImage,
-    status: selectedPage.status,
+    title: selectedView?.title,
+    sections: selectedView?.sections,
+    contentSummery: selectedView?.contentSummery,
+    featuredImage: selectedView?.featuredImage,
+    status: selectedView?.status,
     errors: { title: "", featuredImage: "", contentSummery: "" },
   });
 

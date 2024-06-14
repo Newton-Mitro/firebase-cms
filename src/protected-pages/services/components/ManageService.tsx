@@ -18,8 +18,8 @@ const validate = (values: any) => {
   let errors: any = {};
   if (!values.title) {
     errors.title = "Required";
-  } else if (values.title.length < 5) {
-    errors.title = "Minimum 5 character needed.";
+  } else if (values.title.length < 2) {
+    errors.title = "Minimum 2 character needed.";
   }
 
   if (!values.content) {
@@ -32,8 +32,8 @@ const validate = (values: any) => {
 };
 
 function ManageService({
-  closeServiceDialogue,
-  selectedService,
+  closeManageWindow,
+  selectedView,
   getServices,
   windowType,
 }: any) {
@@ -43,12 +43,12 @@ function ManageService({
     useState(false);
   const formik = useFormik({
     initialValues: {
-      title: selectedService?.title,
-      content: selectedService?.content,
-      contentSummery: selectedService?.contentSummery,
-      featuredImage: selectedService?.featuredImage,
-      status: selectedService?.status,
-      attachments: selectedService?.attachments,
+      title: selectedView?.title,
+      content: selectedView?.content,
+      contentSummery: selectedView?.contentSummery,
+      featuredImage: selectedView?.featuredImage,
+      status: selectedView?.status,
+      attachments: selectedView?.attachments,
     },
     validate,
     onSubmit: (values) => {
@@ -76,8 +76,8 @@ function ManageService({
           updatedAt: "",
         });
       } else {
-        updateService(selectedService?.id, {
-          id: selectedService?.id,
+        updateService(selectedView?.id, {
+          id: selectedView?.id,
           slug: slug,
           title: values.title,
           content: values.content,
@@ -104,23 +104,21 @@ function ManageService({
     service: addedService,
     addService,
     loading: addServiceLoading,
-    error: addServiceError,
   } = useAddService();
 
   const {
     service: updatedService,
     updateService,
     loading: updateServiceLoading,
-    error: updateServiceError,
   } = useUpdateService();
 
   if (addedService !== null) {
-    closeServiceDialogue();
+    closeManageWindow();
     getServices();
   }
 
   if (updatedService !== null) {
-    closeServiceDialogue();
+    closeManageWindow();
     getServices();
   }
 
@@ -148,7 +146,7 @@ function ManageService({
           }
         }}
       />
-      <AppLoader isLoading={addServiceLoading} />
+      <AppLoader isLoading={addServiceLoading || updateServiceLoading} />
       <form onSubmit={formik.handleSubmit}>
         <div
           className={`absolute  h-full shadow ${
@@ -227,7 +225,7 @@ function ManageService({
                 className=""
                 type="button"
                 onClick={() => {
-                  closeServiceDialogue();
+                  closeManageWindow();
                 }}
               >
                 <svg

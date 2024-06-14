@@ -18,8 +18,8 @@ import useUpdatePage from "../hooks/useUpdatePage";
 import { managePageFormValidation } from "../utils/managePageFormValidation";
 
 function ManagePage({
-  closePageDialogue,
-  selectedPage,
+  closeManageWindow,
+  selectedView,
   getPages,
   windowType,
 }: any) {
@@ -34,7 +34,7 @@ function ManagePage({
     removePageSection,
     addPageSection,
     updatePageState,
-  } = useManagePageFormState(selectedPage);
+  } = useManagePageFormState(selectedView);
 
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
@@ -87,8 +87,8 @@ function ManagePage({
         updatedAt: "",
       });
     } else {
-      updatePage(selectedPage?.id, {
-        id: selectedPage?.id,
+      updatePage(selectedView?.id, {
+        id: selectedView?.id,
         slug: slug,
         title: pageState.title,
         contentSummery: pageState.contentSummery,
@@ -101,33 +101,27 @@ function ManagePage({
     }
   };
 
-  const {
-    page: addedPage,
-    addPage,
-    loading: addPageLoading,
-    error: addPageError,
-  } = useAddPage();
+  const { page: addedPage, addPage, loading: addPageLoading } = useAddPage();
 
   const {
     page: updatedPage,
     updatePage,
     loading: updatePageLoading,
-    error: updatePageError,
   } = useUpdatePage();
 
   if (addedPage !== null) {
-    closePageDialogue();
+    closeManageWindow();
     getPages();
   }
 
   if (updatedPage !== null) {
-    closePageDialogue();
+    closeManageWindow();
     getPages();
   }
 
   return (
     <>
-      <AppLoader isLoading={addPageLoading} />
+      <AppLoader isLoading={addPageLoading || updatePageLoading} />
       <FileBrowser
         isOpen={openFeaturedImageBrowser}
         fileTypeSelectionDisabled={true}
@@ -225,7 +219,7 @@ function ManagePage({
                 className=""
                 type="button"
                 onClick={() => {
-                  closePageDialogue();
+                  closeManageWindow();
                 }}
               >
                 <svg

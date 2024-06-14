@@ -17,13 +17,13 @@ function useUpdateService() {
 
       if (docSnap.exists()) {
         const updatedService = {
-          slug: service.slug,
-          title: service.title,
-          content: service.content,
-          contentSummery: service.contentSummery,
-          featuredImage: service.featuredImage,
-          attachments: service.attachments,
-          status: service.status,
+          slug: service?.slug,
+          title: service?.title,
+          content: service?.content,
+          contentSummery: service?.contentSummery,
+          featuredImage: service?.featuredImage,
+          attachments: service?.attachments,
+          status: service?.status,
           updatedAt: serverTimestamp(),
         };
 
@@ -31,8 +31,8 @@ function useUpdateService() {
         try {
           setService({
             ...updatedService,
-            createdAt: service.createdAt,
-            id: service.id,
+            createdAt: service?.createdAt,
+            id: service?.id,
           });
         } catch (error) {}
 
@@ -40,8 +40,7 @@ function useUpdateService() {
       }
     } catch (e: any) {
       setError(e);
-      console.error("Error adding document: ", e);
-      toast.error("Error occurred during updating service.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

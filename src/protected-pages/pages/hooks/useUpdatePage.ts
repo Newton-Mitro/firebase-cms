@@ -17,23 +17,22 @@ function useUpdatePage() {
 
       if (docSnap.exists()) {
         const updatedPage = {
-          slug: page.slug,
-          title: page.title,
-          contentSummery: page.contentSummery,
-          featuredImage: page.featuredImage,
-          sections: page.sections,
-          status: page.status,
+          slug: page?.slug,
+          title: page?.title,
+          contentSummery: page?.contentSummery,
+          featuredImage: page?.featuredImage,
+          sections: page?.sections,
+          status: page?.status,
           updatedAt: serverTimestamp(),
         };
 
         await updateDoc(docRef, updatedPage);
-        setPage({ ...updatedPage, createdAt: page.createdAt, id: page.id });
+        setPage({ ...updatedPage, createdAt: page?.createdAt, id: page?.id });
         toast.success("Page updated!");
       }
     } catch (e: any) {
       setError(e);
-      console.error("Error adding document: ", e);
-      toast.error("Error occurred during updating page.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

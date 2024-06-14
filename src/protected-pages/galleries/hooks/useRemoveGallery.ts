@@ -17,8 +17,7 @@ function useRemoveGallery() {
       toast.success("Gallery removed!");
     } catch (e: any) {
       setError(e);
-      console.error("Error adding document: ", e);
-      toast.error(e);
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

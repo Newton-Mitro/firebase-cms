@@ -17,8 +17,8 @@ import useUpdateGallery from "../hooks/useUpdateGallery";
 import { manageGalleryFormValidation } from "../utils/manageGalleryFormValidation";
 
 function ManageGallery({
-  closeGalleryDialogue,
-  selectedGallery,
+  closeManageWindow,
+  selectedView,
   getGalleries,
   windowType,
 }: any) {
@@ -33,7 +33,7 @@ function ManageGallery({
     removeGallerySection,
     addGallerySection,
     updateGalleryState,
-  } = useManageGalleryFormState(selectedGallery);
+  } = useManageGalleryFormState(selectedView);
 
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
@@ -85,8 +85,8 @@ function ManageGallery({
         updatedAt: "",
       });
     } else {
-      updateGallery(selectedGallery?.id, {
-        id: selectedGallery?.id,
+      updateGallery(selectedView?.id, {
+        id: selectedView?.id,
         slug: slug,
         title: galleryState.title,
         contentSummery: galleryState.contentSummery,
@@ -103,29 +103,27 @@ function ManageGallery({
     gallery: addedGallery,
     addGallery,
     loading: addGalleryLoading,
-    error: addGalleryError,
   } = useAddGallery();
 
   const {
     gallery: updatedGallery,
     updateGallery,
     loading: updateGalleryLoading,
-    error: updateGalleryError,
   } = useUpdateGallery();
 
   if (addedGallery !== null) {
-    closeGalleryDialogue();
+    closeManageWindow();
     getGalleries();
   }
 
   if (updatedGallery !== null) {
-    closeGalleryDialogue();
+    closeManageWindow();
     getGalleries();
   }
 
   return (
     <>
-      <AppLoader isLoading={addGalleryLoading} />
+      <AppLoader isLoading={addGalleryLoading || updateGalleryLoading} />
       <FileBrowser
         isOpen={openFeaturedImageBrowser}
         fileTypeSelectionDisabled={true}
@@ -223,7 +221,7 @@ function ManageGallery({
                 className=""
                 type="button"
                 onClick={() => {
-                  closeGalleryDialogue();
+                  closeManageWindow();
                 }}
               >
                 <svg

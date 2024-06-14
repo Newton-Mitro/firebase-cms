@@ -98,7 +98,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -127,7 +127,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -156,7 +156,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -186,7 +186,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -216,7 +216,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -246,7 +246,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -275,7 +275,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -305,7 +305,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -335,7 +335,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -365,7 +365,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -393,7 +393,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -422,7 +422,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -451,7 +451,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -480,7 +480,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -509,7 +509,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -538,7 +538,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -568,7 +568,7 @@ const AuthLayout = () => {
                 className={({ isActive }) => {
                   return `${
                     isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-slate-700/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
