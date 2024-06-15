@@ -56,8 +56,8 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
         <div
           className={`${
             windowState
-              ? "h-[calc(100vh-60px)] w-[calc(100vw-80px)]"
-              : "w-8/12 h-5/6"
+              ? "h-[calc(100vh-60px)] w-full lg:w-[calc(100vw-80px)]"
+              : "w-full lg:w-8/12 h-5/6"
           } bg-primary text-onPrimary 
           flex flex-col border border-borderColor shadow`}
         >

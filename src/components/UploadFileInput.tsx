@@ -3,8 +3,7 @@ import { FileType } from "../enums/file-type.enum";
 
 function UploadFileInput({ fileType, uploadFile, listAttachments }: any) {
   return (
-    <div className="flex items-center gap-4">
-      <div className="">Upload File</div>
+    <div className="flex items-center w-40 lg:w-auto">
       {fileType === FileType.Image && (
         <input
           id="attachments"

@@ -49,7 +49,7 @@ const FileManager = () => {
         <h2 className="text-xl">File Manager</h2>
         <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
           <div className="flex flex-col gap-2">
-            <div className="header flex gap-2 justify-between">
+            <div className="header flex gap-1 justify-between">
               <UploadFileInput
                 fileType={fileType}
                 uploadFile={uploadFile}

@@ -77,7 +77,7 @@ function PaginateRow({
       >
         <button
           type="button"
-          className="flex w-8 h-8 mr-1 justify-center items-center 
+          className="hidden md:flex w-8 h-8 mr-1 justify-center items-center 
                 disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           disabled={currentViewStartFrom === 1 ? true : false}
           title="First Page"
@@ -143,7 +143,7 @@ function PaginateRow({
             );
           } else {
             return (
-              <div key={page} className="">
+              <div key={page} className="hidden md:flex">
                 {page}
               </div>
             );
@@ -172,7 +172,7 @@ function PaginateRow({
         </button>
         <button
           type="button"
-          className="flex w-8 h-8 mr-1 justify-center items-center 
+          className="hidden md:flex w-8 h-8 mr-1 justify-center items-center 
                 disabled:bg-disabledColor rounded-full border border-borderColor hover:border-gray-300"
           title="Last Page"
           disabled={currentViewStartFrom === lastView ? true : false}
