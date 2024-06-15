@@ -6,8 +6,10 @@ import ListGallery from "../protected-pages/galleries/components/ListGallery";
 import HomePage from "../protected-pages/home/HomePage";
 import ListPage from "../protected-pages/pages/components/ListPage";
 import ListPost from "../protected-pages/posts/components/ListPost";
+import SiteSettings from "../protected-pages/settings/components/SiteSettings";
 import ErrorPage from "../public-pages/error-page/ErrorPage";
 import Login from "../public-pages/login/Login";
+import Register from "../public-pages/register/Register";
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +17,7 @@ export const router = createBrowserRouter([
     element: <PublicLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "register", element: <div className="">Register</div> },
+      { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "gallery", element: <Login /> },
       { path: "contact", element: <Login /> },
@@ -185,7 +187,7 @@ export const router = createBrowserRouter([
       { path: "events", element: <div className="">events</div> },
       { path: "job-circulars", element: <div className="">Job Circulars</div> },
       { path: "staffs", element: <div className="">Staffs</div> },
-      { path: "settings", element: <div className="">Settings</div> },
+      { path: "settings", element: <SiteSettings /> },
     ],
   },
 ]);
