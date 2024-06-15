@@ -271,36 +271,6 @@ const AuthLayout = () => {
                 </span>
               </NavLink>
               <NavLink
-                to={"products"}
-                className={({ isActive }) => {
-                  return `${
-                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
-                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                  />
-                </svg>
-
-                <span
-                  className={`${isSidebarOpen ? "inline-block" : "hidden"}`}
-                >
-                  Products
-                </span>
-              </NavLink>
-
-              <NavLink
                 to={"galleries"}
                 className={({ isActive }) => {
                   return `${
@@ -560,36 +530,6 @@ const AuthLayout = () => {
                   className={`${isSidebarOpen ? "inline-block" : "hidden"}`}
                 >
                   Settings
-                </span>
-              </NavLink>
-
-              <NavLink
-                to={"contacts"}
-                className={({ isActive }) => {
-                  return `${
-                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
-                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-                  />
-                </svg>
-
-                <span
-                  className={`${isSidebarOpen ? "inline-block" : "hidden"}`}
-                >
-                  Contacts
                 </span>
               </NavLink>
             </ul>

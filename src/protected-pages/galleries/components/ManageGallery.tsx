@@ -458,7 +458,7 @@ function ManageGallery({
                         </div>
 
                         <div className="">
-                          <div className="">Attachment</div>
+                          <div className="">Section Attachment</div>
                           {galleryState.sections[index].errors?.attachment && (
                             <div className="text-xs text-red-400">
                               {galleryState.sections[index].errors?.attachment}
