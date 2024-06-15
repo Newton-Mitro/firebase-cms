@@ -2,7 +2,7 @@ import { Attachment } from "./attachment";
 
 export interface PageSection {
   sectionTitle: string;
-  content: string;
+  sectionContent: string;
   attachment: Attachment | null;
   order: number;
 }

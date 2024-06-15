@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import AppLoader from "../../../components/AppLoader";
+import PaginateRow from "../../../components/PaginateRow";
 import UploadFileInput from "../../../components/UploadFileInput";
 import { FileType } from "../../../enums/file-type.enum";
 import useGetAttachments from "../hooks/useGetAttachments";
@@ -23,6 +24,8 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
 }) => {
   const [fileType, setFileType] = useState<string>(FileType.Image);
   const [windowState, setWindowState] = useState(false);
+  const [currentPostStartFrom, setCurrentPostStartFrom] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
 
   const { fileUrl, uploadFile, loading, error } = useUploadFile();
 
@@ -30,7 +33,13 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
     attachments,
     listAttachments,
     loading: attachmentsLoading,
-    error: attachmentsError,
+    activeView,
+    nextView,
+    previousView,
+    firstView,
+    lastView,
+    totalViews,
+    totalRecords,
   } = useGetAttachments();
 
   const {
@@ -41,8 +50,8 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
   } = useRemoveFile();
 
   useEffect(() => {
-    listAttachments(fileType);
-  }, [fileUrl, removedFileId, fileType]);
+    listAttachments(fileType, currentPostStartFrom, limit);
+  }, [fileUrl, removedFileId, currentPostStartFrom, fileType, limit]);
 
   if (isOpen) {
     return ReactDOM.createPortal(
@@ -152,6 +161,21 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
             </div>
           </header>
           <div className="p-4 overflow-auto h-1/2">
+            <div className="mb-2">
+              <PaginateRow
+                totalRecords={totalRecords}
+                limit={limit}
+                setLimit={setLimit}
+                currentViewStartFrom={currentPostStartFrom}
+                setCurrentViewStartFrom={setCurrentPostStartFrom}
+                activeView={activeView}
+                firstView={firstView}
+                lastView={lastView}
+                previousView={previousView}
+                nextView={nextView}
+                totalView={totalViews}
+              />
+            </div>
             <div className="flex gap-1 lg:gap-4 flex-wrap">
               {attachments && attachments.length > 0 ? (
                 attachments.map((attachment) => {

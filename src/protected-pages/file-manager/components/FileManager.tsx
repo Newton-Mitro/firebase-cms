@@ -37,8 +37,8 @@ const FileManager = () => {
   } = useRemoveFile();
 
   useEffect(() => {
-    listAttachments(fileType);
-  }, [removedFileId, fileType, fileUrl]);
+    listAttachments(fileType, currentPostStartFrom, limit);
+  }, [removedFileId, fileType, fileUrl, currentPostStartFrom, limit]);
 
   return (
     <>

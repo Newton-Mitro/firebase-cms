@@ -48,12 +48,13 @@ function ListPage() {
       id: "",
       slug: "",
       title: "",
+      content: "",
       contentSummery: "",
       featuredImage: "",
       sections: [
         {
           sectionTitle: "",
-          content: "",
+          sectionContent: "",
           attachment: null,
           order: 0,
         },

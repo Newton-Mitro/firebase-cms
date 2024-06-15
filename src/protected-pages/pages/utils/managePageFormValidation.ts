@@ -12,6 +12,15 @@ export const managePageFormValidation = (
       }
       return "";
 
+    case "content":
+      if (fieldValue?.trim().length === 0) {
+        return "Page content is required";
+      }
+      if (fieldValue.length < 15) {
+        return "Minimum 15 character needed for section content.";
+      }
+      return "";
+
     case "sectionTitle":
       if (fieldValue?.trim().length === 0) {
         return "Section title is required";
@@ -28,7 +37,7 @@ export const managePageFormValidation = (
 
       return "";
 
-    case "content":
+    case "sectionContent":
       if (fieldValue?.trim().length === 0) {
         return "Section content is required";
       }

@@ -75,6 +75,7 @@ function useGetPages() {
             id: doc.id,
             slug: data?.slug,
             title: data?.title,
+            content: data?.content,
             contentSummery: data?.contentSummery,
             featuredImage: data?.featuredImage,
             sections: data?.sections,

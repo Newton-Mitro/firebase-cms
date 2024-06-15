@@ -5,10 +5,11 @@ function useManagePageFormState(selectedView: any) {
   const [pageState, setPageState] = useState({
     title: selectedView?.title,
     sections: selectedView?.sections,
+    content: selectedView?.content,
     contentSummery: selectedView?.contentSummery,
     featuredImage: selectedView?.featuredImage,
     status: selectedView?.status,
-    errors: { title: "", featuredImage: "", contentSummery: "" },
+    errors: { title: "", featuredImage: "", content: "", contentSummery: "" },
   });
 
   const updatePageSection = (

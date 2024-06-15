@@ -66,7 +66,7 @@ function ManageGallery({
       (section: PageSection) => {
         return {
           sectionTitle: section.sectionTitle,
-          content: section.content,
+          sectionContent: section.sectionContent,
           attachment: section.attachment,
           order: section.order,
         };

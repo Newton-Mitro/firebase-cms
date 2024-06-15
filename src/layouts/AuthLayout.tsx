@@ -97,8 +97,8 @@ const AuthLayout = () => {
                 to={"/panel/home"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -126,8 +126,8 @@ const AuthLayout = () => {
                 to={"file-manager"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -155,8 +155,8 @@ const AuthLayout = () => {
                 to={"pages"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -185,8 +185,8 @@ const AuthLayout = () => {
                 to={"posts"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -215,8 +215,8 @@ const AuthLayout = () => {
                 to={"comments"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -245,8 +245,8 @@ const AuthLayout = () => {
                 to={"services"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -274,8 +274,8 @@ const AuthLayout = () => {
                 to={"products"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -304,8 +304,8 @@ const AuthLayout = () => {
                 to={"galleries"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -334,8 +334,8 @@ const AuthLayout = () => {
                 to={"testimonials"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -364,8 +364,8 @@ const AuthLayout = () => {
                 to={"notices"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -392,8 +392,8 @@ const AuthLayout = () => {
                 to={"events"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -421,8 +421,8 @@ const AuthLayout = () => {
                 to={"job-circulars"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -450,8 +450,8 @@ const AuthLayout = () => {
                 to={"staffs"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -479,8 +479,8 @@ const AuthLayout = () => {
                 to={"partners"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -508,8 +508,8 @@ const AuthLayout = () => {
                 to={"users"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -537,8 +537,8 @@ const AuthLayout = () => {
                 to={"settings"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg
@@ -567,8 +567,8 @@ const AuthLayout = () => {
                 to={"contacts"}
                 className={({ isActive }) => {
                   return `${
-                    isActive ? "text-yellow-100 font-bold bg-cyan-950/50" : ""
-                  } hover:cursor-pointer hover:bg-accent/50 p-2 transition-all duration-300 flex items-center gap-2`;
+                    isActive ? "text-yellow-100 font-bold bg-accent" : ""
+                  } hover:cursor-pointer hover:bg-accent p-2 transition-all duration-300 flex items-center gap-2`;
                 }}
               >
                 <svg

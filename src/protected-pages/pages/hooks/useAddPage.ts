@@ -15,6 +15,7 @@ function useAddPage() {
         id: page?.id,
         slug: page?.slug,
         title: page?.title,
+        content: page?.content,
         contentSummery: page?.contentSummery,
         featuredImage: page?.featuredImage,
         sections: page?.sections,

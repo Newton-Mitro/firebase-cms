@@ -19,6 +19,7 @@ function useUpdatePage() {
         const updatedPage = {
           slug: page?.slug,
           title: page?.title,
+          content: page?.content,
           contentSummery: page?.contentSummery,
           featuredImage: page?.featuredImage,
           sections: page?.sections,

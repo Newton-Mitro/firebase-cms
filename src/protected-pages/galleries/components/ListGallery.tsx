@@ -53,7 +53,7 @@ function ListGallery() {
       sections: [
         {
           sectionTitle: "",
-          content: "",
+          sectionContent: "",
           attachment: null,
           order: 0,
         },

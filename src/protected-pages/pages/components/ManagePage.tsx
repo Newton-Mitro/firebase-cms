@@ -40,6 +40,7 @@ function ManagePage({
     event.preventDefault();
     var errors = "";
     errors = errors + managePageFormValidation("title", pageState.title);
+    errors = errors + managePageFormValidation("content", pageState.content);
     pageState.sections.forEach((element: any, index: number) => {
       let fieldName: keyof typeof element;
       for (fieldName in element) {
@@ -49,6 +50,7 @@ function ManagePage({
       }
     });
     updatePageState("title", pageState.title);
+    updatePageState("content", pageState.content);
     if (errors) {
       toast.error("Please all the fields correctly!");
       return;
@@ -67,7 +69,7 @@ function ManagePage({
       (section: PageSection) => {
         return {
           sectionTitle: section.sectionTitle,
-          content: section.content,
+          sectionContent: section.sectionContent,
           attachment: section.attachment,
           order: section.order,
         };
@@ -79,6 +81,7 @@ function ManagePage({
         id: pageId,
         slug: slug,
         title: pageState.title,
+        content: pageState.content,
         contentSummery: pageState.contentSummery,
         featuredImage: pageState.featuredImage,
         sections: newSections,
@@ -91,6 +94,7 @@ function ManagePage({
         id: selectedView?.id,
         slug: slug,
         title: pageState.title,
+        content: pageState.content,
         contentSummery: pageState.contentSummery,
         featuredImage: pageState.featuredImage,
         sections: newSections,
@@ -266,6 +270,34 @@ function ManagePage({
 
               <div className="flex flex-col">
                 <label className="" htmlFor="username">
+                  Page Content
+                </label>
+                <ReactQuill
+                  theme="snow"
+                  id="content"
+                  modules={modules}
+                  formats={formats}
+                  className={`${
+                    windowType === WindowType.View
+                      ? "bg-disabledColor"
+                      : "bg-primary"
+                  } text-white text-xl`}
+                  readOnly={windowType === WindowType.View ? true : false}
+                  value={pageState?.content}
+                  onChange={(value) => {
+                    updatePageState("content", value);
+                  }}
+                />
+
+                {pageState?.errors?.content && (
+                  <div className="text-xs text-red-400">
+                    {pageState?.errors?.content}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-col">
+                <label className="" htmlFor="username">
                   Page Summery
                 </label>
                 <textarea
@@ -427,7 +459,7 @@ function ManagePage({
                           </label>
                           <ReactQuill
                             theme="snow"
-                            id="content"
+                            id="sectionContent"
                             modules={modules}
                             formats={formats}
                             className={`${
@@ -438,21 +470,25 @@ function ManagePage({
                             readOnly={
                               windowType === WindowType.View ? true : false
                             }
-                            value={pageState?.sections[index]?.content}
+                            value={pageState?.sections[index]?.sectionContent}
                             onChange={(value) => {
-                              updatePageSection("content", value, index);
+                              updatePageSection("sectionContent", value, index);
                             }}
                           />
 
-                          {pageState?.sections[index]?.errors?.content && (
+                          {pageState?.sections[index]?.errors
+                            ?.sectionContent && (
                             <div className="text-xs text-red-400">
-                              {pageState?.sections[index]?.errors?.content}
+                              {
+                                pageState?.sections[index]?.errors
+                                  ?.sectionContent
+                              }
                             </div>
                           )}
                         </div>
 
                         <div className="">
-                          <div className="">Attachment</div>
+                          <div className="">Section Attachment</div>
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
                               {pageState?.sections[index].attachment !==
