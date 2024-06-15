@@ -18,8 +18,8 @@ const validate = (values: any) => {
   let errors: any = {};
   if (!values.title) {
     errors.title = "Required";
-  } else if (values.title.length < 5) {
-    errors.title = "Minimum 5 character needed.";
+  } else if (values.title.length < 2) {
+    errors.title = "Minimum 2 character needed.";
   }
 
   if (!values.content) {
@@ -32,8 +32,8 @@ const validate = (values: any) => {
 };
 
 function ManageService({
-  closeServiceDialogue,
-  selectedService,
+  closeManageWindow,
+  selectedView,
   getServices,
   windowType,
 }: any) {
@@ -43,12 +43,12 @@ function ManageService({
     useState(false);
   const formik = useFormik({
     initialValues: {
-      title: selectedService?.title,
-      content: selectedService?.content,
-      contentSummery: selectedService?.contentSummery,
-      featuredImage: selectedService?.featuredImage,
-      status: selectedService?.status,
-      attachments: selectedService?.attachments,
+      title: selectedView?.title,
+      content: selectedView?.content,
+      contentSummery: selectedView?.contentSummery,
+      featuredImage: selectedView?.featuredImage,
+      status: selectedView?.status,
+      attachments: selectedView?.attachments,
     },
     validate,
     onSubmit: (values) => {
@@ -76,8 +76,8 @@ function ManageService({
           updatedAt: "",
         });
       } else {
-        updateService(selectedService?.id, {
-          id: selectedService?.id,
+        updateService(selectedView?.id, {
+          id: selectedView?.id,
           slug: slug,
           title: values.title,
           content: values.content,
@@ -104,23 +104,21 @@ function ManageService({
     service: addedService,
     addService,
     loading: addServiceLoading,
-    error: addServiceError,
   } = useAddService();
 
   const {
     service: updatedService,
     updateService,
     loading: updateServiceLoading,
-    error: updateServiceError,
   } = useUpdateService();
 
   if (addedService !== null) {
-    closeServiceDialogue();
+    closeManageWindow();
     getServices();
   }
 
   if (updatedService !== null) {
-    closeServiceDialogue();
+    closeManageWindow();
     getServices();
   }
 
@@ -138,13 +136,23 @@ function ManageService({
           }
         }}
       />
-      <AppLoader isLoading={addServiceLoading} />
+      <FileBrowser
+        fileTypeSelectionDisabled={true}
+        isOpen={openFeaturedImageBrowser}
+        setIsOpen={setOpenFeaturedImageBrowser}
+        selectedFile={(file: Attachment) => {
+          if (file) {
+            formik.setFieldValue("featuredImage", file.attachmentUrl);
+          }
+        }}
+      />
+      <AppLoader isLoading={addServiceLoading || updateServiceLoading} />
       <form onSubmit={formik.handleSubmit}>
         <div
           className={`absolute  h-full shadow ${
             windowState
-              ? "lg:w-full bottom-2 right-2 lg:inset-0"
-              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
+              ? "lg:w-full bottom-0 right-0 lg:inset-0"
+              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-0 right-0"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
           <header className="bg-accent border-b border-borderColor p-4 flex justify-between">
@@ -217,7 +225,7 @@ function ManageService({
                 className=""
                 type="button"
                 onClick={() => {
-                  closeServiceDialogue();
+                  closeManageWindow();
                 }}
               >
                 <svg
@@ -253,9 +261,9 @@ function ManageService({
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={formik.handleChange}
                 />
-                {formik.errors.title && (
+                {formik.errors?.title && (
                   <div className="text-xs text-red-400">
-                    {formik.errors.title.toString()}
+                    {formik.errors?.title.toString()}
                   </div>
                 )}
               </div>
@@ -281,9 +289,9 @@ function ManageService({
                   }}
                 />
 
-                {formik.errors.content && (
+                {formik.errors?.content && (
                   <div className="text-xs text-red-400">
-                    {formik.errors.content.toString()}
+                    {formik.errors?.content.toString()}
                   </div>
                 )}
               </div>
@@ -305,16 +313,6 @@ function ManageService({
               </div>
 
               <div className="">
-                <FileBrowser
-                  fileTypeSelectionDisabled={true}
-                  isOpen={openFeaturedImageBrowser}
-                  setIsOpen={setOpenFeaturedImageBrowser}
-                  selectedFile={(file: Attachment) => {
-                    if (file) {
-                      formik.setFieldValue("featuredImage", file.attachmentUrl);
-                    }
-                  }}
-                />
                 <div className="">Featured Image</div>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
@@ -424,7 +422,7 @@ function ManageService({
                   <button
                     type="submit"
                     disabled={addServiceLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Update Service
                   </button>
@@ -434,7 +432,7 @@ function ManageService({
                   <button
                     type="submit"
                     disabled={addServiceLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Create Service
                   </button>

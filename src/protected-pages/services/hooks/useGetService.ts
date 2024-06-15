@@ -1,5 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { firebase_db } from "../../../configs/firebase-config";
 import { ServiceModel } from "../models/service.model";
 
@@ -17,20 +18,20 @@ function useGetService() {
         const data = docSnap.data();
         setService({
           id: docSnap.id,
-          slug: data.slug,
-          title: data.title,
-          content: data.content,
-          contentSummery: data.contentSummery,
-          featuredImage: data.featuredImage,
-          attachments: data.attachments,
-          status: data.status,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
+          slug: data?.slug,
+          title: data?.title,
+          content: data?.content,
+          contentSummery: data?.contentSummery,
+          featuredImage: data?.featuredImage,
+          attachments: data?.attachments,
+          status: data?.status,
+          createdAt: data?.createdAt,
+          updatedAt: data?.updatedAt,
         });
       }
     } catch (e: any) {
       setError(e);
-      console.error("Error adding document: ", e);
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

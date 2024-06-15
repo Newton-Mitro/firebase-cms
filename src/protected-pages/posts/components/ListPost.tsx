@@ -10,17 +10,16 @@ import useUpdatePostStatus from "../hooks/useUpdatePostStatus";
 import { PostModel } from "../models/post.model";
 
 function ListPost() {
-  const [isCreatePostOpen, setCreatePostOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<PostModel | null>(null);
+  const [isManageWindowOpen, setManageWindowOpen] = useState(false);
+  const [selectedView, setSelectedView] = useState<PostModel | null>(null);
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
-  const [currentPostStartFrom, setCurrentPostStartFrom] = useState<number>(1);
+  const [currentViewStartFrom, setCurrentViewStartFrom] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
     posts,
     getPosts,
     loading: getPostsLoading,
-    error: getPostsError,
     activeView,
     nextView,
     previousView,
@@ -34,20 +33,18 @@ function ListPost() {
     removePostId,
     removePost,
     loading: removePostLoading,
-    error: removePostError,
   } = useRemovePost();
 
   const {
     updatedPostId,
     updatePostStatus,
     loading: updatePostStatusLoading,
-    error: updatePostStatusError,
   } = useUpdatePostStatus();
 
-  function openPostCreateDialogue() {
+  function openCreateWindow() {
     setWindowType(WindowType.Create);
-    setCreatePostOpen(true);
-    setSelectedPost({
+    setManageWindowOpen(true);
+    setSelectedView({
       id: "",
       slug: "",
       title: "",
@@ -61,24 +58,24 @@ function ListPost() {
     });
   }
 
-  function closePostDialogue() {
-    setSelectedPost(null);
-    setCreatePostOpen(false);
+  function closeManageWindow() {
+    setSelectedView(null);
+    setManageWindowOpen(false);
   }
 
-  function openPostViewDialogue() {
+  function openViewWindow() {
     setWindowType(WindowType.View);
-    setCreatePostOpen(true);
+    setManageWindowOpen(true);
   }
 
-  function openPostEditDialogue() {
+  function openEditWindow() {
     setWindowType(WindowType.Edit);
-    setCreatePostOpen(true);
+    setManageWindowOpen(true);
   }
 
   useEffect(() => {
-    getPosts(currentPostStartFrom, limit);
-  }, [removePostId, updatedPostId, limit, currentPostStartFrom]);
+    getPosts(currentViewStartFrom, limit);
+  }, [removePostId, updatedPostId, limit, currentViewStartFrom]);
 
   return (
     <>
@@ -89,13 +86,17 @@ function ListPost() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Posts</h2>
-        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
+        <div
+          className={`h-[calc(100vh-122px)] border ${
+            isManageWindowOpen ? "border-primary" : "border-borderColor"
+          }  bg-secondary p-2 flex flex-col overflow-auto relative`}
+        >
           <div className="flex-1">
             <div className="flex gap-2">
               <button
-                disabled={selectedPost !== null ? true : false}
+                disabled={selectedView !== null ? true : false}
                 onClick={() => {
-                  openPostCreateDialogue();
+                  openCreateWindow();
                 }}
                 className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
@@ -154,7 +155,7 @@ function ListPost() {
                   />
                   <button
                     disabled={true}
-                    className="border disabled:bg-disabledColor border-slate-700 hover:bg-slate-800 rounded-r bg-slate-700 p-1"
+                    className="border disabled:bg-disabledColor border-borderColor hover:bg-slate-800 rounded-r bg-accent p-1"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +172,7 @@ function ListPost() {
                       />
                     </svg>
                   </button>
-                  <button className="absolute hidden top-1 border border-slate-700 hover:bg-slate-800 rounded-r -right-8 bg-slate-700 p-1">
+                  <button className="absolute hidden top-1 border border-borderColor hover:bg-slate-800 rounded-r -right-8 bg-accent p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -190,7 +191,11 @@ function ListPost() {
                 </div>
               </div>
             </div>
-            <div className="h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b border-borderColor">
+            <div
+              className={`h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b ${
+                isManageWindowOpen ? "border-primary" : "border-borderColor"
+              }`}
+            >
               <table className="whitespace-no-wrap relative w-full table-auto border-collapse border">
                 <thead className="w-full">
                   <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-accent">
@@ -248,19 +253,19 @@ function ListPost() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {post.id}
+                            {post?.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {post.slug}
+                            {post?.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {post.title}
+                            {post?.title}
                           </p>
                         </td>
 
@@ -268,7 +273,7 @@ function ListPost() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {post.status ? (
+                            {post?.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -285,8 +290,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPost(post);
-                                openPostViewDialogue();
+                                setSelectedView(post);
+                                openViewWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -315,8 +320,8 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPost(post);
-                                openPostEditDialogue();
+                                setSelectedView(post);
+                                openEditWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -340,7 +345,7 @@ function ListPost() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removePost(post.id);
+                                removePost(post?.id);
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -362,11 +367,11 @@ function ListPost() {
                               </svg>
                             </button>
                             <div className="">
-                              {post.status ? (
+                              {post?.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePostStatus(post.id, false);
+                                    updatePostStatus(post?.id, false);
                                     getPosts();
                                   }}
                                 >
@@ -392,7 +397,7 @@ function ListPost() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePostStatus(post.id, true);
+                                    updatePostStatus(post?.id, true);
                                     getPosts();
                                   }}
                                 >
@@ -429,8 +434,8 @@ function ListPost() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentViewStartFrom={currentPostStartFrom}
-            setCurrentViewStartFrom={setCurrentPostStartFrom}
+            currentViewStartFrom={currentViewStartFrom}
+            setCurrentViewStartFrom={setCurrentViewStartFrom}
             activeView={activeView}
             firstView={firstView}
             lastView={lastView}
@@ -438,11 +443,14 @@ function ListPost() {
             nextView={nextView}
             totalView={totalViews}
           />
-          {isCreatePostOpen && (
+          {isManageWindowOpen && (
+            <div className="absolute inset-0 bg-primary opacity-70"></div>
+          )}
+          {isManageWindowOpen && (
             <ManagePost
-              closePostDialogue={closePostDialogue}
+              closeManageWindow={closeManageWindow}
               getPosts={getPosts}
-              selectedPost={selectedPost}
+              selectedView={selectedView}
               windowType={windowType}
             />
           )}

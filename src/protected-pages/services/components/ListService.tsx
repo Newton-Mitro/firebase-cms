@@ -10,20 +10,16 @@ import { ServiceModel } from "../models/service.model";
 import ManageService from "./ManageService";
 
 function ListService() {
-  const [isCreateServiceOpen, setCreateServiceOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<ServiceModel | null>(
-    null
-  );
+  const [isManageWindowOpen, setManageWindowOpen] = useState(false);
+  const [selectedView, setSelectedView] = useState<ServiceModel | null>(null);
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
-  const [currentServiceStartFrom, setCurrentServiceStartFrom] =
-    useState<number>(1);
+  const [currentViewStartFrom, setCurrentViewStartFrom] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
     services,
     getServices,
     loading: getServicesLoading,
-    error: getServicesError,
     activeView,
     nextView,
     previousView,
@@ -37,20 +33,18 @@ function ListService() {
     removeServiceId,
     removeService,
     loading: removeServiceLoading,
-    error: removeServiceError,
   } = useRemoveService();
 
   const {
     updatedServiceId,
     updateServiceStatus,
     loading: updateServiceStatusLoading,
-    error: updateServiceStatusError,
   } = useUpdateServiceStatus();
 
-  function openServiceCreateDialogue() {
+  function openCreateWindow() {
     setWindowType(WindowType.Create);
-    setCreateServiceOpen(true);
-    setSelectedService({
+    setManageWindowOpen(true);
+    setSelectedView({
       id: "",
       slug: "",
       title: "",
@@ -64,24 +58,24 @@ function ListService() {
     });
   }
 
-  function closeServiceDialogue() {
-    setSelectedService(null);
-    setCreateServiceOpen(false);
+  function closeManageWindow() {
+    setSelectedView(null);
+    setManageWindowOpen(false);
   }
 
-  function openServiceViewDialogue() {
+  function openViewWindow() {
     setWindowType(WindowType.View);
-    setCreateServiceOpen(true);
+    setManageWindowOpen(true);
   }
 
-  function openServiceEditDialogue() {
+  function openEditWindow() {
     setWindowType(WindowType.Edit);
-    setCreateServiceOpen(true);
+    setManageWindowOpen(true);
   }
 
   useEffect(() => {
-    getServices(currentServiceStartFrom, limit);
-  }, [removeServiceId, updatedServiceId, limit, currentServiceStartFrom]);
+    getServices(currentViewStartFrom, limit);
+  }, [removeServiceId, updatedServiceId, limit, currentViewStartFrom]);
 
   return (
     <>
@@ -94,13 +88,17 @@ function ListService() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Services</h2>
-        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
+        <div
+          className={`h-[calc(100vh-122px)] border ${
+            isManageWindowOpen ? "border-primary" : "border-borderColor"
+          }  bg-secondary p-2 flex flex-col overflow-auto relative`}
+        >
           <div className="flex-1">
             <div className="flex gap-2">
               <button
-                disabled={selectedService !== null ? true : false}
+                disabled={selectedView !== null ? true : false}
                 onClick={() => {
-                  openServiceCreateDialogue();
+                  openCreateWindow();
                 }}
                 className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
@@ -159,7 +157,7 @@ function ListService() {
                   />
                   <button
                     disabled={true}
-                    className="border disabled:bg-disabledColor border-slate-700 hover:bg-slate-800 rounded-r bg-slate-700 p-1"
+                    className="border disabled:bg-disabledColor border-borderColor hover:bg-slate-800 rounded-r bg-accent p-1"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -176,7 +174,7 @@ function ListService() {
                       />
                     </svg>
                   </button>
-                  <button className="absolute hidden top-1 border border-slate-700 hover:bg-slate-800 rounded-r -right-8 bg-slate-700 p-1">
+                  <button className="absolute hidden top-1 border border-borderColor hover:bg-slate-800 rounded-r -right-8 bg-accent p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -195,7 +193,11 @@ function ListService() {
                 </div>
               </div>
             </div>
-            <div className="h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b border-borderColor">
+            <div
+              className={`h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b ${
+                isManageWindowOpen ? "border-primary" : "border-borderColor"
+              }`}
+            >
               <table className="whitespace-no-wrap relative w-full table-auto border-collapse border">
                 <thead className="w-full">
                   <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-accent">
@@ -253,19 +255,19 @@ function ListService() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {service.id}
+                            {service?.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {service.slug}
+                            {service?.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {service.title}
+                            {service?.title}
                           </p>
                         </td>
 
@@ -273,7 +275,7 @@ function ListService() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {service.status ? (
+                            {service?.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -290,8 +292,8 @@ function ListService() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedService(service);
-                                openServiceViewDialogue();
+                                setSelectedView(service);
+                                openViewWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -320,8 +322,8 @@ function ListService() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedService(service);
-                                openServiceEditDialogue();
+                                setSelectedView(service);
+                                openEditWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -345,7 +347,7 @@ function ListService() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removeService(service.id);
+                                removeService(service?.id);
                                 getServices();
                               }}
                             >
@@ -368,11 +370,11 @@ function ListService() {
                               </svg>
                             </button>
                             <div className="">
-                              {service.status ? (
+                              {service?.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updateServiceStatus(service.id, false);
+                                    updateServiceStatus(service?.id, false);
                                     getServices();
                                   }}
                                 >
@@ -398,7 +400,7 @@ function ListService() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updateServiceStatus(service.id, true);
+                                    updateServiceStatus(service?.id, true);
                                     getServices();
                                   }}
                                 >
@@ -435,8 +437,8 @@ function ListService() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentViewStartFrom={currentServiceStartFrom}
-            setCurrentViewStartFrom={setCurrentServiceStartFrom}
+            currentViewStartFrom={currentViewStartFrom}
+            setCurrentViewStartFrom={setCurrentViewStartFrom}
             activeView={activeView}
             firstView={firstView}
             lastView={lastView}
@@ -444,11 +446,14 @@ function ListService() {
             nextView={nextView}
             totalView={totalViews}
           />
-          {isCreateServiceOpen && (
+          {isManageWindowOpen && (
+            <div className="absolute inset-0 bg-primary opacity-70"></div>
+          )}
+          {isManageWindowOpen && (
             <ManageService
-              closeServiceDialogue={closeServiceDialogue}
+              closeManageWindow={closeManageWindow}
               getServices={getServices}
-              selectedService={selectedService}
+              selectedView={selectedView}
               windowType={windowType}
             />
           )}

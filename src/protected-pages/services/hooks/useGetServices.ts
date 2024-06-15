@@ -7,6 +7,7 @@ import {
   startAt,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { firebase_db } from "../../../configs/firebase-config";
 import { ServiceModel } from "../models/service.model";
 
@@ -57,34 +58,38 @@ function useGetServices() {
       const currentServiceStartAfter = temp * _limit;
       const nextViewRecordStartAfter =
         documentSnapshots.docs[currentServiceStartAfter];
+      if (documentSnapshots.size > 0) {
+        const next = query(
+          collection(firebase_db, "services"),
+          orderBy("updatedAt", "desc"),
+          startAt(nextViewRecordStartAfter),
+          limit(_limit)
+        );
 
-      const next = query(
-        collection(firebase_db, "services"),
-        orderBy("updatedAt", "desc"),
-        startAt(nextViewRecordStartAfter),
-        limit(_limit)
-      );
+        const currentDocumentSnapshots = await getDocs(next);
 
-      const currentDocumentSnapshots = await getDocs(next);
-
-      const serviceList = currentDocumentSnapshots.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          slug: data.slug,
-          title: data.title,
-          content: data.content,
-          contentSummery: data.contentSummery,
-          featuredImage: data.featuredImage,
-          attachments: data.attachments,
-          status: data.status,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-        };
-      });
-      setServices(serviceList);
+        const serviceList = currentDocumentSnapshots.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            slug: data?.slug,
+            title: data?.title,
+            content: data?.content,
+            contentSummery: data?.contentSummery,
+            featuredImage: data?.featuredImage,
+            attachments: data?.attachments,
+            status: data?.status,
+            createdAt: data?.createdAt,
+            updatedAt: data?.updatedAt,
+          };
+        });
+        setServices(serviceList);
+      } else {
+        setServices([]);
+      }
     } catch (error: any) {
       setError(error);
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

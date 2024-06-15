@@ -12,22 +12,22 @@ function useAddPage() {
   async function addPage(page: PageModel) {
     try {
       page = {
-        id: page.id,
-        slug: page.slug,
-        title: page.title,
-        contentSummery: page.contentSummery,
-        featuredImage: page.featuredImage,
-        sections: page.sections,
-        status: page.status,
+        id: page?.id,
+        slug: page?.slug,
+        title: page?.title,
+        contentSummery: page?.contentSummery,
+        featuredImage: page?.featuredImage,
+        sections: page?.sections,
+        status: page?.status,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
-      await setDoc(doc(firebase_db, "pages", page.id), page);
+      await setDoc(doc(firebase_db, "pages", page?.id), page);
       setPage(page);
       toast.success("Page added!");
     } catch (error) {
       setError(error);
-      toast.error("Error occurred while adding page.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

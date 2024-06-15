@@ -10,17 +10,16 @@ import useUpdatePageStatus from "../hooks/useUpdatePageStatus";
 import { PageModel } from "../models/page.model";
 
 function ListPage() {
-  const [isCreatePageOpen, setCreatePageOpen] = useState(false);
-  const [selectedPage, setSelectedPage] = useState<PageModel | null>(null);
+  const [isManageWindowOpen, setManageWindowOpen] = useState(false);
+  const [selectedView, setSelectedView] = useState<PageModel | null>(null);
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
-  const [currentPageStartFrom, setCurrentPageStartFrom] = useState<number>(1);
+  const [currentViewStartFrom, setCurrentViewStartFrom] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
     pages,
     getPages,
     loading: getPagesLoading,
-    error: getPagesError,
     activeView,
     nextView,
     previousView,
@@ -30,26 +29,22 @@ function ListPage() {
     totalRecords,
   } = useGetPages();
 
-  // const paginatePages = pagination(4)(activeView, totalViews);
-
   const {
     removePageId,
     removePage,
     loading: removePageLoading,
-    error: removePageError,
   } = useRemovePage();
 
   const {
     updatedPageId,
     updatePageStatus,
     loading: updatePageStatusLoading,
-    error: updatePageStatusError,
   } = useUpdatePageStatus();
 
-  function openPageCreateDialogue() {
+  function openCreateWindow() {
     setWindowType(WindowType.Create);
-    setCreatePageOpen(true);
-    setSelectedPage({
+    setManageWindowOpen(true);
+    setSelectedView({
       id: "",
       slug: "",
       title: "",
@@ -69,24 +64,24 @@ function ListPage() {
     });
   }
 
-  function closePageDialogue() {
-    setSelectedPage(null);
-    setCreatePageOpen(false);
+  function closeManageWindow() {
+    setSelectedView(null);
+    setManageWindowOpen(false);
   }
 
-  function openPageViewDialogue() {
+  function openViewWindow() {
     setWindowType(WindowType.View);
-    setCreatePageOpen(true);
+    setManageWindowOpen(true);
   }
 
-  function openPageEditDialogue() {
+  function openEditWindow() {
     setWindowType(WindowType.Edit);
-    setCreatePageOpen(true);
+    setManageWindowOpen(true);
   }
 
   useEffect(() => {
-    getPages(currentPageStartFrom, limit);
-  }, [removePageId, updatedPageId, limit, currentPageStartFrom]);
+    getPages(currentViewStartFrom, limit);
+  }, [removePageId, updatedPageId, limit, currentViewStartFrom]);
 
   return (
     <>
@@ -97,13 +92,17 @@ function ListPage() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Pages</h2>
-        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
+        <div
+          className={`h-[calc(100vh-122px)] border ${
+            isManageWindowOpen ? "border-primary" : "border-borderColor"
+          }  bg-secondary p-2 flex flex-col overflow-auto relative`}
+        >
           <div className="flex-1">
             <div className="flex gap-2">
               <button
-                disabled={selectedPage !== null ? true : false}
+                disabled={selectedView !== null ? true : false}
                 onClick={() => {
-                  openPageCreateDialogue();
+                  openCreateWindow();
                 }}
                 className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
@@ -162,7 +161,7 @@ function ListPage() {
                   />
                   <button
                     disabled={true}
-                    className="border disabled:bg-disabledColor border-slate-700 hover:bg-slate-800 rounded-r bg-slate-700 p-1"
+                    className="border disabled:bg-disabledColor border-borderColor hover:bg-slate-800 rounded-r bg-accent p-1"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +178,7 @@ function ListPage() {
                       />
                     </svg>
                   </button>
-                  <button className="absolute hidden top-1 border border-slate-700 hover:bg-slate-800 rounded-r -right-8 bg-slate-700 p-1">
+                  <button className="absolute hidden top-1 border border-borderColor hover:bg-slate-800 rounded-r -right-8 bg-accent p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -198,8 +197,12 @@ function ListPage() {
                 </div>
               </div>
             </div>
-            <div className="h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b border-borderColor">
-              <table className="whitespace-no-wrap relative w-full table-auto border-collapse border">
+            <div
+              className={`h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b ${
+                isManageWindowOpen ? "border-primary" : "border-borderColor"
+              }`}
+            >
+              <table className="whitespace-no-wrap relative w-full table-auto border-collapse">
                 <thead className="w-full">
                   <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-accent">
                     <th className="cursor-pointer border border-borderColor p-2 transition-colors hover:bg-blue-gray-50">
@@ -256,19 +259,19 @@ function ListPage() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {page.id}
+                            {page?.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {page.slug}
+                            {page?.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {page.title}
+                            {page?.title}
                           </p>
                         </td>
 
@@ -276,7 +279,7 @@ function ListPage() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {page.status ? (
+                            {page?.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -293,8 +296,8 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPage(page);
-                                openPageViewDialogue();
+                                setSelectedView(page);
+                                openViewWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -323,8 +326,8 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedPage(page);
-                                openPageEditDialogue();
+                                setSelectedView(page);
+                                openEditWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -348,7 +351,7 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removePage(page.id);
+                                removePage(page?.id);
                                 getPages();
                               }}
                             >
@@ -371,11 +374,11 @@ function ListPage() {
                               </svg>
                             </button>
                             <div className="">
-                              {page.status ? (
+                              {page?.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePageStatus(page.id, false);
+                                    updatePageStatus(page?.id, false);
                                     getPages();
                                   }}
                                 >
@@ -401,7 +404,7 @@ function ListPage() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePageStatus(page.id, true);
+                                    updatePageStatus(page?.id, true);
                                     getPages();
                                   }}
                                 >
@@ -438,8 +441,8 @@ function ListPage() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentViewStartFrom={currentPageStartFrom}
-            setCurrentViewStartFrom={setCurrentPageStartFrom}
+            currentViewStartFrom={currentViewStartFrom}
+            setCurrentViewStartFrom={setCurrentViewStartFrom}
             activeView={activeView}
             firstView={firstView}
             lastView={lastView}
@@ -447,11 +450,15 @@ function ListPage() {
             nextView={nextView}
             totalView={totalViews}
           />
-          {isCreatePageOpen && (
+          {isManageWindowOpen && (
+            <div className="absolute inset-0 bg-primary opacity-70"></div>
+          )}
+
+          {isManageWindowOpen && (
             <ManagePage
-              closePageDialogue={closePageDialogue}
+              closeManageWindow={closeManageWindow}
               getPages={getPages}
-              selectedPage={selectedPage}
+              selectedView={selectedView}
               windowType={windowType}
             />
           )}

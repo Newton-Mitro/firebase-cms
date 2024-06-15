@@ -7,6 +7,7 @@ import {
   startAt,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { firebase_db } from "../../../configs/firebase-config";
 import { GalleryModel } from "../models/gallery.model";
 
@@ -60,31 +61,36 @@ function useGetGalleries() {
         documentSnapshots.docs[currentGalleryStartAfter];
       // Construct a new query starting at this document,
       // get the next 25 cities.
-      const next = query(
-        collection(firebase_db, "galleries"),
-        orderBy("updatedAt", "desc"),
-        startAt(nextViewRecordStartAfter),
-        limit(_limit)
-      );
+      if (documentSnapshots.size > 0) {
+        const next = query(
+          collection(firebase_db, "galleries"),
+          orderBy("updatedAt", "desc"),
+          startAt(nextViewRecordStartAfter),
+          limit(_limit)
+        );
 
-      const currentDocumentSnapshots = await getDocs(next);
+        const currentDocumentSnapshots = await getDocs(next);
 
-      const galleryList = currentDocumentSnapshots.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          slug: data.slug,
-          title: data.title,
-          contentSummery: data.contentSummery,
-          featuredImage: data.featuredImage,
-          sections: data.sections,
-          status: data.status,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-        };
-      });
-      setGalleries(galleryList);
+        const galleryList = currentDocumentSnapshots.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            slug: data?.slug,
+            title: data?.title,
+            contentSummery: data?.contentSummery,
+            featuredImage: data?.featuredImage,
+            sections: data?.sections,
+            status: data?.status,
+            createdAt: data?.createdAt,
+            updatedAt: data?.updatedAt,
+          };
+        });
+        setGalleries(galleryList);
+      } else {
+        setGalleries([]);
+      }
     } catch (error: any) {
+      toast.error("An error has been occurred." + error);
       setError(error);
     } finally {
       setLoading(false);

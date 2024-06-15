@@ -18,8 +18,8 @@ const validate = (values: any) => {
   let errors: any = {};
   if (!values.title) {
     errors.title = "Required";
-  } else if (values.title.length < 5) {
-    errors.title = "Minimum 5 character needed.";
+  } else if (values.title.length < 2) {
+    errors.title = "Minimum 2 character needed.";
   }
 
   if (!values.content) {
@@ -32,8 +32,8 @@ const validate = (values: any) => {
 };
 
 function ManagePost({
-  closePostDialogue,
-  selectedPost,
+  closeManageWindow,
+  selectedView,
   getPosts,
   windowType,
 }: any) {
@@ -43,12 +43,12 @@ function ManagePost({
     useState(false);
   const formik = useFormik({
     initialValues: {
-      title: selectedPost?.title,
-      content: selectedPost?.content,
-      contentSummery: selectedPost?.contentSummery,
-      featuredImage: selectedPost?.featuredImage,
-      status: selectedPost?.status,
-      attachments: selectedPost?.attachments,
+      title: selectedView?.title,
+      content: selectedView?.content,
+      contentSummery: selectedView?.contentSummery,
+      featuredImage: selectedView?.featuredImage,
+      status: selectedView?.status,
+      attachments: selectedView?.attachments,
     },
     validate,
     onSubmit: (values) => {
@@ -76,8 +76,8 @@ function ManagePost({
           updatedAt: "",
         });
       } else {
-        updatePost(selectedPost?.id, {
-          id: selectedPost?.id,
+        updatePost(selectedView?.id, {
+          id: selectedView?.id,
           slug: slug,
           title: values.title,
           content: values.content,
@@ -100,27 +100,21 @@ function ManagePost({
     formik.setFieldValue("attachments", [...netAttachments]);
   };
 
-  const {
-    post: addedPost,
-    addPost,
-    loading: addPostLoading,
-    error: addPostError,
-  } = useAddPost();
+  const { post: addedPost, addPost, loading: addPostLoading } = useAddPost();
 
   const {
     post: updatedPost,
     updatePost,
     loading: updatePostLoading,
-    error: updatePostError,
   } = useUpdatePost();
 
   if (addedPost !== null) {
-    closePostDialogue();
+    closeManageWindow();
     getPosts();
   }
 
   if (updatedPost !== null) {
-    closePostDialogue();
+    closeManageWindow();
     getPosts();
   }
 
@@ -138,13 +132,23 @@ function ManagePost({
           }
         }}
       />
-      <AppLoader isLoading={addPostLoading} />
+      <FileBrowser
+        fileTypeSelectionDisabled={true}
+        isOpen={openFeaturedImageBrowser}
+        setIsOpen={setOpenFeaturedImageBrowser}
+        selectedFile={(file: Attachment) => {
+          if (file) {
+            formik.setFieldValue("featuredImage", file.attachmentUrl);
+          }
+        }}
+      />
+      <AppLoader isLoading={addPostLoading || updatePostLoading} />
       <form onSubmit={formik.handleSubmit}>
         <div
           className={`absolute  h-full shadow ${
             windowState
-              ? "lg:w-full bottom-2 right-2 lg:inset-0"
-              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
+              ? "lg:w-full bottom-0 right-0 lg:inset-0"
+              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-0 right-0"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
           <header className="bg-accent border-b border-borderColor p-4 flex justify-between">
@@ -217,7 +221,7 @@ function ManagePost({
                 className=""
                 type="button"
                 onClick={() => {
-                  closePostDialogue();
+                  closeManageWindow();
                 }}
               >
                 <svg
@@ -253,9 +257,9 @@ function ManagePost({
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={formik.handleChange}
                 />
-                {formik.errors.title && (
+                {formik.errors?.title && (
                   <div className="text-xs text-red-400">
-                    {formik.errors.title.toString()}
+                    {formik.errors?.title.toString()}
                   </div>
                 )}
               </div>
@@ -281,9 +285,9 @@ function ManagePost({
                   }}
                 />
 
-                {formik.errors.content && (
+                {formik.errors?.content && (
                   <div className="text-xs text-red-400">
-                    {formik.errors.content.toString()}
+                    {formik.errors?.content.toString()}
                   </div>
                 )}
               </div>
@@ -305,16 +309,6 @@ function ManagePost({
               </div>
 
               <div className="">
-                <FileBrowser
-                  fileTypeSelectionDisabled={true}
-                  isOpen={openFeaturedImageBrowser}
-                  setIsOpen={setOpenFeaturedImageBrowser}
-                  selectedFile={(file: Attachment) => {
-                    if (file) {
-                      formik.setFieldValue("featuredImage", file.attachmentUrl);
-                    }
-                  }}
-                />
                 <div className="">Featured Image</div>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
@@ -424,7 +418,7 @@ function ManagePost({
                   <button
                     type="submit"
                     disabled={addPostLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Update Post
                   </button>
@@ -434,7 +428,7 @@ function ManagePost({
                   <button
                     type="submit"
                     disabled={addPostLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Create Post
                   </button>

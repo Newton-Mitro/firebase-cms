@@ -17,13 +17,14 @@ import useUpdateGallery from "../hooks/useUpdateGallery";
 import { manageGalleryFormValidation } from "../utils/manageGalleryFormValidation";
 
 function ManageGallery({
-  closeGalleryDialogue,
-  selectedGallery,
+  closeManageWindow,
+  selectedView,
   getGalleries,
   windowType,
 }: any) {
   const [windowState, setWindowState] = useState(false);
-  const [openImageBrowser, setOpenImageBrowser] = useState(false);
+  const [selectedSection, setSelectedSection] = useState(0);
+  const [openAttachmentBrowser, setOpenAttachmentBrowser] = useState(false);
   const [openFeaturedImageBrowser, setOpenFeaturedImageBrowser] =
     useState(false);
   const {
@@ -32,7 +33,7 @@ function ManageGallery({
     removeGallerySection,
     addGallerySection,
     updateGalleryState,
-  } = useManageGalleryFormState(selectedGallery);
+  } = useManageGalleryFormState(selectedView);
 
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
@@ -84,8 +85,8 @@ function ManageGallery({
         updatedAt: "",
       });
     } else {
-      updateGallery(selectedGallery?.id, {
-        id: selectedGallery?.id,
+      updateGallery(selectedView?.id, {
+        id: selectedView?.id,
         slug: slug,
         title: galleryState.title,
         contentSummery: galleryState.contentSummery,
@@ -102,35 +103,52 @@ function ManageGallery({
     gallery: addedGallery,
     addGallery,
     loading: addGalleryLoading,
-    error: addGalleryError,
   } = useAddGallery();
 
   const {
     gallery: updatedGallery,
     updateGallery,
     loading: updateGalleryLoading,
-    error: updateGalleryError,
   } = useUpdateGallery();
 
   if (addedGallery !== null) {
-    closeGalleryDialogue();
+    closeManageWindow();
     getGalleries();
   }
 
   if (updatedGallery !== null) {
-    closeGalleryDialogue();
+    closeManageWindow();
     getGalleries();
   }
 
   return (
     <>
-      <AppLoader isLoading={addGalleryLoading} />
+      <AppLoader isLoading={addGalleryLoading || updateGalleryLoading} />
+      <FileBrowser
+        isOpen={openFeaturedImageBrowser}
+        fileTypeSelectionDisabled={true}
+        setIsOpen={setOpenFeaturedImageBrowser}
+        selectedFile={(file: Attachment) => {
+          if (file) {
+            updateGalleryState("featuredImage", file.attachmentUrl);
+          }
+        }}
+      />
+      <FileBrowser
+        isOpen={openAttachmentBrowser}
+        setIsOpen={setOpenAttachmentBrowser}
+        selectedFile={(file: Attachment) => {
+          if (file) {
+            updateGallerySection("attachment", file, selectedSection);
+          }
+        }}
+      />
       <form onSubmit={onSubmitHandler}>
         <div
           className={`absolute  h-full shadow ${
             windowState
-              ? "lg:w-full bottom-2 right-2 lg:inset-0"
-              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
+              ? "lg:w-full bottom-0 right-0 lg:inset-0"
+              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-0 right-0"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
           <header className="bg-accent border-b border-borderColor p-4 flex justify-between">
@@ -203,7 +221,7 @@ function ManageGallery({
                 className=""
                 type="button"
                 onClick={() => {
-                  closeGalleryDialogue();
+                  closeManageWindow();
                 }}
               >
                 <svg
@@ -241,9 +259,9 @@ function ManageGallery({
                     updateGalleryState(event.target.name, event.target.value);
                   }}
                 />
-                {galleryState.errors.title && (
+                {galleryState?.errors?.title && (
                   <div className="text-xs text-red-400">
-                    {galleryState.errors.title}
+                    {galleryState?.errors?.title}
                   </div>
                 )}
               </div>
@@ -267,15 +285,6 @@ function ManageGallery({
               </div>
 
               <div className="">
-                <FileBrowser
-                  isOpen={openFeaturedImageBrowser}
-                  setIsOpen={setOpenFeaturedImageBrowser}
-                  selectedFile={(file: Attachment) => {
-                    if (file) {
-                      updateGalleryState("featuredImage", file.attachmentUrl);
-                    }
-                  }}
-                />
                 <div className="">Featured Image</div>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
@@ -378,11 +387,11 @@ function ManageGallery({
                               );
                             }}
                           />
-                          {galleryState.sections[index].errors
+                          {galleryState.sections[index]?.errors
                             ?.sectionTitle && (
                             <div className="text-xs text-red-400">
                               {
-                                galleryState.sections[index].errors
+                                galleryState.sections[index]?.errors
                                   ?.sectionTitle
                               }
                             </div>
@@ -449,16 +458,12 @@ function ManageGallery({
                         </div>
 
                         <div className="">
-                          <FileBrowser
-                            isOpen={openImageBrowser}
-                            setIsOpen={setOpenImageBrowser}
-                            selectedFile={(file: Attachment) => {
-                              if (file) {
-                                updateGallerySection("attachment", file, index);
-                              }
-                            }}
-                          />
-                          <div className="">Attachments</div>
+                          <div className="">Attachment</div>
+                          {galleryState.sections[index].errors?.attachment && (
+                            <div className="text-xs text-red-400">
+                              {galleryState.sections[index].errors?.attachment}
+                            </div>
+                          )}
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
                               {galleryState?.sections[index].attachment !==
@@ -498,7 +503,8 @@ function ManageGallery({
                                   type="button"
                                   className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
                                   onClick={() => {
-                                    setOpenImageBrowser(true);
+                                    setSelectedSection(0);
+                                    setOpenAttachmentBrowser(true);
                                   }}
                                 >
                                   <svg
@@ -530,8 +536,8 @@ function ManageGallery({
                 <div className="">
                   <button
                     type="button"
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor 
-                hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  
+                    border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
                     onClick={() => {
                       addGallerySection();
                     }}
@@ -549,7 +555,7 @@ function ManageGallery({
                   <button
                     type="submit"
                     disabled={addGalleryLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Update Gallery
                   </button>
@@ -559,7 +565,7 @@ function ManageGallery({
                   <button
                     type="submit"
                     disabled={addGalleryLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Create Gallery
                   </button>

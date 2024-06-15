@@ -12,23 +12,23 @@ function useAddService() {
   async function addService(service: ServiceModel) {
     try {
       service = {
-        id: service.id,
-        slug: service.slug,
-        title: service.title,
-        content: service.content,
-        contentSummery: service.contentSummery,
-        featuredImage: service.featuredImage,
-        attachments: service.attachments,
-        status: service.status,
+        id: service?.id,
+        slug: service?.slug,
+        title: service?.title,
+        content: service?.content,
+        contentSummery: service?.contentSummery,
+        featuredImage: service?.featuredImage,
+        attachments: service?.attachments,
+        status: service?.status,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
-      await setDoc(doc(firebase_db, "services", service.id), service);
+      await setDoc(doc(firebase_db, "services", service?.id), service);
       setService(service);
       toast.success("Service added!");
     } catch (error) {
       setError(error);
-      toast.error("Error occurred while adding service.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

@@ -10,20 +10,16 @@ import useUpdateGalleryStatus from "../hooks/useUpdateGalleryStatus";
 import { GalleryModel } from "../models/gallery.model";
 
 function ListGallery() {
-  const [isCreateGalleryOpen, setCreateGalleryOpen] = useState(false);
-  const [selectedGallery, setSelectedGallery] = useState<GalleryModel | null>(
-    null
-  );
+  const [isManageWindowOpen, setManageWindowOpen] = useState(false);
+  const [selectedView, setSelectedView] = useState<GalleryModel | null>(null);
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
-  const [currentGalleryStartFrom, setCurrentGalleryStartFrom] =
-    useState<number>(1);
+  const [currentViewStartFrom, setCurrentViewStartFrom] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
     galleries,
     getGalleries,
     loading: getGalleriesLoading,
-    error: getGalleriesError,
     activeView,
     nextView,
     previousView,
@@ -37,20 +33,18 @@ function ListGallery() {
     removeGalleryId,
     removeGallery,
     loading: removeGalleryLoading,
-    error: removeGalleryError,
   } = useRemoveGallery();
 
   const {
     updatedGalleryId,
     updateGalleryStatus,
     loading: updateGalleryStatusLoading,
-    error: updateGalleryStatusError,
   } = useUpdateGalleryStatus();
 
-  function openGalleryCreateDialogue() {
+  function openCreateWindow() {
     setWindowType(WindowType.Create);
-    setCreateGalleryOpen(true);
-    setSelectedGallery({
+    setManageWindowOpen(true);
+    setSelectedView({
       id: "",
       slug: "",
       title: "",
@@ -70,24 +64,24 @@ function ListGallery() {
     });
   }
 
-  function closeGalleryDialogue() {
-    setSelectedGallery(null);
-    setCreateGalleryOpen(false);
+  function closeManageWindow() {
+    setSelectedView(null);
+    setManageWindowOpen(false);
   }
 
-  function openGalleryViewDialogue() {
+  function openViewWindow() {
     setWindowType(WindowType.View);
-    setCreateGalleryOpen(true);
+    setManageWindowOpen(true);
   }
 
-  function openGalleryEditDialogue() {
+  function openEditWindow() {
     setWindowType(WindowType.Edit);
-    setCreateGalleryOpen(true);
+    setManageWindowOpen(true);
   }
 
   useEffect(() => {
-    getGalleries(currentGalleryStartFrom, limit);
-  }, [removeGalleryId, updatedGalleryId, limit, currentGalleryStartFrom]);
+    getGalleries(currentViewStartFrom, limit);
+  }, [removeGalleryId, updatedGalleryId, limit, currentViewStartFrom]);
 
   return (
     <>
@@ -100,13 +94,17 @@ function ListGallery() {
       />
       <div className="w-full space-y-2">
         <h2 className="text-xl">Galleries</h2>
-        <div className="h-[calc(100vh-122px)] border border-borderColor bg-secondary p-2 flex flex-col overflow-auto relative">
+        <div
+          className={`h-[calc(100vh-122px)] border ${
+            isManageWindowOpen ? "border-primary" : "border-borderColor"
+          }  bg-secondary p-2 flex flex-col overflow-auto relative`}
+        >
           <div className="flex-1">
             <div className="flex gap-2">
               <button
-                disabled={selectedGallery !== null ? true : false}
+                disabled={selectedView !== null ? true : false}
                 onClick={() => {
-                  openGalleryCreateDialogue();
+                  openCreateWindow();
                 }}
                 className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
@@ -165,7 +163,7 @@ function ListGallery() {
                   />
                   <button
                     disabled={true}
-                    className="border disabled:bg-disabledColor border-slate-700 hover:bg-slate-800 rounded-r bg-slate-700 p-1"
+                    className="border disabled:bg-disabledColor border-borderColor hover:bg-slate-800 rounded-r bg-accent p-1"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +180,7 @@ function ListGallery() {
                       />
                     </svg>
                   </button>
-                  <button className="absolute hidden top-1 border border-slate-700 hover:bg-slate-800 rounded-r -right-8 bg-slate-700 p-1">
+                  <button className="absolute hidden top-1 border border-borderColor hover:bg-slate-800 rounded-r -right-8 bg-accent p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -201,7 +199,11 @@ function ListGallery() {
                 </div>
               </div>
             </div>
-            <div className="h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b border-borderColor">
+            <div
+              className={`h-[calc(100vh-268px)] md:h-[calc(100vh-264px)] bg-primary overflow-auto border border-b ${
+                isManageWindowOpen ? "border-primary" : "border-borderColor"
+              }`}
+            >
               <table className="whitespace-no-wrap relative w-full table-auto border-collapse border">
                 <thead className="w-full">
                   <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-accent">
@@ -296,8 +298,8 @@ function ListGallery() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedGallery(gallery);
-                                openGalleryViewDialogue();
+                                setSelectedView(gallery);
+                                openViewWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -326,8 +328,8 @@ function ListGallery() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedGallery(gallery);
-                                openGalleryEditDialogue();
+                                setSelectedView(gallery);
+                                openEditWindow();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -438,8 +440,8 @@ function ListGallery() {
             totalRecords={totalRecords}
             limit={limit}
             setLimit={setLimit}
-            currentViewStartFrom={currentGalleryStartFrom}
-            setCurrentViewStartFrom={setCurrentGalleryStartFrom}
+            currentViewStartFrom={currentViewStartFrom}
+            setCurrentViewStartFrom={setCurrentViewStartFrom}
             activeView={activeView}
             firstView={firstView}
             lastView={lastView}
@@ -447,11 +449,14 @@ function ListGallery() {
             nextView={nextView}
             totalView={totalViews}
           />
-          {isCreateGalleryOpen && (
+          {isManageWindowOpen && (
+            <div className="absolute inset-0 bg-primary opacity-70"></div>
+          )}
+          {isManageWindowOpen && (
             <ManageGallery
-              closeGalleryDialogue={closeGalleryDialogue}
+              closeManageWindow={closeManageWindow}
               getGalleries={getGalleries}
-              selectedGallery={selectedGallery}
+              selectedView={selectedView}
               windowType={windowType}
             />
           )}

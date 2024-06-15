@@ -29,8 +29,9 @@ function UploadFileInput({ fileType, uploadFile, listAttachments }: any) {
           id="attachments"
           className="file:bg-accent file:text-stone-300 file:border-[1px] "
           type="file"
-          accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-        text/plain, application/pdf"
+          accept="application/pdf"
+          //   accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          // text/plain, application/pdf"
           name="attachments"
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             if (event.target.files === null) {
@@ -38,9 +39,7 @@ function UploadFileInput({ fileType, uploadFile, listAttachments }: any) {
             }
 
             const file = event.target.files[0];
-            if (file.type.substring(0, 5) === fileType.toLocaleLowerCase()) {
-              uploadFile(file, fileType);
-            }
+            uploadFile(file, fileType);
             listAttachments();
           }}
         />
@@ -58,9 +57,7 @@ function UploadFileInput({ fileType, uploadFile, listAttachments }: any) {
             }
 
             const file = event.target.files[0];
-            if (file.type.substring(0, 5) === fileType.toLocaleLowerCase()) {
-              uploadFile(file, fileType);
-            }
+            uploadFile(file, fileType);
             listAttachments();
           }}
         />

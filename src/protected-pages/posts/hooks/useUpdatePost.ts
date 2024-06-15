@@ -17,24 +17,23 @@ function useUpdatePost() {
 
       if (docSnap.exists()) {
         const updatedPost = {
-          slug: post.slug,
-          title: post.title,
-          content: post.content,
-          contentSummery: post.contentSummery,
-          featuredImage: post.featuredImage,
-          attachments: post.attachments,
-          status: post.status,
+          slug: post?.slug,
+          title: post?.title,
+          content: post?.content,
+          contentSummery: post?.contentSummery,
+          featuredImage: post?.featuredImage,
+          attachments: post?.attachments,
+          status: post?.status,
           updatedAt: serverTimestamp(),
         };
 
         await updateDoc(docRef, updatedPost);
-        setPost({ ...updatedPost, createdAt: post.createdAt, id: post.id });
+        setPost({ ...updatedPost, createdAt: post?.createdAt, id: post?.id });
         toast.success("Post updated!");
       }
     } catch (e: any) {
       setError(e);
-      console.error("Error adding document: ", e);
-      toast.error("Error occurred during updating post.");
+      toast.error("An error has been occurred.");
     } finally {
       setLoading(false);
     }

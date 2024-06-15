@@ -18,14 +18,14 @@ import useUpdatePage from "../hooks/useUpdatePage";
 import { managePageFormValidation } from "../utils/managePageFormValidation";
 
 function ManagePage({
-  closePageDialogue,
-  selectedPage,
+  closeManageWindow,
+  selectedView,
   getPages,
   windowType,
 }: any) {
   const [windowState, setWindowState] = useState(false);
-
-  const [openImageBrowser, setOpenImageBrowser] = useState(false);
+  const [selectedSection, setSelectedSection] = useState(0);
+  const [openAttachmentBrowser, setOpenAttachmentBrowser] = useState(false);
   const [openFeaturedImageBrowser, setOpenFeaturedImageBrowser] =
     useState(false);
   const {
@@ -34,9 +34,7 @@ function ManagePage({
     removePageSection,
     addPageSection,
     updatePageState,
-  } = useManagePageFormState(selectedPage);
-
-  console.log(pageState);
+  } = useManagePageFormState(selectedView);
 
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
@@ -89,8 +87,8 @@ function ManagePage({
         updatedAt: "",
       });
     } else {
-      updatePage(selectedPage?.id, {
-        id: selectedPage?.id,
+      updatePage(selectedView?.id, {
+        id: selectedView?.id,
         slug: slug,
         title: pageState.title,
         contentSummery: pageState.contentSummery,
@@ -103,39 +101,52 @@ function ManagePage({
     }
   };
 
-  const {
-    page: addedPage,
-    addPage,
-    loading: addPageLoading,
-    error: addPageError,
-  } = useAddPage();
+  const { page: addedPage, addPage, loading: addPageLoading } = useAddPage();
 
   const {
     page: updatedPage,
     updatePage,
     loading: updatePageLoading,
-    error: updatePageError,
   } = useUpdatePage();
 
   if (addedPage !== null) {
-    closePageDialogue();
+    closeManageWindow();
     getPages();
   }
 
   if (updatedPage !== null) {
-    closePageDialogue();
+    closeManageWindow();
     getPages();
   }
 
   return (
     <>
-      <AppLoader isLoading={addPageLoading} />
+      <AppLoader isLoading={addPageLoading || updatePageLoading} />
+      <FileBrowser
+        isOpen={openFeaturedImageBrowser}
+        fileTypeSelectionDisabled={true}
+        setIsOpen={setOpenFeaturedImageBrowser}
+        selectedFile={(file: Attachment) => {
+          if (file) {
+            updatePageState("featuredImage", file.attachmentUrl);
+          }
+        }}
+      />
+      <FileBrowser
+        isOpen={openAttachmentBrowser}
+        setIsOpen={setOpenAttachmentBrowser}
+        selectedFile={(file: Attachment) => {
+          if (file) {
+            updatePageSection("attachment", file, selectedSection);
+          }
+        }}
+      />
       <form onSubmit={onSubmitHandler}>
         <div
           className={`absolute  h-full shadow ${
             windowState
-              ? "lg:w-full bottom-2 right-2 lg:inset-0"
-              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-2 right-2"
+              ? "lg:w-full bottom-0 right-0 lg:inset-0"
+              : "lg:w-7/12 lg:h-[calc(100vh-170px)] bottom-0 right-0"
           } w-full bg-secondary flex flex-col shadow border border-borderColor overflow-auto`}
         >
           <header className="bg-accent border-b border-borderColor p-4 flex justify-between">
@@ -208,7 +219,7 @@ function ManagePage({
                 className=""
                 type="button"
                 onClick={() => {
-                  closePageDialogue();
+                  closeManageWindow();
                 }}
               >
                 <svg
@@ -246,9 +257,9 @@ function ManagePage({
                     updatePageState(event.target.name, event.target.value);
                   }}
                 />
-                {pageState.errors.title && (
+                {pageState?.errors?.title && (
                   <div className="text-xs text-red-400">
-                    {pageState.errors.title}
+                    {pageState?.errors?.title}
                   </div>
                 )}
               </div>
@@ -272,16 +283,6 @@ function ManagePage({
               </div>
 
               <div className="">
-                <FileBrowser
-                  isOpen={openFeaturedImageBrowser}
-                  fileTypeSelectionDisabled={true}
-                  setIsOpen={setOpenFeaturedImageBrowser}
-                  selectedFile={(file: Attachment) => {
-                    if (file) {
-                      updatePageState("featuredImage", file.attachmentUrl);
-                    }
-                  }}
-                />
                 <div className="">Featured Image</div>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
@@ -384,9 +385,9 @@ function ManagePage({
                               );
                             }}
                           />
-                          {pageState.sections[index].errors?.sectionTitle && (
+                          {pageState?.sections[index]?.errors?.sectionTitle && (
                             <div className="text-xs text-red-400">
-                              {pageState.sections[index].errors?.sectionTitle}
+                              {pageState?.sections[index]?.errors?.sectionTitle}
                             </div>
                           )}
                         </div>
@@ -413,9 +414,9 @@ function ManagePage({
                               );
                             }}
                           />
-                          {pageState.sections[index].errors?.order && (
+                          {pageState?.sections[index]?.errors?.order && (
                             <div className="text-xs text-red-400">
-                              {pageState.sections[index].errors?.order}
+                              {pageState?.sections[index]?.errors?.order}
                             </div>
                           )}
                         </div>
@@ -443,23 +444,14 @@ function ManagePage({
                             }}
                           />
 
-                          {pageState.sections[index].errors?.content && (
+                          {pageState?.sections[index]?.errors?.content && (
                             <div className="text-xs text-red-400">
-                              {pageState.sections[index].errors?.content}
+                              {pageState?.sections[index]?.errors?.content}
                             </div>
                           )}
                         </div>
 
                         <div className="">
-                          <FileBrowser
-                            isOpen={openImageBrowser}
-                            setIsOpen={setOpenImageBrowser}
-                            selectedFile={(file: Attachment) => {
-                              if (file) {
-                                updatePageSection("attachment", file, index);
-                              }
-                            }}
-                          />
                           <div className="">Attachment</div>
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
@@ -500,7 +492,8 @@ function ManagePage({
                                   type="button"
                                   className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
                                   onClick={() => {
-                                    setOpenImageBrowser(true);
+                                    setSelectedSection(index);
+                                    setOpenAttachmentBrowser(true);
                                   }}
                                 >
                                   <svg
@@ -532,8 +525,8 @@ function ManagePage({
                 <div className="">
                   <button
                     type="button"
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor 
-                hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor 
+                    hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
                     onClick={() => {
                       addPageSection();
                     }}
@@ -551,7 +544,7 @@ function ManagePage({
                   <button
                     type="submit"
                     disabled={addPageLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Update Page
                   </button>
@@ -561,7 +554,7 @@ function ManagePage({
                   <button
                     type="submit"
                     disabled={addPageLoading ? true : false}
-                    className="login-btn hover:font-bold hover:bg-accent bg-accent border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
+                    className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
                     Create Page
                   </button>
