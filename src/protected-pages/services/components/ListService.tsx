@@ -3,23 +3,23 @@ import { CSVLink } from "react-csv";
 import AppLoader from "../../../components/AppLoader";
 import PaginateRow from "../../../components/PaginateRow";
 import { WindowType } from "../../../enums/window-type.enum";
-import ManagePage from "../components/ManagePage";
-import useGetPages from "../hooks/useGetPages";
-import useRemovePage from "../hooks/useRemovePage";
-import useUpdatePageStatus from "../hooks/useUpdatePageStatus";
-import { PageModel } from "../models/page.model";
+import useGetServices from "../hooks/useGetServices";
+import useRemoveService from "../hooks/useRemoveService";
+import useUpdateServiceStatus from "../hooks/useUpdateServiceStatus";
+import { ServiceModel } from "../models/service.model";
+import ManageService from "./ManageService";
 
-function ListPage() {
+function ListService() {
   const [isManageWindowOpen, setManageWindowOpen] = useState(false);
-  const [selectedView, setSelectedView] = useState<PageModel | null>(null);
+  const [selectedView, setSelectedView] = useState<ServiceModel | null>(null);
   const [windowType, setWindowType] = useState<WindowType>(WindowType.View);
   const [currentViewStartFrom, setCurrentViewStartFrom] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const {
-    pages,
-    getPages,
-    loading: getPagesLoading,
+    services,
+    getServices,
+    loading: getServicesLoading,
     activeView,
     nextView,
     previousView,
@@ -27,19 +27,19 @@ function ListPage() {
     lastView,
     totalViews,
     totalRecords,
-  } = useGetPages();
+  } = useGetServices();
 
   const {
-    removePageId,
-    removePage,
-    loading: removePageLoading,
-  } = useRemovePage();
+    removeServiceId,
+    removeService,
+    loading: removeServiceLoading,
+  } = useRemoveService();
 
   const {
-    updatedPageId,
-    updatePageStatus,
-    loading: updatePageStatusLoading,
-  } = useUpdatePageStatus();
+    updatedServiceId,
+    updateServiceStatus,
+    loading: updateServiceStatusLoading,
+  } = useUpdateServiceStatus();
 
   function openCreateWindow() {
     setWindowType(WindowType.Create);
@@ -81,18 +81,20 @@ function ListPage() {
   }
 
   useEffect(() => {
-    getPages(currentViewStartFrom, limit);
-  }, [removePageId, updatedPageId, limit, currentViewStartFrom]);
+    getServices(currentViewStartFrom, limit);
+  }, [removeServiceId, updatedServiceId, limit, currentViewStartFrom]);
 
   return (
     <>
       <AppLoader
         isLoading={
-          getPagesLoading || removePageLoading || updatePageStatusLoading
+          getServicesLoading ||
+          removeServiceLoading ||
+          updateServiceStatusLoading
         }
       />
       <div className="w-full space-y-2">
-        <h2 className="text-xl">Pages</h2>
+        <h2 className="text-xl">Services</h2>
         <div
           className={`h-[calc(100vh-122px)] border ${
             isManageWindowOpen ? "border-primary" : "border-borderColor"
@@ -107,7 +109,7 @@ function ListPage() {
                 }}
                 className="bg-accent hover:bg-gray-900 disabled:bg-disabledColor border border-borderColor hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 px-1.5 md:px-4 hover:cursor-pointer"
               >
-                <span className="md:block hidden">Create Page</span>
+                <span className="md:block hidden">Create Service</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -125,12 +127,12 @@ function ListPage() {
               </button>
 
               <div className="flex gap-2">
-                <CSVLink data={pages}>
+                <CSVLink data={services}>
                   <button
                     className="bg-accent hover:bg-gray-900 border border-borderColor 
                   hover:shadow-md transition-all duration-300 shadow-sm rounded py-1.5 
                   px-1.5 md:px-4 hover:cursor-pointer disabled:bg-disabledColor"
-                    disabled={pages?.length > 0 ? false : true}
+                    disabled={services?.length > 0 ? false : true}
                   >
                     <span className="md:block hidden">Export CSV</span>
                     <svg
@@ -251,7 +253,7 @@ function ListPage() {
                 </thead>
 
                 <tbody className="flex-1 md:flex-none space-y-6">
-                  {pages?.map((page: any, index: number) => {
+                  {services?.map((service: any, index: number) => {
                     return (
                       <tr
                         key={index}
@@ -260,19 +262,19 @@ function ListPage() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {page?.id}
+                            {service?.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {page?.slug}
+                            {service?.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {page?.title}
+                            {service?.title}
                           </p>
                         </td>
 
@@ -280,7 +282,7 @@ function ListPage() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {page?.status ? (
+                            {service?.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -297,7 +299,7 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedView(page);
+                                setSelectedView(service);
                                 openViewWindow();
                               }}
                             >
@@ -327,7 +329,7 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                               onClick={() => {
-                                setSelectedView(page);
+                                setSelectedView(service);
                                 openEditWindow();
                               }}
                             >
@@ -352,8 +354,8 @@ function ListPage() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removePage(page?.id);
-                                getPages();
+                                removeService(service?.id);
+                                getServices();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -375,12 +377,12 @@ function ListPage() {
                               </svg>
                             </button>
                             <div className="">
-                              {page?.status ? (
+                              {service?.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePageStatus(page?.id, false);
-                                    getPages();
+                                    updateServiceStatus(service?.id, false);
+                                    getServices();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -405,8 +407,8 @@ function ListPage() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updatePageStatus(page?.id, true);
-                                    getPages();
+                                    updateServiceStatus(service?.id, true);
+                                    getServices();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -456,9 +458,9 @@ function ListPage() {
           )}
 
           {isManageWindowOpen && (
-            <ManagePage
+            <ManageService
               closeManageWindow={closeManageWindow}
-              getPages={getPages}
+              getServices={getServices}
               selectedView={selectedView}
               windowType={windowType}
             />
@@ -469,4 +471,4 @@ function ListPage() {
   );
 }
 
-export default ListPage;
+export default ListService;

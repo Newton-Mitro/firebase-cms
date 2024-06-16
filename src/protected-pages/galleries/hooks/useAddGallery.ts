@@ -15,6 +15,7 @@ function useAddGallery() {
         id: gallery?.id,
         slug: gallery?.slug,
         title: gallery?.title,
+        content: gallery?.content,
         contentSummery: gallery?.contentSummery,
         featuredImage: gallery?.featuredImage,
         sections: gallery?.sections,
@@ -22,7 +23,7 @@ function useAddGallery() {
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
-      await setDoc(doc(firebase_db, "galleries", gallery.id), gallery);
+      await setDoc(doc(firebase_db, "galleries", gallery?.id), gallery);
       setGallery(gallery);
       toast.success("Gallery added!");
     } catch (error) {

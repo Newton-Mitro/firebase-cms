@@ -9,10 +9,10 @@ import {
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { firebase_db } from "../../../configs/firebase-config";
-import { GalleryModel } from "../models/gallery.model";
+import { ServiceModel } from "../models/service.model";
 
-function useGetGalleries() {
-  const [galleries, setGalleries] = useState<GalleryModel[]>([]);
+function useGetServices() {
+  const [services, setServices] = useState<ServiceModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<number>(0);
@@ -24,46 +24,46 @@ function useGetGalleries() {
   const [totalRecords, setTotalRecords] = useState<number>(0);
 
   useEffect(() => {
-    getGalleries();
+    getServices();
   }, []);
 
-  async function getGalleries(
-    _currentGalleryStartAt: number = 1,
+  async function getServices(
+    _currentServiceStartAt: number = 1,
     _limit: number = 10
   ) {
     try {
       setLoading(true);
-      const allGalleriesQuery = query(
-        collection(firebase_db, "galleries"),
+      const allServicesQuery = query(
+        collection(firebase_db, "services"),
         orderBy("updatedAt", "desc")
       );
 
-      const documentSnapshots = await getDocs(allGalleriesQuery);
+      const documentSnapshots = await getDocs(allServicesQuery);
       setTotalRecords(documentSnapshots.size);
 
       setTotalViews(Math.ceil(documentSnapshots.size / _limit));
       setTotalRecords(documentSnapshots.size);
-      setActiveView(_currentGalleryStartAt);
+      setActiveView(_currentServiceStartAt);
       setNextView(
         Math.round(documentSnapshots.size % _limit) !== 0
-          ? _currentGalleryStartAt + 1
-          : _currentGalleryStartAt
+          ? _currentServiceStartAt + 1
+          : _currentServiceStartAt
       );
       setPreviousView(
-        _currentGalleryStartAt < 2 ? 1 : _currentGalleryStartAt - 1
+        _currentServiceStartAt < 2 ? 1 : _currentServiceStartAt - 1
       );
       setFirstView(documentSnapshots.size % _limit === 0 ? 0 : 1);
       setLastView(Math.ceil(documentSnapshots.size / _limit));
 
-      const temp = _currentGalleryStartAt - 1;
-      const currentGalleryStartAfter = temp * _limit;
+      const temp = _currentServiceStartAt - 1;
+      const currentServiceStartAfter = temp * _limit;
       const nextViewRecordStartAfter =
-        documentSnapshots.docs[currentGalleryStartAfter];
+        documentSnapshots.docs[currentServiceStartAfter];
       // Construct a new query starting at this document,
       // get the next 25 cities.
       if (documentSnapshots.size > 0) {
         const next = query(
-          collection(firebase_db, "galleries"),
+          collection(firebase_db, "services"),
           orderBy("updatedAt", "desc"),
           startAt(nextViewRecordStartAfter),
           limit(_limit)
@@ -71,7 +71,7 @@ function useGetGalleries() {
 
         const currentDocumentSnapshots = await getDocs(next);
 
-        const galleryList = currentDocumentSnapshots.docs.map((doc) => {
+        const serviceList = currentDocumentSnapshots.docs.map((doc) => {
           const data = doc.data();
           return {
             id: doc.id,
@@ -86,9 +86,9 @@ function useGetGalleries() {
             updatedAt: data?.updatedAt,
           };
         });
-        setGalleries(galleryList);
+        setServices(serviceList);
       } else {
-        setGalleries([]);
+        setServices([]);
       }
     } catch (error: any) {
       setError(error);
@@ -99,8 +99,8 @@ function useGetGalleries() {
   }
 
   return {
-    galleries,
-    getGalleries,
+    services,
+    getServices,
     loading,
     error,
     activeView,
@@ -113,4 +113,4 @@ function useGetGalleries() {
   };
 }
 
-export default useGetGalleries;
+export default useGetServices;

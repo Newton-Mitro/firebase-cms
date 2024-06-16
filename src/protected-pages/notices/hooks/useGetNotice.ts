@@ -2,21 +2,21 @@ import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { firebase_db } from "../../../configs/firebase-config";
-import { GalleryModel } from "../models/gallery.model";
+import { NoticeModel } from "../models/notice.model";
 
-function useGetGallery() {
-  const [gallery, setGallery] = useState<GalleryModel | null>(null);
+function useGetNotice() {
+  const [notice, setNotice] = useState<NoticeModel | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function getGallery(id: string) {
+  async function getNotice(id: string) {
     try {
-      const docRef = doc(firebase_db, "galleries", id);
+      const docRef = doc(firebase_db, "notices", id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setGallery({
+        setNotice({
           id: docSnap.id,
           slug: data?.slug,
           title: data?.title,
@@ -37,7 +37,7 @@ function useGetGallery() {
     }
   }
 
-  return { gallery, getGallery, loading, error };
+  return { notice, getNotice, loading, error };
 }
 
-export default useGetGallery;
+export default useGetNotice;

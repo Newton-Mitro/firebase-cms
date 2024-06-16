@@ -40,9 +40,9 @@ function useManagePageFormState(selectedView: any) {
 
   const addPageSection = () => {
     const newSection = {
-      content: "",
-      attachment: "",
-      order: pageState.sections.length + 1,
+      sectionContent: "",
+      sectionAttachment: "",
+      sectionOrder: pageState.sections.length + 1,
     };
     setPageState({
       ...pageState,

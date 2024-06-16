@@ -1,8 +1,8 @@
 import { Attachment } from "./attachment";
 
-export interface PageSection {
+export interface SectionView {
   sectionTitle: string;
   sectionContent: string;
-  attachment: Attachment | null;
-  order: number;
+  sectionAttachment: Attachment | null;
+  sectionOrder: number;
 }

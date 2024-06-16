@@ -3,12 +3,13 @@ import { manageGalleryFormValidation } from "../utils/manageGalleryFormValidatio
 
 function useManageGalleryFormState(selectedView: any) {
   const [galleryState, setGalleryState] = useState({
-    title: selectedView.title,
-    sections: selectedView.sections,
-    contentSummery: selectedView.contentSummery,
-    featuredImage: selectedView.featuredImage,
-    status: selectedView.status,
-    errors: { title: "", featuredImage: "", contentSummery: "" },
+    title: selectedView?.title,
+    sections: selectedView?.sections,
+    content: selectedView?.content,
+    contentSummery: selectedView?.contentSummery,
+    featuredImage: selectedView?.featuredImage,
+    status: selectedView?.status,
+    errors: { title: "", featuredImage: "", content: "", contentSummery: "" },
   });
 
   const updateGallerySection = (
@@ -20,7 +21,7 @@ function useManageGalleryFormState(selectedView: any) {
       ...galleryState?.sections[index],
       [fieldName]: fieldValue,
       errors: {
-        ...galleryState.sections[index].errors,
+        ...galleryState.sections[index]?.errors,
         [fieldName]: manageGalleryFormValidation(fieldName, fieldValue),
       },
     };
@@ -39,9 +40,9 @@ function useManageGalleryFormState(selectedView: any) {
 
   const addGallerySection = () => {
     const newSection = {
-      content: "",
-      attachment: "",
-      order: galleryState.sections.length + 1,
+      sectionContent: "",
+      sectionAttachment: "",
+      sectionOrder: galleryState.sections.length + 1,
     };
     setGalleryState({
       ...galleryState,

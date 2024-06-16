@@ -2,10 +2,12 @@ import AuthLayout from "layouts/AuthLayout";
 import PublicLayout from "layouts/PublicLayout";
 import { createBrowserRouter } from "react-router-dom";
 import FileManager from "../protected-pages/file-manager/components/FileManager";
-import ListGallery from "../protected-pages/galleries/components/ListGallery";
+import ListGallery from "../protected-pages/galleries/components/ListGalleries";
 import HomePage from "../protected-pages/home/HomePage";
+import ListNotice from "../protected-pages/notices/components/ListNotice";
 import ListPage from "../protected-pages/pages/components/ListPage";
 import ListPost from "../protected-pages/posts/components/ListPost";
+import ListService from "../protected-pages/services/components/ListService";
 import SiteSettings from "../protected-pages/settings/components/SiteSettings";
 import ErrorPage from "../public-pages/error-page/ErrorPage";
 import Login from "../public-pages/login/Login";
@@ -182,8 +184,8 @@ export const router = createBrowserRouter([
       { path: "products", element: <div className="">products</div> },
       { path: "testimonials", element: <div className="">testimonials</div> },
       { path: "galleries", element: <ListGallery /> },
-      { path: "services", element: <div className="">Services</div> },
-      { path: "notices", element: <div className="">notices</div> },
+      { path: "services", element: <ListService /> },
+      { path: "notices", element: <ListNotice /> },
       { path: "events", element: <div className="">events</div> },
       { path: "job-circulars", element: <div className="">Job Circulars</div> },
       { path: "staffs", element: <div className="">Staffs</div> },

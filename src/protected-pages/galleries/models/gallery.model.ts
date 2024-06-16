@@ -1,12 +1,13 @@
-import { PageSection } from "../../../interfaces/page-section";
+import { SectionView } from "../../../interfaces/section-view";
 
 export class GalleryModel {
   id: string;
   slug: string;
   title: string;
+  content: string;
   contentSummery: string;
   featuredImage: string;
-  sections: PageSection[];
+  sections: SectionView[];
   status: boolean;
   createdAt: any;
   updatedAt: any;
@@ -15,9 +16,10 @@ export class GalleryModel {
     id: string,
     slug: string,
     title: string,
+    content: string,
     contentSummery: string,
     featuredImage: string,
-    sections: PageSection[],
+    sections: SectionView[],
     status: boolean,
     createdAt: any,
     updatedAt: any
@@ -25,6 +27,7 @@ export class GalleryModel {
     this.id = id;
     this.slug = slug;
     this.title = title;
+    this.content = content;
     this.contentSummery = contentSummery;
     this.featuredImage = featuredImage;
     this.sections = sections;

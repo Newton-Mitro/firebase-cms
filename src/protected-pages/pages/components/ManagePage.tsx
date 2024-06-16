@@ -8,7 +8,7 @@ import AppLoader from "../../../components/AppLoader";
 import { FileType } from "../../../enums/file-type.enum";
 import { WindowType } from "../../../enums/window-type.enum";
 import { Attachment } from "../../../interfaces/attachment";
-import { PageSection } from "../../../interfaces/page-section";
+import { SectionView } from "../../../interfaces/section-view";
 import { formats, modules } from "../../../utils/QuillSettings";
 import FileBrowser from "../../file-manager/components/FileBrowser";
 import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
@@ -65,13 +65,13 @@ function ManagePage({
       locale: "vi", // language code of the locale to use
       trim: true, // trim leading and trailing replacement chars, defaults to `true`
     });
-    const newSections: PageSection[] = pageState.sections.map(
-      (section: PageSection) => {
+    const newSections: SectionView[] = pageState.sections.map(
+      (section: SectionView) => {
         return {
           sectionTitle: section.sectionTitle,
           sectionContent: section.sectionContent,
-          attachment: section.attachment,
-          order: section.order,
+          sectionAttachment: section.sectionAttachment,
+          sectionOrder: section.sectionOrder,
         };
       }
     );
@@ -141,7 +141,7 @@ function ManagePage({
         setIsOpen={setOpenAttachmentBrowser}
         selectedFile={(file: Attachment) => {
           if (file) {
-            updatePageSection("attachment", file, selectedSection);
+            updatePageSection("sectionAttachment", file, selectedSection);
           }
         }}
       />
@@ -365,7 +365,7 @@ function ManagePage({
 
               <div className="flex flex-col gap-2">
                 {pageState.sections?.map(
-                  (section: PageSection, index: number) => {
+                  (section: SectionView, index: number) => {
                     return (
                       <div
                         key={index}
@@ -429,26 +429,26 @@ function ManagePage({
                             Sort Order
                           </label>
                           <input
-                            id="order"
-                            name="order"
+                            id="sectionOrder"
+                            name="sectionOrder"
                             disabled={
                               windowType === WindowType.View ? true : false
                             }
                             type="number"
-                            value={pageState?.sections[index].order}
+                            value={pageState?.sections[index].sectionOrder}
                             className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                             onChange={(event) => {
                               updatePageSection(
-                                "order",
+                                "sectionOrder",
                                 event.target.value,
                                 index
                               );
                             }}
                           />
-                          {pageState?.sections[index]?.errors?.order && (
+                          {pageState?.sections[index]?.errors?.sectionOrder && (
                             <div className="text-xs text-red-400">
-                              {pageState?.sections[index]?.errors?.order}
+                              {pageState?.sections[index]?.errors?.sectionOrder}
                             </div>
                           )}
                         </div>
@@ -491,24 +491,24 @@ function ManagePage({
                           <div className="">Section Attachment</div>
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
-                              {pageState?.sections[index].attachment !==
+                              {pageState?.sections[index].sectionAttachment !==
                                 null && (
                                 <ThumbnailPreview
                                   fileType={
-                                    pageState?.sections[index].attachment
+                                    pageState?.sections[index].sectionAttachment
                                       .fileType
                                   }
                                   fileName={
-                                    pageState?.sections[index].attachment
+                                    pageState?.sections[index].sectionAttachment
                                       .fileName
                                   }
                                   fileUrl={
-                                    pageState?.sections[index].attachment
+                                    pageState?.sections[index].sectionAttachment
                                       .attachmentUrl
                                   }
                                   handleRemove={() => {
                                     updatePageSection(
-                                      "attachment",
+                                      "sectionAttachment",
                                       null,
                                       index
                                     );

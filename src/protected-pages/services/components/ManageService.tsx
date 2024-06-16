@@ -12,15 +12,15 @@ import { SectionView } from "../../../interfaces/section-view";
 import { formats, modules } from "../../../utils/QuillSettings";
 import FileBrowser from "../../file-manager/components/FileBrowser";
 import ThumbnailPreview from "../../file-manager/components/ThumbnailPreview";
-import useAddGallery from "../hooks/useAddGallery";
-import useManageGalleryFormState from "../hooks/useManageGalleryFormState";
-import useUpdateGallery from "../hooks/useUpdateGallery";
-import { manageGalleryFormValidation } from "../utils/manageGalleryFormValidation";
+import useAddService from "../hooks/useAddService";
+import useManageServiceFormState from "../hooks/useManageServiceFormState";
+import useUpdateService from "../hooks/useUpdateService";
+import { manageServiceFormValidation } from "../utils/manageServiceFormValidation";
 
-function ManageGallery({
+function ManageService({
   closeManageWindow,
   selectedView,
-  getGalleries,
+  getServices,
   windowType,
 }: any) {
   const [windowState, setWindowState] = useState(false);
@@ -29,36 +29,36 @@ function ManageGallery({
   const [openFeaturedImageBrowser, setOpenFeaturedImageBrowser] =
     useState(false);
   const {
-    galleryState,
-    updateGallerySection,
-    removeGallerySection,
-    addGallerySection,
-    updateGalleryState,
-  } = useManageGalleryFormState(selectedView);
+    serviceState,
+    updateServiceSection,
+    removeServiceSection,
+    addServiceSection,
+    updateServiceState,
+  } = useManageServiceFormState(selectedView);
 
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
     var errors = "";
-    errors = errors + manageGalleryFormValidation("title", galleryState.title);
+    errors = errors + manageServiceFormValidation("title", serviceState.title);
     errors =
-      errors + manageGalleryFormValidation("content", galleryState.content);
-    galleryState.sections.forEach((element: any, index: number) => {
+      errors + manageServiceFormValidation("content", serviceState.content);
+    serviceState.sections.forEach((element: any, index: number) => {
       let fieldName: keyof typeof element;
       for (fieldName in element) {
-        updateGallerySection(fieldName, element[fieldName], index);
+        updateServiceSection(fieldName, element[fieldName], index);
         errors =
-          errors + manageGalleryFormValidation(fieldName, element[fieldName]);
+          errors + manageServiceFormValidation(fieldName, element[fieldName]);
       }
     });
-    updateGalleryState("title", galleryState.title);
-    updateGalleryState("content", galleryState.content);
+    updateServiceState("title", serviceState.title);
+    updateServiceState("content", serviceState.content);
     if (errors) {
       toast.error("Please all the fields correctly!");
       return;
     }
 
-    const galleryId = uuidv4();
-    const slug = slugify(galleryState.title, {
+    const serviceId = uuidv4();
+    const slug = slugify(serviceState.title, {
       replacement: "_", // replace spaces with replacement character, defaults to `-`
       remove: undefined, // remove characters that match regex, defaults to `undefined`
       lower: true, // convert to lower case, defaults to `false`
@@ -66,7 +66,7 @@ function ManageGallery({
       locale: "vi", // language code of the locale to use
       trim: true, // trim leading and trailing replacement chars, defaults to `true`
     });
-    const newSections: SectionView[] = galleryState.sections.map(
+    const newSections: SectionView[] = serviceState.sections.map(
       (section: SectionView) => {
         return {
           sectionTitle: section.sectionTitle,
@@ -78,26 +78,26 @@ function ManageGallery({
     );
 
     if (windowType === WindowType.Create) {
-      addGallery({
-        id: galleryId,
+      addService({
+        id: serviceId,
         slug: slug,
-        title: galleryState.title,
-        content: galleryState.content,
-        contentSummery: galleryState.contentSummery,
-        featuredImage: galleryState.featuredImage,
+        title: serviceState.title,
+        content: serviceState.content,
+        contentSummery: serviceState.contentSummery,
+        featuredImage: serviceState.featuredImage,
         sections: newSections,
         status: false,
         createdAt: "",
         updatedAt: "",
       });
     } else {
-      updateGallery(selectedView?.id, {
+      updateService(selectedView?.id, {
         id: selectedView?.id,
         slug: slug,
-        title: galleryState.title,
-        content: galleryState.content,
-        contentSummery: galleryState.contentSummery,
-        featuredImage: galleryState.featuredImage,
+        title: serviceState.title,
+        content: serviceState.content,
+        contentSummery: serviceState.contentSummery,
+        featuredImage: serviceState.featuredImage,
         sections: newSections,
         status: false,
         createdAt: "",
@@ -107,37 +107,37 @@ function ManageGallery({
   };
 
   const {
-    gallery: addedGallery,
-    addGallery,
-    loading: addGalleryLoading,
-  } = useAddGallery();
+    service: addedService,
+    addService,
+    loading: addServiceLoading,
+  } = useAddService();
 
   const {
-    gallery: updatedGallery,
-    updateGallery,
-    loading: updateGalleryLoading,
-  } = useUpdateGallery();
+    service: updatedService,
+    updateService,
+    loading: updateServiceLoading,
+  } = useUpdateService();
 
-  if (addedGallery !== null) {
+  if (addedService !== null) {
     closeManageWindow();
-    getGalleries();
+    getServices();
   }
 
-  if (updatedGallery !== null) {
+  if (updatedService !== null) {
     closeManageWindow();
-    getGalleries();
+    getServices();
   }
 
   return (
     <>
-      <AppLoader isLoading={addGalleryLoading || updateGalleryLoading} />
+      <AppLoader isLoading={addServiceLoading || updateServiceLoading} />
       <FileBrowser
         isOpen={openFeaturedImageBrowser}
         fileTypeSelectionDisabled={true}
         setIsOpen={setOpenFeaturedImageBrowser}
         selectedFile={(file: Attachment) => {
           if (file) {
-            updateGalleryState("featuredImage", file.attachmentUrl);
+            updateServiceState("featuredImage", file.attachmentUrl);
           }
         }}
       />
@@ -146,7 +146,7 @@ function ManageGallery({
         setIsOpen={setOpenAttachmentBrowser}
         selectedFile={(file: Attachment) => {
           if (file) {
-            updateGallerySection("sectionAttachment", file, selectedSection);
+            updateServiceSection("sectionAttachment", file, selectedSection);
           }
         }}
       />
@@ -175,7 +175,7 @@ function ManageGallery({
                 />
               </svg>
 
-              <span className="text-xl">{windowType} Gallery</span>
+              <span className="text-xl">{windowType} Service</span>
             </div>
             <div className="flex items-center gap-2">
               {windowState ? (
@@ -252,30 +252,30 @@ function ManageGallery({
             <div className="flex flex-col gap-2">
               <div className="flex flex-col">
                 <label className="" htmlFor="username">
-                  Gallery Title
+                  Service Title
                 </label>
                 <input
                   id="title"
                   name="title"
                   disabled={windowType === WindowType.View ? true : false}
                   type="text"
-                  value={galleryState?.title}
+                  value={serviceState?.title}
                   className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={(event) => {
-                    updateGalleryState(event.target.name, event.target.value);
+                    updateServiceState(event.target.name, event.target.value);
                   }}
                 />
-                {galleryState?.errors?.title && (
+                {serviceState?.errors?.title && (
                   <div className="text-xs text-red-400">
-                    {galleryState?.errors?.title}
+                    {serviceState?.errors?.title}
                   </div>
                 )}
               </div>
 
               <div className="flex flex-col">
                 <label className="" htmlFor="username">
-                  Gallery Content
+                  Service Content
                 </label>
                 <ReactQuill
                   theme="snow"
@@ -288,33 +288,33 @@ function ManageGallery({
                       : "bg-primary"
                   } text-white text-xl`}
                   readOnly={windowType === WindowType.View ? true : false}
-                  value={galleryState?.content}
+                  value={serviceState?.content}
                   onChange={(value) => {
-                    updateGalleryState("content", value);
+                    updateServiceState("content", value);
                   }}
                 />
 
-                {galleryState?.errors?.content && (
+                {serviceState?.errors?.content && (
                   <div className="text-xs text-red-400">
-                    {galleryState?.errors?.content}
+                    {serviceState?.errors?.content}
                   </div>
                 )}
               </div>
 
               <div className="flex flex-col">
                 <label className="" htmlFor="username">
-                  Gallery Summery
+                  Service Summery
                 </label>
                 <textarea
                   id="contentSummery"
                   name="contentSummery"
                   rows={2}
                   disabled={windowType === WindowType.View ? true : false}
-                  value={galleryState?.contentSummery}
+                  value={serviceState?.contentSummery}
                   className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                   onChange={(event) => {
-                    updateGalleryState(event.target.name, event.target.value);
+                    updateServiceState(event.target.name, event.target.value);
                   }}
                 />
               </div>
@@ -323,13 +323,13 @@ function ManageGallery({
                 <div className="">Featured Image</div>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1 lg:gap-4 flex-wrap">
-                    {galleryState?.featuredImage !== "" ? (
+                    {serviceState?.featuredImage !== "" ? (
                       <ThumbnailPreview
                         fileType={FileType.Image}
                         fileName={"Featured Image"}
-                        fileUrl={galleryState?.featuredImage}
+                        fileUrl={serviceState?.featuredImage}
                         handleRemove={() => {
-                          updateGalleryState("featuredImage", "");
+                          updateServiceState("featuredImage", "");
                         }}
                         showMaximizeButton={true}
                         showRemoveButton={
@@ -369,7 +369,7 @@ function ManageGallery({
               </div>
 
               <div className="flex flex-col gap-2">
-                {galleryState.sections?.map(
+                {serviceState.sections?.map(
                   (section: SectionView, index: number) => {
                     return (
                       <div
@@ -380,7 +380,7 @@ function ManageGallery({
                           <div
                             className="absolute top-1 right-1  hover:cursor-pointer hover:text-error"
                             onClick={() => {
-                              removeGallerySection(index);
+                              removeServiceSection(index);
                             }}
                           >
                             <svg
@@ -411,22 +411,22 @@ function ManageGallery({
                               windowType === WindowType.View ? true : false
                             }
                             type="text"
-                            value={galleryState?.sections[index].sectionTitle}
+                            value={serviceState?.sections[index].sectionTitle}
                             className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                             onChange={(event) => {
-                              updateGallerySection(
+                              updateServiceSection(
                                 "sectionTitle",
                                 event.target.value,
                                 index
                               );
                             }}
                           />
-                          {galleryState?.sections[index]?.errors
+                          {serviceState?.sections[index]?.errors
                             ?.sectionTitle && (
                             <div className="text-xs text-red-400">
                               {
-                                galleryState?.sections[index]?.errors
+                                serviceState?.sections[index]?.errors
                                   ?.sectionTitle
                               }
                             </div>
@@ -444,22 +444,22 @@ function ManageGallery({
                               windowType === WindowType.View ? true : false
                             }
                             type="number"
-                            value={galleryState?.sections[index].sectionOrder}
+                            value={serviceState?.sections[index].sectionOrder}
                             className="mt-1 block w-full rounded-sm py-1 border-borderColor bg-primary
                 disabled:bg-disabledColor shadow-sm focus:border-borderColor focus:ring focus:ring-accent focus:ring-opacity-50 text-gray-300"
                             onChange={(event) => {
-                              updateGallerySection(
+                              updateServiceSection(
                                 "sectionOrder",
                                 event.target.value,
                                 index
                               );
                             }}
                           />
-                          {galleryState?.sections[index]?.errors
+                          {serviceState?.sections[index]?.errors
                             ?.sectionOrder && (
                             <div className="text-xs text-red-400">
                               {
-                                galleryState?.sections[index]?.errors
+                                serviceState?.sections[index]?.errors
                                   ?.sectionOrder
                               }
                             </div>
@@ -484,10 +484,10 @@ function ManageGallery({
                               windowType === WindowType.View ? true : false
                             }
                             value={
-                              galleryState?.sections[index]?.sectionContent
+                              serviceState?.sections[index]?.sectionContent
                             }
                             onChange={(value) => {
-                              updateGallerySection(
+                              updateServiceSection(
                                 "sectionContent",
                                 value,
                                 index
@@ -495,11 +495,11 @@ function ManageGallery({
                             }}
                           />
 
-                          {galleryState?.sections[index]?.errors
+                          {serviceState?.sections[index]?.errors
                             ?.sectionContent && (
                             <div className="text-xs text-red-400">
                               {
-                                galleryState?.sections[index]?.errors
+                                serviceState?.sections[index]?.errors
                                   ?.sectionContent
                               }
                             </div>
@@ -510,23 +510,23 @@ function ManageGallery({
                           <div className="">Section Attachment</div>
                           <div className="flex flex-col gap-2">
                             <div className="flex gap-1 lg:gap-4 flex-wrap">
-                              {galleryState?.sections[index]
+                              {serviceState?.sections[index]
                                 .sectionAttachment !== null && (
                                 <ThumbnailPreview
                                   fileType={
-                                    galleryState?.sections[index]
+                                    serviceState?.sections[index]
                                       .sectionAttachment.fileType
                                   }
                                   fileName={
-                                    galleryState?.sections[index]
+                                    serviceState?.sections[index]
                                       .sectionAttachment.fileName
                                   }
                                   fileUrl={
-                                    galleryState?.sections[index]
+                                    serviceState?.sections[index]
                                       .sectionAttachment.attachmentUrl
                                   }
                                   handleRemove={() => {
-                                    updateGallerySection(
+                                    updateServiceSection(
                                       "sectionAttachment",
                                       null,
                                       index
@@ -583,7 +583,7 @@ function ManageGallery({
                     className="flex items-center justify-center gap-2 hover:font-bold hover:bg-accent  border border-borderColor 
                     hover:shadow-md transition-all duration-300 shadow-sm rounded px-4 py-2 hover:cursor-pointer"
                     onClick={() => {
-                      addGallerySection();
+                      addServiceSection();
                     }}
                   >
                     Add Section
@@ -598,20 +598,20 @@ function ManageGallery({
                 {windowType === WindowType.Edit && (
                   <button
                     type="submit"
-                    disabled={addGalleryLoading ? true : false}
+                    disabled={addServiceLoading ? true : false}
                     className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
-                    Update Gallery
+                    Update Service
                   </button>
                 )}
 
                 {windowType === WindowType.Create && (
                   <button
                     type="submit"
-                    disabled={addGalleryLoading ? true : false}
+                    disabled={addServiceLoading ? true : false}
                     className="hover:bg-success bg-accent border border-borderColor hover:shadow-md transition-all shadow rounded px-4 py-2 hover:cursor-pointer"
                   >
-                    Create Gallery
+                    Create Service
                   </button>
                 )}
               </div>
@@ -623,4 +623,4 @@ function ManageGallery({
   );
 }
 
-export default ManageGallery;
+export default ManageService;

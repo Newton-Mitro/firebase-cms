@@ -1,20 +1,20 @@
-export const manageGalleryFormValidation = (
+export const manageServiceFormValidation = (
   fieldName: string,
   fieldValue: any
 ) => {
   switch (fieldName) {
     case "title":
       if (fieldValue?.trim().length === 0) {
-        return "Gallery title is required";
+        return "Service title is required";
       }
       if (fieldValue.length < 2) {
-        return "Minimum 2 character needed for page title.";
+        return "Minimum 2 character needed for service title.";
       }
       return "";
 
     case "content":
       if (fieldValue?.trim().length === 0) {
-        return "Gallery content is required";
+        return "Service content is required";
       }
       if (fieldValue.length < 15) {
         return "Minimum 15 character needed for section content.";

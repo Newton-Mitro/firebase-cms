@@ -19,6 +19,7 @@ function useUpdateGallery() {
         const updatedGallery = {
           slug: gallery?.slug,
           title: gallery?.title,
+          content: gallery?.content,
           contentSummery: gallery?.contentSummery,
           featuredImage: gallery?.featuredImage,
           sections: gallery?.sections,

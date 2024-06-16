@@ -1,6 +1,6 @@
 import { SectionView } from "../../../interfaces/section-view";
 
-export class PageModel {
+export class ServiceModel {
   id: string;
   slug: string;
   title: string;

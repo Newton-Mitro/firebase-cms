@@ -48,14 +48,15 @@ function ListGallery() {
       id: "",
       slug: "",
       title: "",
+      content: "",
       contentSummery: "",
       featuredImage: "",
       sections: [
         {
           sectionTitle: "",
           sectionContent: "",
-          attachment: null,
-          order: 0,
+          sectionAttachment: null,
+          sectionOrder: 0,
         },
       ],
       status: false,
@@ -204,7 +205,7 @@ function ListGallery() {
                 isManageWindowOpen ? "border-primary" : "border-borderColor"
               }`}
             >
-              <table className="whitespace-no-wrap relative w-full table-auto border-collapse border">
+              <table className="whitespace-no-wrap relative w-full table-auto border-collapse">
                 <thead className="w-full">
                   <tr className="sticky -top-1 h-10 hidden w-full shadow-sm md:table-row bg-accent">
                     <th className="cursor-pointer border border-borderColor p-2 transition-colors hover:bg-blue-gray-50">
@@ -261,19 +262,19 @@ function ListGallery() {
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Id</label>
                           <p className="font-semibold md:font-normal">
-                            {gallery.id}
+                            {gallery?.id}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Slug</label>
                           <p className="font-semibold md:font-normal">
-                            {gallery.slug}
+                            {gallery?.slug}
                           </p>
                         </td>
                         <td className="border border-borderColor px-2">
                           <label className="md:hidden">Title</label>
                           <p className="font-semibold md:font-normal">
-                            {gallery.title}
+                            {gallery?.title}
                           </p>
                         </td>
 
@@ -281,7 +282,7 @@ function ListGallery() {
                           <label className="md:hidden">Status</label>
 
                           <div className="flex flex-wrap">
-                            {gallery.status ? (
+                            {gallery?.status ? (
                               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Published
                               </span>
@@ -353,7 +354,8 @@ function ListGallery() {
                             <button
                               className="rounded hover:text-gray-100 hover:scale-110 p-1 group relative"
                               onClick={() => {
-                                removeGallery(gallery.id);
+                                removeGallery(gallery?.id);
+                                getGalleries();
                               }}
                             >
                               <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -375,11 +377,12 @@ function ListGallery() {
                               </svg>
                             </button>
                             <div className="">
-                              {gallery.status ? (
+                              {gallery?.status ? (
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updateGalleryStatus(gallery.id, false);
+                                    updateGalleryStatus(gallery?.id, false);
+                                    getGalleries();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -404,7 +407,8 @@ function ListGallery() {
                                 <button
                                   className="rounded hover:text-gray-100 hover:scale-110 p-1 group"
                                   onClick={() => {
-                                    updateGalleryStatus(gallery.id, true);
+                                    updateGalleryStatus(gallery?.id, true);
+                                    getGalleries();
                                   }}
                                 >
                                   <span className="group-hover:block absolute top-0 right-0 hidden rounded shadow-lg px-1 -mt-6 border border-borderColor bg-neutral-700 text-orange-100">
@@ -452,6 +456,7 @@ function ListGallery() {
           {isManageWindowOpen && (
             <div className="absolute inset-0 bg-primary opacity-70"></div>
           )}
+
           {isManageWindowOpen && (
             <ManageGallery
               closeManageWindow={closeManageWindow}
