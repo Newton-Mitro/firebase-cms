@@ -1,6 +1,7 @@
 import AuthLayout from "layouts/AuthLayout";
 import PublicLayout from "layouts/PublicLayout";
 import { createBrowserRouter } from "react-router-dom";
+import ListEvent from "../protected-pages/events/components/ListEvent";
 import FileManager from "../protected-pages/file-manager/components/FileManager";
 import ListGallery from "../protected-pages/galleries/components/ListGalleries";
 import HomePage from "../protected-pages/home/HomePage";
@@ -186,7 +187,7 @@ export const router = createBrowserRouter([
       { path: "galleries", element: <ListGallery /> },
       { path: "services", element: <ListService /> },
       { path: "notices", element: <ListNotice /> },
-      { path: "events", element: <div className="">events</div> },
+      { path: "events", element: <ListEvent /> },
       { path: "job-circulars", element: <div className="">Job Circulars</div> },
       { path: "staffs", element: <div className="">Staffs</div> },
       { path: "settings", element: <SiteSettings /> },
