@@ -67,7 +67,7 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
             windowState
               ? "h-[calc(100vh-60px)] w-full lg:w-[calc(100vw-80px)]"
               : "w-full lg:w-8/12 h-5/6"
-          } bg-primary text-onPrimary 
+          } bg-primary  
           flex flex-col border border-borderColor shadow`}
         >
           <header className="bg-accent text-onSecondary p-4 flex justify-between border-b border-borderColor">

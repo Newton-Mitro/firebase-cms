@@ -281,7 +281,7 @@ function ManagePage({
                     windowType === WindowType.View
                       ? "bg-disabledColor"
                       : "bg-primary"
-                  } text-white text-xl`}
+                  }  text-xl`}
                   readOnly={windowType === WindowType.View ? true : false}
                   value={pageState?.content}
                   onChange={(value) => {
@@ -466,7 +466,7 @@ function ManagePage({
                               windowType === WindowType.View
                                 ? "bg-disabledColor"
                                 : "bg-primary"
-                            } text-white text-xl`}
+                            }  text-xl`}
                             readOnly={
                               windowType === WindowType.View ? true : false
                             }

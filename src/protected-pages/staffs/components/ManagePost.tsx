@@ -277,7 +277,7 @@ function ManagePost({
                     windowType === WindowType.View
                       ? "bg-disabledColor"
                       : "bg-primary"
-                  } text-white text-xl`}
+                  }  text-xl`}
                   readOnly={windowType === WindowType.View ? true : false}
                   value={formik.values.content}
                   onChange={(content) => {

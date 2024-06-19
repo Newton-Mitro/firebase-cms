@@ -79,11 +79,7 @@ function Login() {
         >
           <div className="flex items-center flex-col mb-6 gap-2 ">
             <Link to="/">
-              <img
-                className="h-32 bg-white rounded-full"
-                alt="logo"
-                src={Img}
-              />
+              <img className="h-32  rounded-full" alt="logo" src={Img} />
             </Link>
             <h3 className="text-2xl text-center font-bold">CCU CFS Login</h3>
           </div>

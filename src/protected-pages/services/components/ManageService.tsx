@@ -286,7 +286,7 @@ function ManageService({
                     windowType === WindowType.View
                       ? "bg-disabledColor"
                       : "bg-primary"
-                  } text-white text-xl`}
+                  }  text-xl`}
                   readOnly={windowType === WindowType.View ? true : false}
                   value={serviceState?.content}
                   onChange={(value) => {
@@ -479,7 +479,7 @@ function ManageService({
                               windowType === WindowType.View
                                 ? "bg-disabledColor"
                                 : "bg-primary"
-                            } text-white text-xl`}
+                            }  text-xl`}
                             readOnly={
                               windowType === WindowType.View ? true : false
                             }

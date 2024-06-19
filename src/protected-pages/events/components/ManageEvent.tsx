@@ -285,7 +285,7 @@ function ManageEvent({
                     windowType === WindowType.View
                       ? "bg-disabledColor"
                       : "bg-primary"
-                  } text-white text-xl`}
+                  }  text-xl`}
                   readOnly={windowType === WindowType.View ? true : false}
                   value={eventState?.content}
                   onChange={(value) => {
@@ -478,7 +478,7 @@ function ManageEvent({
                               windowType === WindowType.View
                                 ? "bg-disabledColor"
                                 : "bg-primary"
-                            } text-white text-xl`}
+                            }  text-xl`}
                             readOnly={
                               windowType === WindowType.View ? true : false
                             }

@@ -286,7 +286,7 @@ function ManageNotice({
                     windowType === WindowType.View
                       ? "bg-disabledColor"
                       : "bg-primary"
-                  } text-white text-xl`}
+                  }  text-xl`}
                   readOnly={windowType === WindowType.View ? true : false}
                   value={noticeState?.content}
                   onChange={(value) => {
@@ -479,7 +479,7 @@ function ManageNotice({
                               windowType === WindowType.View
                                 ? "bg-disabledColor"
                                 : "bg-primary"
-                            } text-white text-xl`}
+                            }  text-xl`}
                             readOnly={
                               windowType === WindowType.View ? true : false
                             }

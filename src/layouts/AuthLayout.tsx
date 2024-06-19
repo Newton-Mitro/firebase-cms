@@ -77,9 +77,7 @@ const AuthLayout = () => {
               className="flex items-center gap-2 bg-secondary border-b border-borderColor h-16  px-2"
             >
               <img
-                className={` bg-white rounded-full ${
-                  isSidebarOpen ? "h-12" : "w-12"
-                }`}
+                className={`  rounded-full ${isSidebarOpen ? "h-12" : "w-12"}`}
                 src={logo}
                 alt=""
               />
